@@ -113,7 +113,7 @@ public class BaseDao {
 				sql += " and (" + queryinfo.getQuery() + ") ";
 			}
 			if(CommonUtil.isNotEmpty(queryinfo.getOrder())){
-				sql += " order by " + queryinfo.getOrder();
+				sql += " order by " + queryinfo.getOrder() + " desc";
 			}
 			if(queryinfo.getEnd().equals("0"))
 				sql = sql+") A where ROWNUM  > "+queryinfo.getEnd()+" ) ";
@@ -177,7 +177,7 @@ public class BaseDao {
 				sql += " and (" + queryinfo.getQuery() + ") ";
 			}
 			if(CommonUtil.isNotEmpty(queryinfo.getOrder())){
-				sql += " order by " + queryinfo.getOrder();
+				sql += " order by " + queryinfo.getOrder() + " desc";
 			}
 			stmt = conn.createStatement();
 			System.out.println(sql);
