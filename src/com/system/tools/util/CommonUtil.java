@@ -7,9 +7,15 @@ import org.apache.commons.lang.StringUtils;
 
 
 public class CommonUtil {
-
+	
 	public static Boolean isNotEmpty(String str) {
 		if(null == str || str.length() <= 0)
+			return false;
+		return true;
+	}
+	
+	public static Boolean isNotNull(String str) {
+		if(null == str || str.length() <= 0 || "null".equals(str.toLowerCase()))
 			return false;
 		return true;
 	}
@@ -25,7 +31,12 @@ public class CommonUtil {
 			return true;
 		return false;
 	}
-	
+
+	public static Boolean isNull(String str) {
+		if(null == str || str.length() <= 0 || "null".equals(str.toLowerCase()))
+			return true;
+		return false;
+	}
 	public static Boolean isEmpty(Object obj) {
 		if(obj==null)
 			return true;
