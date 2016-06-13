@@ -5,8 +5,10 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 //import com.server.pojo.Customer;
 import com.system.pojo.System_user;
@@ -17,6 +19,33 @@ import com.system.tools.util.CommonUtil;
 import com.system.tools.util.TypeUtil;
 
 public class BaseAction {
+	/**
+	 * 跳转后浏览器地址栏变化。这种方式要传值出去的话，只能在url中带parameter或者放在session中，无法使用request.setAttribute来传递。
+	 * 
+	 */
+	public static void nextpage(HttpServletResponse response,String url) {
+		try {
+			response.sendRedirect(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 跳转后浏览器地址栏不会变化。使用这种方式跳转，传值可以使用三种方法：url中带parameter，session，request.setAttribute
+	 * 
+	 */
+	public static void nextpage(HttpServletRequest request, HttpServletResponse response,String url) {
+		try {
+			request.getRequestDispatcher(url).forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 获取当前登陆用户信息
 	 * 
