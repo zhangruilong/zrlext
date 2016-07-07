@@ -72,6 +72,13 @@ function keyLogin(){
 </head>
 
 <body class="login" onkeydown="keyLogin();">
+	<div class="login_top">
+		<div>
+			<img src="sysimages/danonglogo.png" width="154" height="25" class="logo" />
+			<h1>谷粒管理平台</h1>
+			<h6 class="clear"></h6>
+		</div>
+	</div>
 	<div class="login_main">
 		<div>
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
