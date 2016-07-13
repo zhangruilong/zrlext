@@ -179,10 +179,6 @@ public class System_userAction extends BaseAction {
 	public void login(HttpServletRequest request, HttpServletResponse response){
 		response.setContentType("text/html;charset=utf-8");
 		response.setHeader("Cache-Control", "no-cache");
-		String rand = (String)request.getSession().getAttribute("rand");
-		String input = request.getParameter("input");
-		input = input.toLowerCase();
-		if(input.equals(rand)){
 			//查询验证用户
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
@@ -217,9 +213,6 @@ public class System_userAction extends BaseAction {
 				session.setAttribute("quickmenu", quickmenu); //存
 				responsePW(response, CommonConst.SUCCESS);
 			}
-		}else {
-			responsePW(response, CommonConst.INPUTEERRO);
-		}
 	}
 	//登入控制
 	public void mlogin(HttpServletRequest request, HttpServletResponse response){

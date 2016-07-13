@@ -21,16 +21,31 @@ public class System_menuAction extends BaseAction {
 		System_user user = getCurrentUser(request);
 		if(CommonUtil.isNotEmpty(user)){
 			String node = request.getParameter("node");
-			String json = request.getParameter("json");
-			if(null != json && !json.equals("")){
-				cuss = CommonConst.GSON.fromJson(json, TYPE);
-			}
+//			String json = request.getParameter("json");
+//			if(null != json && !json.equals("")){
+//				cuss = CommonConst.GSON.fromJson(json, TYPE);
+//			}
 			String userid = user.getId();
 			//if(userid.equals("1")) userid = null;
 			if(node.equals("root"))
 				result = CommonConst.GSON.toJson(DAO.selMenu("顶级菜单",null,userid),TYPE);
 			else
 				result = CommonConst.GSON.toJson(DAO.selMenu("%菜单",node,userid),TYPE);
+		}
+		responsePW(response, result);
+	}
+	//查询菜单
+	public void selAllMenu(HttpServletRequest request, HttpServletResponse response){
+		System_user user = getCurrentUser(request);
+		if(CommonUtil.isNotEmpty(user)){
+			String userid = user.getId();
+			ArrayList<Treeinfo> menus = DAO.selMenu("顶级菜单",null,userid);
+			for(int i=0;i<menus.size();i++){
+				if(null==menus.get(i).getLeaf()){
+					menus.get(i).setChildren(DAO.selMenu("%菜单",menus.get(i).getId(),userid));
+				}
+			}
+			result = CommonConst.GSON.toJson(menus,TYPE);
 		}
 		responsePW(response, result);
 	}

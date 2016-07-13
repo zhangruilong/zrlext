@@ -170,76 +170,73 @@ function commonAttach(fid, classify) {
 	var loadurl = basePath + "System_attachAction.do?method=selQueryByFid"; 
 	var saveurl = basePath + "System_attachAction.do?other=getch&method=upload";
 	var delurl = basePath + "System_attachAction.do?method=delAll";
-	var selectsm = new Ext.grid.CheckboxSelectionModel();
-	var selectcm = new Ext.grid.ColumnModel({
-		columns : [ new Ext.grid.RowNumberer(), selectsm, {
-			header : "编码",
-			dataIndex : "code",
-			sortable : true
-		}, {
-			header : "文件",
-			dataIndex : "name",
-			width : 200,
-			sortable : true,
-			renderer : domUrl
-		}, {
-			header : "描述",
-			dataIndex : "detail",
-			width : 200,
-			sortable : true
-		}, {
-			header : "分类",
-			dataIndex : "classify",
-			sortable : true
-		}, {
-			header : "类型",
-			dataIndex : "type",
-			sortable : true
-		}, {
-			header : "大小",
-			dataIndex : "attachsize",
-			sortable : true
-		}, {
-			header : "外键",
-			dataIndex : "fid",
-			hidden : true
-		}, {
-			header : "创建人",
-			dataIndex : "creator",
-			sortable : true
-		}, {
-			header : "创建时间",
-			dataIndex : "createtime",
-			sortable : true
-		}, {
-			header : "ID",
-			dataIndex : "id",
-			hidden : true
-		} ]
-	});
 	var selectfields = [ "id", "code", "name", "detail", "classify", "type",
 			"attachsize", "fid", "creator", "createtime" ];// 改
-	var selectstore = new Ext.data.Store({
+	var selectstore = Ext.create('Ext.data.Store', {
 		autoLoad : true,
-		proxy : new Ext.data.HttpProxy({
-			url : loadurl + "&fid=" + fid
-		}),
-		reader : new Ext.data.JsonReader({
-			total : 'total',
-			root : 'root'
-		}, selectfields)
-	});
+		 fields: selectfields,
+	     proxy: {
+	         type: 'ajax',
+	         url: loadurl + "&fid=" + fid,
+	         reader: {
+	             type: 'json',
+	             rootProperty: 'root',
+	             totalProperty : 'total',
+	         }
+	     }
+	 });
 	var selectgrid = new Ext.grid.GridPanel({
 			width : '100%',
 			height : 333,
 			store : selectstore,
-			loadMask : {
-				msg : '正在加载表格数据,请稍等...'
-			},
-			stripeRows : true,
-			// frame : true,
-			cm : selectcm,
-			sm : selectsm,
+		    selModel: {
+		        type: 'spreadsheet',
+		        checkboxSelect: true
+		     },
+		     columns : [{
+				header : "编码",
+				dataIndex : "code",
+				sortable : true
+			}, {
+				header : "文件",
+				dataIndex : "name",
+				width : 200,
+				sortable : true,
+				renderer : domUrl
+			}, {
+				header : "描述",
+				dataIndex : "detail",
+				width : 200,
+				sortable : true
+			}, {
+				header : "分类",
+				dataIndex : "classify",
+				sortable : true
+			}, {
+				header : "类型",
+				dataIndex : "type",
+				sortable : true
+			}, {
+				header : "大小",
+				dataIndex : "attachsize",
+				sortable : true
+			}, {
+				header : "外键",
+				dataIndex : "fid",
+				hidden : true
+			}, {
+				header : "创建人",
+				dataIndex : "creator",
+				sortable : true
+			}, {
+				header : "创建时间",
+				dataIndex : "createtime",
+				sortable : true
+			}, {
+				header : "ID",
+				dataIndex : "id",
+				hidden : true
+			}],
 			tbar : [{
 					text : '新增',
 					iconCls : 'add',
@@ -374,7 +371,7 @@ function commonAttachUpload(saveurl,fid, classify, store) {
 		title : '上传附件', // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
 		width : 420, // 窗口宽度
-		height : 200, // 窗口高度
+		height :300, // 窗口高度
 		modal : true,//背景失效
 		closable : true, // 是否可关闭
 		collapsible : true, // 是否可收缩

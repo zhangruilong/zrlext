@@ -27,7 +27,8 @@ public class LoginFilter implements Filter {
         HttpServletRequest servletRequest = (HttpServletRequest) request;
         HttpServletResponse servletResponse = (HttpServletResponse) response;
         HttpSession session = servletRequest.getSession();
-
+        servletResponse.setContentType("text/html;charset=utf-8");
+        servletResponse.setHeader("Cache-Control", "no-cache");
         // 获得用户请求的URI
         String path = servletRequest.getRequestURI();
         String basepath = servletRequest.getContextPath();
@@ -46,11 +47,11 @@ public class LoginFilter implements Filter {
         }*/
         
         // 登陆页面无需过滤
-        if(path.indexOf("/login.jsp") > -1) {
+        if(path.indexOf("/charisma/login.html") > -1) {
         	if(username == null || "".equals(username)) {
         		chain.doFilter(servletRequest, servletResponse);
         	}else{
-                servletResponse.sendRedirect(basepath+"/main.jsp");
+                servletResponse.sendRedirect(basepath+"/charisma/index.html");
         	}
             return;
         }
@@ -58,7 +59,7 @@ public class LoginFilter implements Filter {
         // 判断如果没有取到员工信息,就跳转到登陆页面
         if (username == null || "".equals(username)) {
             // 跳转到登陆页面
-            servletResponse.sendRedirect(basepath+"/login.jsp");
+            servletResponse.sendRedirect(basepath+"/charisma/login.html");
         } else {
             // 已经登陆,继续此次请求
             chain.doFilter(request, response);

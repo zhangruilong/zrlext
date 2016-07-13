@@ -8,14 +8,19 @@ var sexStore = new Ext.data.ArrayStore({//性别下拉
 });
 //定义store
 function dataStore(fields,url) {
-	var store = new Ext.data.JsonStore({
-		root : 'root',
-		totalProperty : 'total',
-		fields : fields,
-		proxy : new Ext.data.HttpProxy({
-			url : url
-		})
-	});
+	var store = Ext.create('Ext.data.Store', {
+		 pageSize : 20,
+		 fields: fields,
+	     proxy: {
+	         type: 'ajax',
+	         url: url,
+	         reader: {
+	             type: 'json',
+	             rootProperty: 'root',
+	             totalProperty : 'total',
+	         }
+	     }
+	 });
 	return store;
 }
 //将单元格内容加上超链接
@@ -39,7 +44,6 @@ function pagesizebar(store) {
 	var pagesize_combo = new Ext.form.ComboBox({
 		name : 'pagesize',
 		hiddenName : 'pagesize',
-		typeAhead : true,
 		triggerAction : 'all',
 		lazyRender : true,
 		mode : 'local',
