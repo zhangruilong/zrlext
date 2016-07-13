@@ -143,22 +143,6 @@ Ext.onReady(function() {
 				handler : function() {
 					commonExp(System_rolegrid);
 				}
-			},'-',{
-				text : "附件",
-				iconCls : 'attach',
-				handler : function() {
-					var selections = System_rolegrid.getSelection();
-					if (selections.length != 1) {
-						Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
-						});
-						return;
-					}
-					var fid = '';
-					for (var i=0;i<System_rolekeycolumn.length;i++){
-						fid += selections[0].data[System_rolekeycolumn[i]] + ","
-					}
-					commonAttach(fid, System_roleclassify);
-				}
 			},'->',{
 				xtype : 'textfield',
 				id : 'querySystem_roleaction',
@@ -197,7 +181,7 @@ Ext.onReady(function() {
 	var editPanel = new Ext.Panel({
         id:"editPanel",
         bodyStyle : 'padding:0px;',
-        width: 333
+        width: 380
     });
 	editPanel.region = 'east';
 	var win = new Ext.Viewport({//只能有一个viewport

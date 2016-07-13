@@ -251,7 +251,7 @@ function roleUserGrid(roleid) {
 
 	var System_roleuserbbar = pagesizebar(System_roleuserstore);//定义分页
 	var System_roleusergrid = new Ext.grid.GridPanel({
-		height : document.documentElement.clientHeight - 4,
+		height : document.documentElement.clientHeight - 12,
 		width : '100%',
 		title : System_roleusertitle,
 		store : System_roleuserstore,
