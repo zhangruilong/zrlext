@@ -116,8 +116,8 @@
 <script src="js/jquery.history.js"></script>
 <!-- application script for Charisma demo -->
 <script src="js/charisma.js"></script>
-
 <script type=text/javascript>
+if (top != window) top.location.href = window.location.href;
 function submitdata() {
 	var username = document.getElementById('username').value;
 	if(username==''||username==null){
