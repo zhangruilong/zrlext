@@ -49,33 +49,39 @@ public class BaseServlet extends HttpServlet implements WebApplicationContextAwa
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			try {
+				new HandlerFor404().handleRequest(request, response);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} 
 		 //获取该类所需求的方法 
 		 Method method = null;
 		try {
 			method = currentclass.getMethod(methodname, HttpServletRequest.class, HttpServletResponse.class);
-		} catch (SecurityException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+			try {
+				new HandlerFor404().handleRequest(request, response);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		 //方法的实现 
 		 try {
 			method.invoke(currentclass.newInstance(), request, response);
-		} catch (IllegalArgumentException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				new HandlerFor404().handleRequest(request, response);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 	
