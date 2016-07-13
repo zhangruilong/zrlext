@@ -22,9 +22,16 @@ function selectSystem_power() {
 	        			      ];// 全部字段
 	var System_powerkeycolumn = [ 'id' ];// 主键
 	var System_powerstore = dataStore(System_powerfields, basePath + System_powerviewaction + "?method=selQuery");// 定义System_powerstore
-	var System_powersm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-	var System_powercm = new Ext.grid.ColumnModel({// 定义columnModel
-		columns : [ new Ext.grid.RowNumberer(), System_powersm, {// 改
+	var System_powerbbar = pagesizebar(System_powerstore);//定义分页
+	var System_powergrid = new Ext.grid.GridPanel({
+		height : document.documentElement.clientHeight - 4,
+		width : '100%',
+		store : System_powerstore,
+	    selModel: {
+	        type: 'spreadsheet',
+	        checkboxSelect: true
+	     },
+		columns : [ {// 改
 			header : 'ID',
 			dataIndex : 'id',
 			hidden : true
@@ -45,20 +52,7 @@ function selectSystem_power() {
 			dataIndex : 'detail',
 			sortable : true
 		}
-		]
-	});
-	var System_powerbbar = pagesizebar(System_powerstore);//定义分页
-	var System_powergrid = new Ext.grid.GridPanel({
-		height : document.documentElement.clientHeight - 4,
-		width : '100%',
-		store : System_powerstore,
-		stripeRows : true,
-		frame : true,
-		loadMask : {
-			msg : '正在加载表格数据,请稍等...'
-		},
-		cm : System_powercm,
-		sm : System_powersm,
+		],
 		bbar : System_powerbbar,
 		tbar : [{
 			xtype : 'textfield',
@@ -111,8 +105,7 @@ function selectSystem_power() {
 						text : '确定',
 						iconCls : 'ok',
 						handler : function() {
-							var selectRows = System_powergrid.getSelectionModel()
-									.getSelections();
+							var selectRows = System_powergrid.getSelection();
 							if (selectRows.length != 1) {
 								Ext.Msg.alert('提示', '请选择一条！', function() {
 								});

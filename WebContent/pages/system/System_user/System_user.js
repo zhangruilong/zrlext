@@ -10,46 +10,16 @@ Ext.onReady(function() {
 	        			      ];// 全部字段
 	var System_userkeycolumn = [ 'id' ];// 主键
 	var System_userstore = dataStore(System_userfields, basePath + System_useraction + "?method=selQuery");// 定义System_userstore
-	var System_usersm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-	var System_usercm = new Ext.grid.ColumnModel({// 定义columnModel
-		columns : [ new Ext.grid.RowNumberer(), System_usersm, {// 改
-			header : 'ID',
-			dataIndex : 'id',
-			hidden : true
-		}
-		, {
-			header : '登录名',
-			dataIndex : 'loginname',
-			sortable : true
-		}
-		, {
-			header : '用户名',
-			dataIndex : 'username',
-			sortable : true
-		}
-		, {
-			header : '状态',
-			dataIndex : 'statue',
-			sortable : true
-		}
-		]
-	});
-	var statusStore = new Ext.data.ArrayStore({//
-    	fields:["name"],
-    	data:[["启用"],["禁用"]]
-    });
-	var System_userdataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
+	var System_userdataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
 		id:'System_userdataForm',
 		labelAlign : 'right',
 		frame : true,
 		layout : 'column',
 		items : [ {
-			items : [ {
-				xtype : 'textfield',
-				id : 'System_userid',
-				name : 'id',
-				hidden : true
-			} ]
+			xtype : 'textfield',
+			id : 'System_userid',
+			name : 'id',
+			hidden : true
 		}
 		, {
 			columnWidth : 1,
@@ -86,7 +56,7 @@ Ext.onReady(function() {
 				id : 'System_userstatue',
 				name : 'statue',
 				emptyText : '请选择',
-				store : statusStore,
+				store : statueStore,
 				mode : 'local',
 				displayField : 'name',
 				valueField : 'name',
@@ -111,24 +81,44 @@ Ext.onReady(function() {
  		]
 	});
 	var System_userbbar = pagesizebar(System_userstore);//定义分页
-	var System_usergrid = new Ext.grid.GridPanel({
+	var System_usergrid =  Ext.create('Ext.grid.Panel', {
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
 		title : System_usertitle,
 		store : System_userstore,
-		stripeRows : true,
-		frame : true,
-		loadMask : {
-			msg : '正在加载表格数据,请稍等...'
-		},
-		cm : System_usercm,
-		sm : System_usersm,
+	    selModel: {
+	        type: 'spreadsheet',
+	        checkboxSelect: true
+	     },
+		columns : [{// 改
+			header : 'ID',
+			dataIndex : 'id',
+			hidden : true
+		}
+		, {
+			header : '登录名',
+			dataIndex : 'loginname',
+			flex: 1,
+			sortable : true
+		}
+		, {
+			header : '用户名',
+			dataIndex : 'username',
+			flex: 1,
+			sortable : true
+		}
+		, {
+			header : '状态',
+			dataIndex : 'statue',
+			flex: 1,
+			sortable : true
+		}],
 		bbar : System_userbbar,
 		tbar : [{
 			text : '初始化密码',
 			iconCls : 'reset',
 			handler : function() {
-				var currRecord = System_usergrid.getSelectionModel().getSelections();
+				var currRecord = System_usergrid.getSelection();
 				if (currRecord) {
 					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要初始化密码？', function(btn, text) {
 						if (btn == 'yes') {
@@ -168,7 +158,7 @@ Ext.onReady(function() {
 				text : "修改",
 				iconCls : 'edit',
 				handler : function() {
-					var selections = System_usergrid.getSelectionModel().getSelections();
+					var selections = System_usergrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 						});
@@ -181,7 +171,7 @@ Ext.onReady(function() {
 				text : "删除",
 				iconCls : 'delete',
 				handler : function() {
-					var selections = System_usergrid.getSelectionModel().getSelections();
+					var selections = System_usergrid.getSelection();
 					if (Ext.isEmpty(selections)) {
 						Ext.Msg.alert('提示', '请选择您要删除的数据！');
 						return;
@@ -214,7 +204,7 @@ Ext.onReady(function() {
 				text : "附件",
 				iconCls : 'attach',
 				handler : function() {
-					var selections = System_usergrid.getSelectionModel().getSelections();
+					var selections = System_usergrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 						});
@@ -228,7 +218,7 @@ Ext.onReady(function() {
 				}
 			},'->',{
 				xtype : 'textfield',
-				id : 'query'+System_useraction,
+				id : 'querySystem_useraction',
 				name : 'query',
 				emptyText : '模糊匹配',
 				width : 100,
@@ -236,12 +226,12 @@ Ext.onReady(function() {
 				listeners : {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
-							if ("" == Ext.getCmp("query"+System_useraction).getValue()) {
+							if ("" == Ext.getCmp("querySystem_useraction").getValue()) {
 								System_userstore.load();
 							} else {
 								System_userstore.load({
 									params : {
-										query : Ext.getCmp("query"+System_useraction).getValue()
+										query : Ext.getCmp("querySystem_useraction").getValue()
 									}
 								});
 							}
@@ -255,7 +245,7 @@ Ext.onReady(function() {
 	System_userstore.load();//加载数据
 	System_userstore.on("beforeload",function(){ 
 		System_userstore.baseParams = {
-				query : Ext.getCmp("query"+System_useraction).getValue()
+				query : Ext.getCmp("querySystem_useraction").getValue()
 		}; 
 	});
 	var win = new Ext.Viewport({//只能有一个viewport

@@ -1,43 +1,34 @@
 var treepanel;
 Ext.onReady(function() {
-	var root = new Ext.tree.AsyncTreeNode({
-		text : '应用菜单',
-		expanded : true,
-		icon : '../../../sysimages/home.gif',
-		id : 'root'
+	var treestore = Ext.create('Ext.data.TreeStore', {
+	    proxy: {
+	         type: 'ajax',
+	         url: basePath + System_poweraction + "?method=selPowertree"
+	     }
 	});
 	treepanel = new Ext.tree.TreePanel({
-		loader : new Ext.tree.TreeLoader({
-			baseAttrs : {},
-			dataUrl : basePath + System_poweraction + "?method=selPowertree"
-		}),
-		root : root,
+		store: treestore,
+		rootVisible: false,
 		lines : true,
 		title : '应用菜单',
 		autoScroll : true,
 		height : document.documentElement.clientHeight - 4,
 		width : 180,
 		containerScroll : true,
-		animate : false,
-		useArrows : false,
-		enableDD : true, // 拖拽节点
-	    listeners: {
-            'click': function(node, checked){
-            	node.getUI().getAnchor().href = "javascript:void(0);"
-            	var queryValue = node.attributes['code'];
-            	if(node.id=='root'){
-        			queryValue = "";
-        		}
-            	System_powerstore.load({
-            		params : {
-            			query : queryValue
-            		}
-            	});
-            }
-        }
+		enableDD : true
+	});
+	treepanel.expandAll();
+	//点击事件
+	treepanel.on('itemclick',function( node , record , item , index , e , eOpts ) {  
+		var queryValue = record.data['code'];
+    	System_powerstore.load({
+    		params : {
+    			query : queryValue
+    		}
+    	});
 	});
 	// 在拖动的时候，主要通过发送ajax请求，到后台，进行数据的同步修改．
-	treepanel.on('movenode',function(tree,node,oldParent,newParent,index){  
+	treepanel.on('itemmove',function(node,oldParent,newParent,index){  
 		var url = basePath + System_poweraction + "?method=updAll";
 		var json = "[{" + "id:" + node.id + ",parentid:" + newParent.id + "}]";
 		Ext.Ajax.request({  
@@ -49,18 +40,19 @@ Ext.onReady(function() {
 		});  
 	}); 
 	// 点击右键出现tree菜单
-	treepanel.on('contextmenu', function(node, event) { 
-		node.select();// 点击右键同时选中该项
-		event.preventDefault(); 
+	treepanel.on('itemcontextmenu', function( node , record , item , index , e , eOpts ) { 
+//		item.select();// 点击右键同时选中该项
+		e.preventDefault(); 
 		// 定义右键菜单
 		var contextMenu = new Ext.menu.Menu({  
 			items : [{  
 				text : '增加子节点',  
 				handler : function() {
 					System_powerdataForm.form.reset();
-					createWindow(basePath + System_poweraction + "?method=insAll", "新增", System_powerdataForm, node);
-					System_powerdataForm.getForm().setValues({System_powerparentid:node.id,System_powerparentname:node.text
-						,System_powercode:'Server_',System_powerentrance:'pages//.jsp',System_powerhreftarget:'main'});
+					createWindow(basePath + System_poweraction + "?method=insAll", "新增", System_powerdataForm, treestore);
+					System_powerdataForm.getForm().setValues({System_powerparentid:record.data['id']
+						,System_powerparentname:record.data['text'],System_powercode:'Server_'
+						,System_powerentrance:'pages//.jsp',System_powerhreftarget:'main'});
 				}  
 			}, {  
 				text : '删除本节点',  
@@ -71,12 +63,12 @@ Ext.onReady(function() {
 								url : basePath + System_poweraction + "?method=delAll",
 								method : 'POST',
 								params : {
-									json : '[{id:' + node.id + '}]'
+									json : '[{id:' + record.data['id'] + '}]'
 								},
 								success : function(response) {
 									var resp = Ext.decode(response.responseText); 
 									Ext.Msg.alert('提示', resp.msg, function(){
-										node.parentNode.reload(); 
+										treestore.load();
 									});
 								},
 								failure : function(response) {
@@ -90,11 +82,11 @@ Ext.onReady(function() {
 				 text : "刷新",
 				 handler : function()
 				 { 
-					node.reload();
+					 treestore.load();
 				 }
 			}]  
 		});
-		contextMenu.showAt(event.getPoint());  
+		contextMenu.showAt(e.getPoint());  
 	});
 	var win = new Ext.Viewport({//只能有一个viewport
 		resizable : true,

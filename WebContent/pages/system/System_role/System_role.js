@@ -9,42 +9,16 @@ Ext.onReady(function() {
 	        			      ];// 全部字段
 	var System_rolekeycolumn = [ 'id' ];// 主键
 	var System_rolestore = dataStore(System_rolefields, basePath + System_roleaction + "?method=selQuery");// 定义System_rolestore
-	var System_rolesm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-	var System_rolecm = new Ext.grid.ColumnModel({// 定义columnModel
-		columns : [ new Ext.grid.RowNumberer(), System_rolesm, {// 改
-			header : 'ID',
-			dataIndex : 'id',
-			hidden : true
-		}
-		, {
-			header : '编码',
-			dataIndex : 'code',
-			sortable : true
-		}
-		, {
-			header : '名称',
-			dataIndex : 'name',
-			sortable : true
-		}
-		, {
-			header : '描述',
-			dataIndex : 'detail',
-			sortable : true
-		}
-		]
-	});
 	var System_roledataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
 		id:'System_roledataForm',
 		labelAlign : 'right',
 		frame : true,
 		layout : 'column',
 		items : [ {
-			items : [ {
-				xtype : 'textfield',
-				id : 'System_roleid',
-				name : 'id',
-				hidden : true
-			} ]
+			xtype : 'textfield',
+			id : 'System_roleid',
+			name : 'id',
+			hidden : true
 		}
 		, {
 			columnWidth : 1,
@@ -90,13 +64,31 @@ Ext.onReady(function() {
 		width : '100%',
 		title : System_roletitle,
 		store : System_rolestore,
-		stripeRows : true,
-		frame : true,
-		loadMask : {
-			msg : '正在加载表格数据,请稍等...'
-		},
-		cm : System_rolecm,
-		sm : System_rolesm,
+	    selModel: {
+	        type: 'spreadsheet',
+	        checkboxSelect: true
+	     },
+		columns : [{// 改
+			header : 'ID',
+			dataIndex : 'id',
+			hidden : true
+		}
+		, {
+			header : '编码',
+			dataIndex : 'code',
+			sortable : true
+		}
+		, {
+			header : '名称',
+			dataIndex : 'name',
+			sortable : true
+		}
+		, {
+			header : '描述',
+			dataIndex : 'detail',
+			sortable : true
+		}
+		],
 		bbar : System_rolebbar,
 		tbar : [{
 				text : "新增",
@@ -109,7 +101,7 @@ Ext.onReady(function() {
 				text : "修改",
 				iconCls : 'edit',
 				handler : function() {
-					var selections = System_rolegrid.getSelectionModel().getSelections();
+					var selections = System_rolegrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 						});
@@ -122,7 +114,7 @@ Ext.onReady(function() {
 				text : "删除",
 				iconCls : 'delete',
 				handler : function() {
-					var selections = System_rolegrid.getSelectionModel().getSelections();
+					var selections = System_rolegrid.getSelection();
 					if (Ext.isEmpty(selections)) {
 						Ext.Msg.alert('提示', '请选择您要删除的数据！');
 						return;
@@ -155,7 +147,7 @@ Ext.onReady(function() {
 				text : "附件",
 				iconCls : 'attach',
 				handler : function() {
-					var selections = System_rolegrid.getSelectionModel().getSelections();
+					var selections = System_rolegrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 						});
@@ -169,7 +161,7 @@ Ext.onReady(function() {
 				}
 			},'->',{
 				xtype : 'textfield',
-				id : 'query'+System_roleaction,
+				id : 'querySystem_roleaction',
 				name : 'query',
 				emptyText : '模糊匹配',
 				width : 100,
@@ -177,12 +169,12 @@ Ext.onReady(function() {
 				listeners : {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
-							if ("" == Ext.getCmp("query"+System_roleaction).getValue()) {
+							if ("" == Ext.getCmp("querySystem_roleaction").getValue()) {
 								System_rolestore.load();
 							} else {
 								System_rolestore.load({
 									params : {
-										query : Ext.getCmp("query"+System_roleaction).getValue()
+										query : Ext.getCmp("querySystem_roleaction").getValue()
 									}
 								});
 							}
@@ -192,21 +184,20 @@ Ext.onReady(function() {
 			}
 		]
 	});
-	System_rolegrid.addListener('rowclick',function(rid, rowIndex, columnIndex, e){  
-		var record = System_rolegrid.getStore().getAt(rowIndex);
-    	 editeInfo(record.get('id'));
+	System_rolegrid.addListener('rowclick',function( grid, record , tr , rowIndex , e , eOpts ){  
+		editeInfo(record.get('id'));
 	});
 	System_rolegrid.region = 'center';
 	System_rolestore.load();//加载数据
 	System_rolestore.on("beforeload",function(){ 
 		System_rolestore.baseParams = {
-				query : Ext.getCmp("query"+System_roleaction).getValue()
+				query : Ext.getCmp("querySystem_roleaction").getValue()
 		}; 
 	});
 	var editPanel = new Ext.Panel({
         id:"editPanel",
         bodyStyle : 'padding:0px;',
-        width: 555
+        width: 333
     });
 	editPanel.region = 'east';
 	var win = new Ext.Viewport({//只能有一个viewport

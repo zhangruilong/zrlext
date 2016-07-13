@@ -15,90 +15,16 @@ Ext.onReady(function() {
 	        			      ];// 全部字段
 	var System_attachkeycolumn = [ 'id' ];// 主键
 	var System_attachstore = dataStore(System_attachfields, basePath + System_attachaction + "?method=selQuery");// 定义System_attachstore
-	var System_attachsm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-	var System_attachcm = new Ext.grid.ColumnModel({// 定义columnModel
-		columns : [ new Ext.grid.RowNumberer(), System_attachsm, {// 改
-			header : 'ID',
-			dataIndex : 'id',
-			hidden : true
-		}
-		, {
-			header : '编码',
-			dataIndex : 'code',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '名称',
-			dataIndex : 'name',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '描述',
-			dataIndex : 'detail',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '分类',
-			dataIndex : 'classify',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '类型',
-			dataIndex : 'type',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '大小',
-			dataIndex : 'attachsize',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '外键',
-			dataIndex : 'fid',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '创建人员',
-			dataIndex : 'creator',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '创建时间',
-			dataIndex : 'createtime',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		]
-	});
 	var System_attachdataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
 		id:'System_attachdataForm',
 		labelAlign : 'right',
 		frame : true,
 		layout : 'column',
 		items : [ {
-			items : [ {
-				xtype : 'textfield',
-				id : 'System_attachid',
-				name : 'id',
-				hidden : true
-			} ]
+			xtype : 'textfield',
+			id : 'System_attachid',
+			name : 'id',
+			hidden : true
 		}
 		, {
 			columnWidth : 1,
@@ -193,13 +119,79 @@ Ext.onReady(function() {
 		width : '100%',
 		title : System_attachtitle,
 		store : System_attachstore,
-		stripeRows : true,
-		frame : true,
-		loadMask : {
-			msg : '正在加载表格数据,请稍等...'
-		},
-		cm : System_attachcm,
-		sm : System_attachsm,
+	    selModel: {
+	        type: 'spreadsheet',
+	        checkboxSelect: true
+	     },
+		columns : [{// 改
+			header : 'ID',
+			dataIndex : 'id',
+			hidden : true
+		}
+		, {
+			header : '编码',
+			dataIndex : 'code',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '名称',
+			dataIndex : 'name',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '描述',
+			dataIndex : 'detail',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '分类',
+			dataIndex : 'classify',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '类型',
+			dataIndex : 'type',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '大小',
+			dataIndex : 'attachsize',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '外键',
+			dataIndex : 'fid',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '创建人员',
+			dataIndex : 'creator',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '创建时间',
+			dataIndex : 'createtime',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		],
 		bbar : System_attachbbar,
 		tbar : [{
 				text : "新增",
@@ -212,7 +204,7 @@ Ext.onReady(function() {
 				text : "修改",
 				iconCls : 'edit',
 				handler : function() {
-					var selections = System_attachgrid.getSelectionModel().getSelections();
+					var selections = System_attachgrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 						});
@@ -225,7 +217,7 @@ Ext.onReady(function() {
 				text : "删除",
 				iconCls : 'delete',
 				handler : function() {
-					var selections = System_attachgrid.getSelectionModel().getSelections();
+					var selections = System_attachgrid.getSelection();
 					if (Ext.isEmpty(selections)) {
 						Ext.Msg.alert('提示', '请选择您要删除的数据！');
 						return;
@@ -258,7 +250,7 @@ Ext.onReady(function() {
 				text : "附件",
 				iconCls : 'attach',
 				handler : function() {
-					var selections = System_attachgrid.getSelectionModel().getSelections();
+					var selections = System_attachgrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 						});
@@ -272,7 +264,7 @@ Ext.onReady(function() {
 				}
 			},'->',{
 				xtype : 'textfield',
-				id : 'query'+System_attachaction,
+				id : 'querySystem_attachaction',
 				name : 'query',
 				emptyText : '模糊匹配',
 				width : 100,
@@ -280,12 +272,12 @@ Ext.onReady(function() {
 				listeners : {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
-							if ("" == Ext.getCmp("query"+System_attachaction).getValue()) {
+							if ("" == Ext.getCmp("querySystem_attachaction").getValue()) {
 								System_attachstore.load();
 							} else {
 								System_attachstore.load({
 									params : {
-										query : Ext.getCmp("query"+System_attachaction).getValue()
+										query : Ext.getCmp("querySystem_attachaction").getValue()
 									}
 								});
 							}
@@ -299,7 +291,7 @@ Ext.onReady(function() {
 	System_attachstore.load();//加载数据
 	System_attachstore.on("beforeload",function(){ 
 		System_attachstore.baseParams = {
-				query : Ext.getCmp("query"+System_attachaction).getValue()
+				query : Ext.getCmp("querySystem_attachaction").getValue()
 		}; 
 	});
 	var win = new Ext.Viewport({//只能有一个viewport

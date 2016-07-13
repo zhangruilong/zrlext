@@ -16,77 +16,15 @@ var System_powerfields = ['id'
         			      ];// 全部字段
 var System_powerkeycolumn = [ 'id' ];// 主键
 var System_powerstore = dataStore(System_powerfields, basePath + System_powerviewaction + "?method=selQuery");// 定义System_powerstore
-var System_powersm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-var System_powercm = new Ext.grid.ColumnModel({// 定义columnModel
-	columns : [ new Ext.grid.RowNumberer(), System_powersm, {// 改
-		header : 'ID',
-		dataIndex : 'id',
-		hidden : true
-	}
-	, {
-		header : '编码',
-		dataIndex : 'code',
-		sortable : true
-	}
-	, {
-		header : '名称',
-		dataIndex : 'name',
-		sortable : true
-	}
-	, {
-		header : '描述',
-		dataIndex : 'detail',
-		sortable : true
-	}
-	, {
-		header : '父节点',
-		dataIndex : 'parentname',
-		sortable : true
-	}
-	, {
-		header : '父节点',
-		dataIndex : 'parentid',
-		hidden : true
-	}
-	, {
-		header : '类型',
-		dataIndex : 'menulevel',
-		sortable : true
-	}
-	, {
-		header : '入口',
-		dataIndex : 'entrance',
-		sortable : true
-	}
-	, {
-		header : '菜单顺序',
-		dataIndex : 'menuorder',
-		sortable : true
-	}
-	, {
-		header : '图片',
-		dataIndex : 'iconcls',
-		sortable : true
-	}
-	, {
-		header : '打开方式',
-		dataIndex : 'hreftarget',
-		sortable : true
-	}
-	]
-});
 var System_powerdataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
 	id:'System_powerdataForm',
-	labelAlign : 'right',
 	frame : true,
 	layout : 'column',
 	items : [ {
-		items : [ {
-			xtype : 'textfield',
-			id : 'System_powerid',
-			name : 'id',
-			hidden : true
-		} ]
+		xtype : 'textfield',
+		id : 'System_powerid',
+		name : 'id',
+		hidden : true
 	}
 	, {
 		columnWidth : 1,
@@ -137,25 +75,22 @@ var System_powerdataForm = new Ext.form.FormPanel({// 定义新增和修改的Fo
 		} ]
 	}
 	, {
-		items : [ {
-			xtype : 'hidden',
-			fieldLabel : '父节点',
-			id : 'System_powerparentid',
-			name : 'parentid',
-			anchor : '95%'
-		} ]
-	}
-	, {
 		columnWidth : .1,
 		layout : 'form',
 		items : [ {
 			xtype : 'button',
 			iconCls : 'select',
-			maxLength : 100,
-			handler : selectSystem_power.createCallback(),
-			scope : this,
-			anchor : '25%'
+			handler : function() {
+				selectSystem_power();
+			}
 		} ]
+	}
+	, {
+		xtype : 'hidden',
+		fieldLabel : '父节点',
+		id : 'System_powerparentid',
+		name : 'parentid',
+		anchor : '95%'
 	}
 	, {
 		columnWidth : 1,
@@ -244,13 +179,66 @@ var System_powergrid = new Ext.grid.GridPanel({
 	width : '100%',
 	title : System_powertitle,
 	store : System_powerstore,
-	stripeRows : true,
-	frame : true,
-	loadMask : {
-		msg : '正在加载表格数据,请稍等...'
-	},
-	cm : System_powercm,
-	sm : System_powersm,
+    selModel: {
+        type: 'spreadsheet',
+        checkboxSelect: true
+     },
+	columns : [ {// 改
+		header : 'ID',
+		dataIndex : 'id',
+		hidden : true
+	}
+	, {
+		header : '编码',
+		dataIndex : 'code',
+		sortable : true
+	}
+	, {
+		header : '名称',
+		dataIndex : 'name',
+		sortable : true
+	}
+	, {
+		header : '描述',
+		dataIndex : 'detail',
+		sortable : true
+	}
+	, {
+		header : '父节点',
+		dataIndex : 'parentname',
+		sortable : true
+	}
+	, {
+		header : '父节点',
+		dataIndex : 'parentid',
+		hidden : true
+	}
+	, {
+		header : '类型',
+		dataIndex : 'menulevel',
+		sortable : true
+	}
+	, {
+		header : '入口',
+		dataIndex : 'entrance',
+		sortable : true
+	}
+	, {
+		header : '菜单顺序',
+		dataIndex : 'menuorder',
+		sortable : true
+	}
+	, {
+		header : '图片',
+		dataIndex : 'iconcls',
+		sortable : true
+	}
+	, {
+		header : '打开方式',
+		dataIndex : 'hreftarget',
+		sortable : true
+	}
+	],
 	bbar : System_powerbbar,
 	tbar : [{
 			text : "新增",
@@ -263,7 +251,7 @@ var System_powergrid = new Ext.grid.GridPanel({
 			text : "修改",
 			iconCls : 'edit',
 			handler : function() {
-				var selections = System_powergrid.getSelectionModel().getSelections();
+				var selections = System_powergrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 					});
@@ -276,7 +264,7 @@ var System_powergrid = new Ext.grid.GridPanel({
 			text : "删除",
 			iconCls : 'delete',
 			handler : function() {
-				var selections = System_powergrid.getSelectionModel().getSelections();
+				var selections = System_powergrid.getSelection();
 				if (Ext.isEmpty(selections)) {
 					Ext.Msg.alert('提示', '请选择您要删除的数据！');
 					return;
@@ -309,7 +297,7 @@ var System_powergrid = new Ext.grid.GridPanel({
 			text : "附件",
 			iconCls : 'attach',
 			handler : function() {
-				var selections = System_powergrid.getSelectionModel().getSelections();
+				var selections = System_powergrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 					});
@@ -323,7 +311,7 @@ var System_powergrid = new Ext.grid.GridPanel({
 			}
 		},'->',{
 			xtype : 'textfield',
-			id : 'query'+System_poweraction,
+			id : 'querySystem_poweraction',
 			name : 'query',
 			emptyText : '模糊匹配',
 			width : 100,
@@ -331,12 +319,12 @@ var System_powergrid = new Ext.grid.GridPanel({
 			listeners : {
 				specialkey : function(field, e) {
 					if (e.getKey() == Ext.EventObject.ENTER) {
-						if ("" == Ext.getCmp("query"+System_poweraction).getValue()) {
+						if ("" == Ext.getCmp("querySystem_poweraction").getValue()) {
 							System_powerstore.load();
 						} else {
 							System_powerstore.load({
 								params : {
-									query : Ext.getCmp("query"+System_poweraction).getValue()
+									query : Ext.getCmp("querySystem_poweraction").getValue()
 								}
 							});
 						}
@@ -349,6 +337,6 @@ var System_powergrid = new Ext.grid.GridPanel({
 System_powergrid.region = 'center';
 System_powerstore.on("beforeload",function(){ 
 	System_powerstore.baseParams = {
-			query : Ext.getCmp("query"+System_poweraction).getValue()
+			query : Ext.getCmp("querySystem_poweraction").getValue()
 	}; 
 });
