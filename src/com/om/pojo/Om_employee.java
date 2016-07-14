@@ -1,6 +1,5 @@
 package com.om.pojo;
 
-import java.sql.Date;
 /**
  * 人员 实体类
  *@author ZhangRuiLong
@@ -38,7 +37,7 @@ public class Om_employee
    /**
     * 出生日期
     */
-   private Date birthdate;   
+   private String birthdate;   
    /**
     * 基本岗位
     */
@@ -58,11 +57,11 @@ public class Om_employee
    /**
     * 入职日期
     */
-   private Date indate;   
+   private String indate;   
    /**
     * 离职日期
     */
-   private Date outdate;   
+   private String outdate;   
    /**
     * 办公电话
     */
@@ -130,7 +129,7 @@ public class Om_employee
    /**
     * 注册日期
     */
-   private Date regdate;   
+   private String regdate;   
    /**
     * 创建时间
     */
@@ -275,7 +274,7 @@ public class Om_employee
 	 *设置"出生日期"属性
 	 *@param birthdate 实体的Birthdate属性
 	 */
-	public void setBirthdate(Date birthdate)
+	public void setBirthdate(String birthdate)
 	{
 		this.birthdate = birthdate;
 	}
@@ -283,7 +282,7 @@ public class Om_employee
 	/**
 	 *获取"出生日期"属性
 	 */
-	public Date getBirthdate()
+	public String getBirthdate()
 	{
 		return this.birthdate;
 	}	   
@@ -360,7 +359,7 @@ public class Om_employee
 	 *设置"入职日期"属性
 	 *@param indate 实体的Indate属性
 	 */
-	public void setIndate(Date indate)
+	public void setIndate(String indate)
 	{
 		this.indate = indate;
 	}
@@ -368,7 +367,7 @@ public class Om_employee
 	/**
 	 *获取"入职日期"属性
 	 */
-	public Date getIndate()
+	public String getIndate()
 	{
 		return this.indate;
 	}	   
@@ -377,7 +376,7 @@ public class Om_employee
 	 *设置"离职日期"属性
 	 *@param outdate 实体的Outdate属性
 	 */
-	public void setOutdate(Date outdate)
+	public void setOutdate(String outdate)
 	{
 		this.outdate = outdate;
 	}
@@ -385,7 +384,7 @@ public class Om_employee
 	/**
 	 *获取"离职日期"属性
 	 */
-	public Date getOutdate()
+	public String getOutdate()
 	{
 		return this.outdate;
 	}	   
@@ -666,7 +665,7 @@ public class Om_employee
 	 *设置"注册日期"属性
 	 *@param regdate 实体的Regdate属性
 	 */
-	public void setRegdate(Date regdate)
+	public void setRegdate(String regdate)
 	{
 		this.regdate = regdate;
 	}
@@ -674,7 +673,7 @@ public class Om_employee
 	/**
 	 *获取"注册日期"属性
 	 */
-	public Date getRegdate()
+	public String getRegdate()
 	{
 		return this.regdate;
 	}	   
@@ -775,13 +774,13 @@ public class Om_employee
 	 	,String empname
 	 	,String realname
 	 	,String gender
-	 	,Date birthdate
+	 	,String birthdate
 	 	,String position
 	 	,String empstatus
 	 	,String cardtype
 	 	,String cardno
-	 	,Date indate
-	 	,Date outdate
+	 	,String indate
+	 	,String outdate
 	 	,String otel
 	 	,String oaddress
 	 	,String ozipcode
@@ -798,7 +797,7 @@ public class Om_employee
 	 	,String major
 	 	,String specialty
 	 	,String workexp
-	 	,Date regdate
+	 	,String regdate
 	 	,String createtime
 	 	,String lastmodytime
 	 	,String orgidlist

@@ -22,132 +22,16 @@ var Om_groupfields = ['groupid'
         			      ];// 全部字段
 var Om_groupkeycolumn = [ 'groupid' ];// 主键
 var Om_groupstore = dataStore(Om_groupfields, basePath + Om_groupaction + "?method=selQuery");// 定义Om_groupstore
-var Om_groupsm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-var Om_groupcm = new Ext.grid.ColumnModel({// 定义columnModel
-	columns : [ new Ext.grid.RowNumberer(), Om_groupsm, {// 改
-		header : '工作组编号',
-		dataIndex : 'groupid',
-		hidden : true
-	}
-	, {
-		header : '工作组代码',
-		dataIndex : 'groupcode',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '工作组名称',
-		dataIndex : 'groupname',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '工作组级别',
-		dataIndex : 'grouplevel',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '工作组描述',
-		dataIndex : 'groupdesc',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '工作组类型',
-		dataIndex : 'grouptype',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '工作组路径序列',
-		dataIndex : 'groupseq',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '开始日期',
-		dataIndex : 'startdate',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '截止日期',
-		dataIndex : 'enddate',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '工作组状态',
-		dataIndex : 'groupstatus',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '负责人',
-		dataIndex : 'manager',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '隶属机构',
-		dataIndex : 'orgid',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '父工作组编号',
-		dataIndex : 'parentgroupid',
-		align : 'center',
-		width : 80,
-		hidden : true
-	}
-	, {
-		header : '创建时间',
-		dataIndex : 'createtime',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '最近更新时间',
-		dataIndex : 'lastupdate',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '最近更新人员',
-		dataIndex : 'updator',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	]
-});
 var Om_groupdataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
 	id:'Om_groupdataForm',
 	labelAlign : 'right',
 	frame : true,
 	layout : 'column',
 	items : [ {
-		items : [ {
-			xtype : 'textfield',
-			id : 'Om_groupgroupid',
-			name : 'groupid',
-			hidden : true
-		} ]
+		xtype : 'textfield',
+		id : 'Om_groupgroupid',
+		name : 'groupid',
+		hidden : true
 	}
 	, {
 		columnWidth : 1,
@@ -303,19 +187,127 @@ var Om_groupgrid = new Ext.grid.GridPanel({
 	height : document.documentElement.clientHeight - 4,
 	width : '100%',
 	store : Om_groupstore,
-	stripeRows : true,
-	frame : true,
-	loadMask : {
-		msg : '正在加载表格数据,请稍等...'
-	},
-	cm : Om_groupcm,
-	sm : Om_groupsm,
+    selModel: {
+        type: 'spreadsheet',
+        checkboxSelect: true
+     },
+	columns : [ {// 改
+		header : '工作组编号',
+		dataIndex : 'groupid',
+		hidden : true
+	}
+	, {
+		header : '工作组代码',
+		dataIndex : 'groupcode',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '工作组名称',
+		dataIndex : 'groupname',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '工作组级别',
+		dataIndex : 'grouplevel',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '工作组描述',
+		dataIndex : 'groupdesc',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '工作组类型',
+		dataIndex : 'grouptype',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '工作组路径序列',
+		dataIndex : 'groupseq',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '开始日期',
+		dataIndex : 'startdate',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '截止日期',
+		dataIndex : 'enddate',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '工作组状态',
+		dataIndex : 'groupstatus',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '负责人',
+		dataIndex : 'manager',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '隶属机构',
+		dataIndex : 'orgid',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '父工作组编号',
+		dataIndex : 'parentgroupid',
+		align : 'center',
+		width : 80,
+		hidden : true
+	}
+	, {
+		header : '创建时间',
+		dataIndex : 'createtime',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '最近更新时间',
+		dataIndex : 'lastupdate',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '最近更新人员',
+		dataIndex : 'updator',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	],
 	bbar : Om_groupbbar,
 	tbar : [{
 			text : "修改",
 			iconCls : 'edit',
 			handler : function() {
-				var selections = Om_groupgrid.getSelectionModel().getSelections();
+				var selections = Om_groupgrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 					});
@@ -328,7 +320,7 @@ var Om_groupgrid = new Ext.grid.GridPanel({
 			text : "删除",
 			iconCls : 'delete',
 			handler : function() {
-				var selections = Om_groupgrid.getSelectionModel().getSelections();
+				var selections = Om_groupgrid.getSelection();
 				if (Ext.isEmpty(selections)) {
 					Ext.Msg.alert('提示', '请选择您要删除的数据！');
 					return;
@@ -361,7 +353,7 @@ var Om_groupgrid = new Ext.grid.GridPanel({
 			text : "附件",
 			iconCls : 'attach',
 			handler : function() {
-				var selections = Om_groupgrid.getSelectionModel().getSelections();
+				var selections = Om_groupgrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 					});
@@ -375,7 +367,7 @@ var Om_groupgrid = new Ext.grid.GridPanel({
 			}
 		},'->',{
 			xtype : 'textfield',
-			id : 'query'+Om_groupaction,
+			id : 'queryOm_groupaction',
 			name : 'query',
 			emptyText : '模糊匹配',
 			width : 100,
@@ -383,12 +375,12 @@ var Om_groupgrid = new Ext.grid.GridPanel({
 			listeners : {
 				specialkey : function(field, e) {
 					if (e.getKey() == Ext.EventObject.ENTER) {
-						if ("" == Ext.getCmp("query"+Om_groupaction).getValue()) {
+						if ("" == Ext.getCmp("queryOm_groupaction").getValue()) {
 							Om_groupstore.load();
 						} else {
 							Om_groupstore.load({
 								params : {
-									query : Ext.getCmp("query"+Om_groupaction).getValue()
+									query : Ext.getCmp("queryOm_groupaction").getValue()
 								}
 							});
 						}
@@ -402,6 +394,6 @@ Om_groupgrid.region = 'center';
 Om_groupstore.load();//加载数据
 Om_groupstore.on("beforeload",function(){ 
 	Om_groupstore.baseParams = {
-			query : Ext.getCmp("query"+Om_groupaction).getValue()
+			query : Ext.getCmp("queryOm_groupaction").getValue()
 	}; 
 });

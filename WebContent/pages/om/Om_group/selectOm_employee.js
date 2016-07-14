@@ -43,7 +43,18 @@ function selectOm_employee() {
 	var Om_employeestore = dataStore(Om_employeefields, basePath + Om_employeeaction + "?method=selQuery");// 定义Om_employeestore
 	var Om_employeesm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
 	var Om_employeecm = new Ext.grid.ColumnModel({// 定义columnModel
-		columns : [ new Ext.grid.RowNumberer(), Om_employeesm, {// 改
+		
+	});
+	var Om_employeebbar = pagesizebar(Om_employeestore);//定义分页
+	var Om_employeegrid = new Ext.grid.GridPanel({
+		height : document.documentElement.clientHeight - 36,
+		width : '100%',
+		store : Om_employeestore,
+	    selModel: {
+	        type: 'spreadsheet',
+	        checkboxSelect: true
+	     },
+		columns : [ {// 改
 			header : '人员编号',
 			dataIndex : 'empid',
 			hidden : true
@@ -230,20 +241,7 @@ function selectOm_employee() {
 			width : 80,
 			sortable : true
 		}
-		]
-	});
-	var Om_employeebbar = pagesizebar(Om_employeestore);//定义分页
-	var Om_employeegrid = new Ext.grid.GridPanel({
-		height : document.documentElement.clientHeight - 36,
-		width : '100%',
-		store : Om_employeestore,
-		stripeRows : true,
-		frame : true,
-		loadMask : {
-			msg : '正在加载表格数据,请稍等...'
-		},
-		cm : Om_employeecm,
-		sm : Om_employeesm,
+		],
 		bbar : Om_employeebbar,
 		tbar : [{
 				xtype : 'textfield',

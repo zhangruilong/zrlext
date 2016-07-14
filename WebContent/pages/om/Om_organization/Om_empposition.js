@@ -15,9 +15,126 @@ var Om_emppositionfields = ['posempid'
         			      ];// 全部字段
 var Om_emppositionkeycolumn = [ 'positionid' ];// 主键
 var Om_emppositionstore = dataStore(Om_emppositionfields, basePath + "Om_empposorgviewAction.do?method=selQuery");// 定义Om_emppositionstore
-var Om_emppositionsm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-var Om_emppositioncm = new Ext.grid.ColumnModel({// 定义columnModel
-	columns : [ new Ext.grid.RowNumberer(), Om_emppositionsm, {// 改
+var ismainStore = new Ext.data.ArrayStore({//
+	fields:["ismain"],
+	data:[["是"],["否"]]
+});
+var Om_emppositiondataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
+	id:'Om_emppositiondataForm',
+	labelAlign : 'right',
+	frame : true,
+	layout : 'column',
+	items : [ {
+		xtype : 'textfield',
+		id : 'Om_emppositionposempid',
+		name : 'posempid',
+		hidden : true
+	}
+	, {
+		columnWidth : 1,
+		layout : 'form',
+		items : [ {
+			xtype : 'hidden',
+			fieldLabel : '岗位编号',
+			id : 'Om_emppositionpositionid',
+			name : 'positionid',
+			maxLength : 100,
+			anchor : '95%'
+		} ]
+	}
+	, {
+		columnWidth : .9,
+		layout : 'form',
+		items : [ {
+			xtype : 'textfield',
+			fieldLabel : '岗位名称',
+			id : 'Om_emppositionpositionname',
+			name : 'posiname',
+			maxLength : 100,
+			anchor : '95%'
+		} ]
+	}
+	, {
+		columnWidth : .1,
+		layout : 'form',
+		items : [ {
+			xtype : 'button',
+			iconCls : 'select',
+			maxLength : 100,
+			handler : function() {
+				selectOm_position();
+			}
+		} ]
+	}
+	, {
+		columnWidth : 1,
+		layout : 'form',
+		items : [ {
+			xtype : 'hidden',
+			fieldLabel : '人员编号',
+			id : 'Om_emppositionempid',
+			name : 'empid',
+			maxLength : 100,
+			anchor : '95%'
+		} ]
+	}
+	, {
+		columnWidth : .9,
+		layout : 'form',
+		items : [ {
+			xtype : 'textfield',
+			fieldLabel : '人员',
+			id : 'Om_emppositionempname',
+			name : 'empname',
+			maxLength : 100,
+			anchor : '95%'
+		} ]
+	}
+	, {
+		columnWidth : .1,
+		layout : 'form',
+		items : [ {
+			xtype : 'button',
+			iconCls : 'select',
+			maxLength : 100,
+			handler : function() {
+				selectOm_employee();
+			}
+		} ]
+	}
+	, {
+		columnWidth : 1,
+		layout : 'form',
+		items : [ {
+			xtype : 'combo',
+			fieldLabel : '是否主岗位',
+			id : 'Om_emppositionismain',
+			name : 'ismain',
+			emptyText : '请选择',
+			store : ismainStore,
+			mode : 'local',
+			displayField : 'ismain',
+			valueField : 'ismain',
+			hiddenName : 'ismain',
+			triggerAction : 'all',
+			editable : false,
+			maxLength : 100,
+			anchor : '95%'
+		} ]
+	}
+	]
+});
+
+var Om_emppositionbbar = pagesizebar(Om_emppositionstore);//定义分页
+var Om_emppositiongrid = new Ext.grid.GridPanel({
+	height : document.documentElement.clientHeight - 36,
+	width : '100%',
+	store : Om_emppositionstore,
+    selModel: {
+        type: 'spreadsheet',
+        checkboxSelect: true
+     },
+	columns : [  {// 改
 		header : 'posempid',
 		dataIndex : 'posempid',
 		hidden : true
@@ -80,133 +197,7 @@ var Om_emppositioncm = new Ext.grid.ColumnModel({// 定义columnModel
 		dataIndex : 'loginname',
 		sortable : true
 	}
-	]
-});
-var ismainStore = new Ext.data.ArrayStore({//
-	fields:["ismain"],
-	data:[["是"],["否"]]
-});
-var Om_emppositiondataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
-	id:'Om_emppositiondataForm',
-	labelAlign : 'right',
-	frame : true,
-	layout : 'column',
-	items : [ {
-		items : [ {
-			xtype : 'textfield',
-			id : 'Om_emppositionposempid',
-			name : 'posempid',
-			hidden : true
-		} ]
-	}
-	, {
-		columnWidth : 1,
-		layout : 'form',
-		items : [ {
-			xtype : 'hidden',
-			fieldLabel : '岗位编号',
-			id : 'Om_emppositionpositionid',
-			name : 'positionid',
-			maxLength : 100,
-			anchor : '95%'
-		} ]
-	}
-	, {
-		columnWidth : .9,
-		layout : 'form',
-		items : [ {
-			xtype : 'textfield',
-			fieldLabel : '岗位名称',
-			id : 'Om_emppositionpositionname',
-			name : 'posiname',
-			maxLength : 100,
-			anchor : '95%'
-		} ]
-	}
-	, {
-		columnWidth : .1,
-		layout : 'form',
-		items : [ {
-			xtype : 'button',
-			iconCls : 'select',
-			maxLength : 100,
-			handler : selectOm_position.createCallback(),
-			scope : this,
-			anchor : '25%'
-		} ]
-	}
-	, {
-		columnWidth : 1,
-		layout : 'form',
-		items : [ {
-			xtype : 'hidden',
-			fieldLabel : '人员编号',
-			id : 'Om_emppositionempid',
-			name : 'empid',
-			maxLength : 100,
-			anchor : '95%'
-		} ]
-	}
-	, {
-		columnWidth : .9,
-		layout : 'form',
-		items : [ {
-			xtype : 'textfield',
-			fieldLabel : '人员',
-			id : 'Om_emppositionempname',
-			name : 'empname',
-			maxLength : 100,
-			anchor : '95%'
-		} ]
-	}
-	, {
-		columnWidth : .1,
-		layout : 'form',
-		items : [ {
-			xtype : 'button',
-			iconCls : 'select',
-			maxLength : 100,
-			handler : selectOm_employee.createCallback(),
-			scope : this,
-			anchor : '25%'
-		} ]
-	}
-	, {
-		columnWidth : 1,
-		layout : 'form',
-		items : [ {
-			xtype : 'combo',
-			fieldLabel : '是否主岗位',
-			id : 'Om_emppositionismain',
-			name : 'ismain',
-			emptyText : '请选择',
-			store : ismainStore,
-			mode : 'local',
-			displayField : 'ismain',
-			valueField : 'ismain',
-			hiddenName : 'ismain',
-			triggerAction : 'all',
-			editable : false,
-			maxLength : 100,
-			allowBlank : false,
-			anchor : '95%'
-		} ]
-	}
-	]
-});
-
-var Om_emppositionbbar = pagesizebar(Om_emppositionstore);//定义分页
-var Om_emppositiongrid = new Ext.grid.GridPanel({
-	height : document.documentElement.clientHeight - 36,
-	width : '100%',
-	store : Om_emppositionstore,
-	stripeRows : true,
-	frame : true,
-	loadMask : {
-		msg : '正在加载表格数据,请稍等...'
-	},
-	cm : Om_emppositioncm,
-	sm : Om_emppositionsm,
+	],
 	bbar : Om_emppositionbbar,
 	tbar : [{
 			text : "新增",
@@ -221,7 +212,7 @@ var Om_emppositiongrid = new Ext.grid.GridPanel({
 			text : "修改",
 			iconCls : 'edit',
 			handler : function() {
-				var selections = Om_emppositiongrid.getSelectionModel().getSelections();
+				var selections = Om_emppositiongrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 					});
@@ -234,7 +225,7 @@ var Om_emppositiongrid = new Ext.grid.GridPanel({
 			text : "删除",
 			iconCls : 'delete',
 			handler : function() {
-				var selections = Om_emppositiongrid.getSelectionModel().getSelections();
+				var selections = Om_emppositiongrid.getSelection();
 				if (Ext.isEmpty(selections)) {
 					Ext.Msg.alert('提示', '请选择您要删除的数据！');
 					return;
@@ -267,7 +258,7 @@ var Om_emppositiongrid = new Ext.grid.GridPanel({
 			text : "附件",
 			iconCls : 'attach',
 			handler : function() {
-				var selections = Om_emppositiongrid.getSelectionModel().getSelections();
+				var selections = Om_emppositiongrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 					});
@@ -281,7 +272,7 @@ var Om_emppositiongrid = new Ext.grid.GridPanel({
 			}
 		},'->',{
 			xtype : 'textfield',
-			id : 'query'+Om_emppositionaction,
+			id : 'queryOm_emppositionaction',
 			name : 'query',
 			emptyText : '模糊匹配',
 			width : 100,
@@ -289,12 +280,12 @@ var Om_emppositiongrid = new Ext.grid.GridPanel({
 			listeners : {
 				specialkey : function(field, e) {
 					if (e.getKey() == Ext.EventObject.ENTER) {
-						if ("" == Ext.getCmp("query"+Om_emppositionaction).getValue()) {
+						if ("" == Ext.getCmp("queryOm_emppositionaction").getValue()) {
 							Om_emppositionstore.load();
 						} else {
 							Om_emppositionstore.load({
 								params : {
-									query : Ext.getCmp("query"+Om_emppositionaction).getValue()
+									query : Ext.getCmp("queryOm_emppositionaction").getValue()
 								}
 							});
 						}
@@ -308,7 +299,7 @@ Om_emppositiongrid.region = 'center';
 Om_emppositionstore.load();//加载数据
 Om_emppositionstore.on("beforeload",function(){ 
 	Om_emppositionstore.baseParams = {
-			query : Ext.getCmp("query"+Om_emppositionaction).getValue()
+			query : Ext.getCmp("queryOm_emppositionaction").getValue()
 	}; 
 });
 var empposition = new Ext.TabPanel({

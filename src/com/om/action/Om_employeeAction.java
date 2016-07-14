@@ -45,21 +45,18 @@ public class Om_employeeAction extends BaseAction {
 		Om_employee employee = cuss.get(0);
 		String empid = CommonUtil.getNewId();
 		employee.setEmpid(empid);
-		result = DAO.insSingle(employee);
-		if(result.equals(CommonConst.SUCCESS)){
-			Om_emporg emporg = new Om_emporg(empid,employee.getOrgid(), empid, "是");
-			result = new Om_emporgDao().insSingle(emporg);
-			if(result.equals(CommonConst.SUCCESS)){
-				Om_empposition empposition = new Om_empposition(empid,employee.getPosition(), empid, "是");
-				result = new Om_emppositionDao().insSingle(empposition);
-				String loginname = employee.getLoginname();
-				if(CommonUtil.isNotEmpty(employee.getLoginname())&&result.equals(CommonConst.SUCCESS)){
-					String pwd = CipherUtil.generatePassword("1");
-					System_user user = new System_user(empid, loginname, pwd, employee.getEmpname(), "启用");
-					result = new System_userDao().insSingle(user);
-				}
-			}
-		}
+		String employeesql = DAO.getInsSingleSql(employee);
+			//人是只挂在position上，不再挂在org上
+//			Om_emporg emporg = new Om_emporg(empid,employee.getOrgid(), empid, "是");
+//			result = new Om_emporgDao().insSingle(emporg);
+		Om_empposition empposition = new Om_empposition(empid,employee.getPosition(), empid, "是");
+		String emppositionsql = DAO.getInsSingleSql(empposition);
+		result = DAO.doAll(employeesql,emppositionsql);
+//		if(CommonUtil.isNotEmpty(employee.getLoginname())&&result.equals(CommonConst.SUCCESS)){
+//			String pwd = CipherUtil.generatePassword("1");
+//			System_user user = new System_user(empid, employee.getLoginname(), pwd, employee.getEmpname(), "启用");
+//			new System_userDao().insSingle(user);
+//		}
 		responsePW(response, result);
 	}
 	//删除

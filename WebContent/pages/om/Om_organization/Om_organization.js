@@ -32,73 +32,16 @@ var Om_organizationfields = ['orgid'
         			      ];// 全部字段
 var Om_organizationkeycolumn = [ 'orgid' ];// 主键
 var Om_organizationstore = dataStore(Om_organizationfields, basePath + Om_organizationaction + "?method=selQuery");// 定义Om_organizationstore
-var Om_organizationsm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-var Om_organizationcm = new Ext.grid.ColumnModel({// 定义columnModel
-	columns : [ new Ext.grid.RowNumberer(), Om_organizationsm, {// 改
-		header : '机构编号',
-		dataIndex : 'orgid',
-		hidden : true
-	}
-	, {
-		header : '机构代码',
-		dataIndex : 'orgcode',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '机构名称',
-		dataIndex : 'orgname',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '机构等级',
-		dataIndex : 'orgdegree',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '机构序列',
-		dataIndex : 'orgseq',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '机构状态',
-		dataIndex : 'status',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '备注',
-		dataIndex : 'remark',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	]
-});
-var statusStore = new Ext.data.ArrayStore({//
-	fields:["status"],
-	data:[["启用"],["禁用"]]
-});
 var Om_organizationdataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
 	id:'Om_organizationdataForm',
 	labelAlign : 'right',
 	frame : true,
 	layout : 'column',
 	items : [ {
-		items : [ {
-			xtype : 'textfield',
-			id : 'Om_organizationorgid',
-			name : 'orgid',
-			hidden : true
-		} ]
+		xtype : 'textfield',
+		id : 'Om_organizationorgid',
+		name : 'orgid',
+		hidden : true
 	}
 	, {
 		columnWidth : .5,
@@ -169,10 +112,10 @@ var Om_organizationdataForm = new Ext.form.FormPanel({// 定义新增和修改�
 			id : 'Om_organizationstatus',
 			name : 'status',
 			emptyText : '请选择',
-			store : statusStore,
+			store : statueStore,
 			mode : 'local',
-			displayField : 'status',
-			valueField : 'status',
+			displayField : 'name',
+			valueField : 'name',
 			hiddenName : 'status',
 			triggerAction : 'all',
 			editable : false,
@@ -201,19 +144,64 @@ var Om_organizationgrid = new Ext.grid.GridPanel({
 	width : '100%',
 	title : Om_organizationtitle,
 	store : Om_organizationstore,
-	stripeRows : true,
-	frame : true,
-	loadMask : {
-		msg : '正在加载表格数据,请稍等...'
-	},
-	cm : Om_organizationcm,
-	sm : Om_organizationsm,
+    selModel: {
+        type: 'spreadsheet',
+        checkboxSelect: true
+     },
+	columns : [ {// 改
+		header : '机构编号',
+		dataIndex : 'orgid',
+		hidden : true
+	}
+	, {
+		header : '机构代码',
+		dataIndex : 'orgcode',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '机构名称',
+		dataIndex : 'orgname',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '机构等级',
+		dataIndex : 'orgdegree',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '机构序列',
+		dataIndex : 'orgseq',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '机构状态',
+		dataIndex : 'status',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '备注',
+		dataIndex : 'remark',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	],
 	bbar : Om_organizationbbar,
 	tbar : [{
 			text : "修改",
 			iconCls : 'edit',
 			handler : function() {
-				var selections = Om_organizationgrid.getSelectionModel().getSelections();
+				var selections = Om_organizationgrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 					});
@@ -226,7 +214,7 @@ var Om_organizationgrid = new Ext.grid.GridPanel({
 			text : "删除",
 			iconCls : 'delete',
 			handler : function() {
-				var selections = Om_organizationgrid.getSelectionModel().getSelections();
+				var selections = Om_organizationgrid.getSelection();
 				if (Ext.isEmpty(selections)) {
 					Ext.Msg.alert('提示', '请选择您要删除的数据！');
 					return;
@@ -259,7 +247,7 @@ var Om_organizationgrid = new Ext.grid.GridPanel({
 			text : "附件",
 			iconCls : 'attach',
 			handler : function() {
-				var selections = Om_organizationgrid.getSelectionModel().getSelections();
+				var selections = Om_organizationgrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 					});
@@ -273,7 +261,7 @@ var Om_organizationgrid = new Ext.grid.GridPanel({
 			}
 		},'->',{
 			xtype : 'textfield',
-			id : 'query'+Om_organizationaction,
+			id : 'queryOm_organizationaction',
 			name : 'query',
 			emptyText : '模糊匹配',
 			width : 100,
@@ -281,12 +269,12 @@ var Om_organizationgrid = new Ext.grid.GridPanel({
 			listeners : {
 				specialkey : function(field, e) {
 					if (e.getKey() == Ext.EventObject.ENTER) {
-						if ("" == Ext.getCmp("query"+Om_organizationaction).getValue()) {
+						if ("" == Ext.getCmp("queryOm_organizationaction").getValue()) {
 							Om_organizationstore.load();
 						} else {
 							Om_organizationstore.load({
 								params : {
-									query : Ext.getCmp("query"+Om_organizationaction).getValue()
+									query : Ext.getCmp("queryOm_organizationaction").getValue()
 								}
 							});
 						}
@@ -300,6 +288,6 @@ Om_organizationgrid.region = 'center';
 Om_organizationstore.load();//加载数据
 Om_organizationstore.on("beforeload",function(){ 
 	Om_organizationstore.baseParams = {
-			query : Ext.getCmp("query"+Om_organizationaction).getValue()
+			query : Ext.getCmp("queryOm_organizationaction").getValue()
 	}; 
 });

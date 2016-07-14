@@ -51,13 +51,13 @@ public class Om_organizationDao extends BaseDao {
 			while (rs.next()) {
 				String iconCls = null;
 				if(rs.getString("detail").equals("女")){
-					iconCls = "../../../sysimages/user_red.png";
+					iconCls = "../../../common/sysimages/user_red.png";
 				}else if(rs.getString("detail").equals("男")){
-					iconCls = "../../../sysimages/user_gray.png";
+					iconCls = "../../../common/sysimages/user_gray.png";
 				}else if(rs.getString("detail").equals("position")){
-					iconCls = "../../../sysimages/position.gif";
+					iconCls = "../../../common/sysimages/position.gif";
 				}else if(rs.getString("detail").equals("org")){
-					iconCls = "../../../sysimages/org.gif";
+					iconCls = "../../../common/sysimages/org.gif";
 				}
 				temp = new Treeinfo(rs.getString("id"), rs.getString("code"), rs.getString("name"), rs.getString("detail"),
 						iconCls, null, null,rs.getString("leaf"), rs.getString("parentid"));

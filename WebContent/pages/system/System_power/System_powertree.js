@@ -14,8 +14,9 @@ Ext.onReady(function() {
 		autoScroll : true,
 		height : document.documentElement.clientHeight - 4,
 		width : 180,
-		containerScroll : true,
-		enableDD : true
+		viewConfig: {
+		    plugins: { ptype: 'treeviewdragdrop' }
+		}
 	});
 	treepanel.expandAll();
 	//点击事件
@@ -41,7 +42,6 @@ Ext.onReady(function() {
 	}); 
 	// 点击右键出现tree菜单
 	treepanel.on('itemcontextmenu', function( node , record , item , index , e , eOpts ) { 
-//		item.select();// 点击右键同时选中该项
 		e.preventDefault(); 
 		// 定义右键菜单
 		var contextMenu = new Ext.menu.Menu({  

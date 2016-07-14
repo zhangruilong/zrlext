@@ -1,22 +1,66 @@
-var Om_organizationsm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
 var orgbbar = pagesizebar(Om_organizationstore);//定义分页
 var orggrid = new Ext.grid.GridPanel({
 	height : document.documentElement.clientHeight - 36,
 	width : '100%',
 	store : Om_organizationstore,
-	stripeRows : true,
-	frame : true,
-	loadMask : {
-		msg : '正在加载表格数据,请稍等...'
-	},
-	cm : Om_organizationcm,
-	sm : Om_organizationsm,
+    selModel: {
+        type: 'spreadsheet',
+        checkboxSelect: true
+     },
+	columns : [ {// 改
+		header : '机构编号',
+		dataIndex : 'orgid',
+		hidden : true
+	}
+	, {
+		header : '机构代码',
+		dataIndex : 'orgcode',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '机构名称',
+		dataIndex : 'orgname',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '机构等级',
+		dataIndex : 'orgdegree',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '机构序列',
+		dataIndex : 'orgseq',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '机构状态',
+		dataIndex : 'status',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '备注',
+		dataIndex : 'remark',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	],
 	bbar : orgbbar,
 	tbar : [{
 			text : "修改",
 			iconCls : 'edit',
 			handler : function() {
-				var selections = orggrid.getSelectionModel().getSelections();
+				var selections = orggrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 					});
@@ -29,7 +73,7 @@ var orggrid = new Ext.grid.GridPanel({
 			text : "删除",
 			iconCls : 'delete',
 			handler : function() {
-				var selections = orggrid.getSelectionModel().getSelections();
+				var selections = orggrid.getSelection();
 				if (Ext.isEmpty(selections)) {
 					Ext.Msg.alert('提示', '请选择您要删除的数据！');
 					return;
@@ -62,7 +106,7 @@ var orggrid = new Ext.grid.GridPanel({
 			text : "附件",
 			iconCls : 'attach',
 			handler : function() {
-				var selections = orggrid.getSelectionModel().getSelections();
+				var selections = orggrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 					});
@@ -106,25 +150,209 @@ Om_organizationstore.on("beforeload",function(){
 			query : Ext.getCmp("orgquery").getValue()
 	}; 
 });
-var Om_employeesm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
 var orgbbar = pagesizebar(Om_employeestore);//定义分页
 var empgrid = new Ext.grid.GridPanel({
 	height : document.documentElement.clientHeight - 36,
 	width : '100%',
 	store : Om_employeestore,
-	stripeRows : true,
-	frame : true,
-	loadMask : {
-		msg : '正在加载表格数据,请稍等...'
-	},
-	cm : Om_employeecm,
-	sm : Om_employeesm,
+    selModel: {
+        type: 'spreadsheet',
+        checkboxSelect: true
+     },
+     columns : [ {// 改
+ 		header : '人员编号',
+ 		dataIndex : 'empid',
+ 		hidden : true
+ 	}
+ 	, {
+ 		header : '人员代码',
+ 		dataIndex : 'empcode',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '操作员登录号',
+ 		dataIndex : 'loginname',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '人员姓名',
+ 		dataIndex : 'empname',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '性别',
+ 		dataIndex : 'gender',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '出生日期',
+ 		dataIndex : 'birthdate',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '状态',
+ 		dataIndex : 'empstatus',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '证件类型',
+ 		dataIndex : 'cardtype',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '证件号码',
+ 		dataIndex : 'cardno',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '入职日期',
+ 		dataIndex : 'indate',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '离职日期',
+ 		dataIndex : 'outdate',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '办公电话',
+ 		dataIndex : 'otel',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '办公地址',
+ 		dataIndex : 'oaddress',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '办公邮编',
+ 		dataIndex : 'ozipcode',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '办公邮件',
+ 		dataIndex : 'oemail',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '传真号码',
+ 		dataIndex : 'faxno',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '手机号码',
+ 		dataIndex : 'mobileno',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : 'MSN号码',
+ 		dataIndex : 'msn',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '家庭电话',
+ 		dataIndex : 'htel',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '家庭地址',
+ 		dataIndex : 'haddress',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '家庭邮编',
+ 		dataIndex : 'hzipcode',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '私人电子邮箱',
+ 		dataIndex : 'pemail',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '政治面貌',
+ 		dataIndex : 'party',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '职级',
+ 		dataIndex : 'degree',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '创建时间',
+ 		dataIndex : 'createtime',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '最新更新时间',
+ 		dataIndex : 'lastmodytime',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	, {
+ 		header : '备注',
+ 		dataIndex : 'remark',
+ 		align : 'center',
+ 		width : 80,
+ 		sortable : true
+ 	}
+ 	],
 	bbar : orgbbar,
 	tbar : [{
 			text : "修改",
 			iconCls : 'edit',
 			handler : function() {
-				var selections = empgrid.getSelectionModel().getSelections();
+				var selections = empgrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 					});
@@ -137,7 +365,7 @@ var empgrid = new Ext.grid.GridPanel({
 			text : "删除",
 			iconCls : 'delete',
 			handler : function() {
-				var selections = empgrid.getSelectionModel().getSelections();
+				var selections = empgrid.getSelection();
 				if (Ext.isEmpty(selections)) {
 					Ext.Msg.alert('提示', '请选择您要删除的数据！');
 					return;
@@ -170,7 +398,7 @@ var empgrid = new Ext.grid.GridPanel({
 			text : "附件",
 			iconCls : 'attach',
 			handler : function() {
-				var selections = empgrid.getSelectionModel().getSelections();
+				var selections = empgrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 					});

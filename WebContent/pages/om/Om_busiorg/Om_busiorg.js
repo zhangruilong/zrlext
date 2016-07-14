@@ -18,111 +18,16 @@ Ext.onReady(function() {
 	        			      ];// 全部字段
 	var Om_busiorgkeycolumn = [ 'busidomain' ];// 主键
 	var Om_busiorgstore = dataStore(Om_busiorgfields, basePath + Om_busiorgaction + "?method=selQuery");// 定义Om_busiorgstore
-	var Om_busiorgsm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-	var Om_busiorgcm = new Ext.grid.ColumnModel({// 定义columnModel
-		columns : [ new Ext.grid.RowNumberer(), Om_busiorgsm, {// 改
-			header : '业务条线',
-			dataIndex : 'busidomain',
-			hidden : true
-		}
-		, {
-			header : '业务机构编号',
-			dataIndex : 'busiorgid',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '业务机构名称',
-			dataIndex : 'orgname',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '上级业务机构',
-			dataIndex : 'parentid',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '机构编号',
-			dataIndex : 'orgid',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '业务机构层次',
-			dataIndex : 'orglevel',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '节点类型',
-			dataIndex : 'nodetype',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '机构代号',
-			dataIndex : 'orgcode',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '序列号',
-			dataIndex : 'seqno',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '主管岗位',
-			dataIndex : 'manapos',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '排列顺序编号',
-			dataIndex : 'sortno',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '是否叶子节点',
-			dataIndex : 'isleaf',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '子节点数',
-			dataIndex : 'subcount',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		]
-	});
 	var Om_busiorgdataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
 		id:'Om_busiorgdataForm',
 		labelAlign : 'right',
 		frame : true,
 		layout : 'column',
 		items : [ {
-			items : [ {
-				xtype : 'textfield',
-				id : 'Om_busiorgbusidomain',
-				name : 'busidomain',
-				hidden : true
-			} ]
+			xtype : 'textfield',
+			id : 'Om_busiorgbusidomain',
+			name : 'busidomain',
+			hidden : true
 		}
 		, {
 			columnWidth : 1,
@@ -277,13 +182,100 @@ Ext.onReady(function() {
 		width : '100%',
 		title : Om_busiorgtitle,
 		store : Om_busiorgstore,
-		stripeRows : true,
-		frame : true,
-		loadMask : {
-			msg : '正在加载表格数据,请稍等...'
-		},
-		cm : Om_busiorgcm,
-		sm : Om_busiorgsm,
+	    selModel: {
+	        type: 'spreadsheet',
+	        checkboxSelect: true
+	     },
+		columns : [  {// 改
+			header : '业务条线',
+			dataIndex : 'busidomain',
+			hidden : true
+		}
+		, {
+			header : '业务机构编号',
+			dataIndex : 'busiorgid',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '业务机构名称',
+			dataIndex : 'orgname',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '上级业务机构',
+			dataIndex : 'parentid',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '机构编号',
+			dataIndex : 'orgid',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '业务机构层次',
+			dataIndex : 'orglevel',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '节点类型',
+			dataIndex : 'nodetype',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '机构代号',
+			dataIndex : 'orgcode',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '序列号',
+			dataIndex : 'seqno',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '主管岗位',
+			dataIndex : 'manapos',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '排列顺序编号',
+			dataIndex : 'sortno',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '是否叶子节点',
+			dataIndex : 'isleaf',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		, {
+			header : '子节点数',
+			dataIndex : 'subcount',
+			align : 'center',
+			width : 80,
+			sortable : true
+		}
+		],
 		bbar : Om_busiorgbbar,
 		tbar : [{
 				text : "新增",
@@ -296,7 +288,7 @@ Ext.onReady(function() {
 				text : "修改",
 				iconCls : 'edit',
 				handler : function() {
-					var selections = Om_busiorggrid.getSelectionModel().getSelections();
+					var selections = Om_busiorggrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 						});
@@ -309,7 +301,7 @@ Ext.onReady(function() {
 				text : "删除",
 				iconCls : 'delete',
 				handler : function() {
-					var selections = Om_busiorggrid.getSelectionModel().getSelections();
+					var selections = Om_busiorggrid.getSelection();
 					if (Ext.isEmpty(selections)) {
 						Ext.Msg.alert('提示', '请选择您要删除的数据！');
 						return;
@@ -342,7 +334,7 @@ Ext.onReady(function() {
 				text : "附件",
 				iconCls : 'attach',
 				handler : function() {
-					var selections = Om_busiorggrid.getSelectionModel().getSelections();
+					var selections = Om_busiorggrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 						});
@@ -356,7 +348,7 @@ Ext.onReady(function() {
 				}
 			},'->',{
 				xtype : 'textfield',
-				id : 'query'+Om_busiorgaction,
+				id : 'queryOm_busiorgaction',
 				name : 'query',
 				emptyText : '模糊匹配',
 				width : 100,
@@ -364,12 +356,12 @@ Ext.onReady(function() {
 				listeners : {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
-							if ("" == Ext.getCmp("query"+Om_busiorgaction).getValue()) {
+							if ("" == Ext.getCmp("queryOm_busiorgaction").getValue()) {
 								Om_busiorgstore.load();
 							} else {
 								Om_busiorgstore.load({
 									params : {
-										query : Ext.getCmp("query"+Om_busiorgaction).getValue()
+										query : Ext.getCmp("queryOm_busiorgaction").getValue()
 									}
 								});
 							}
@@ -383,7 +375,7 @@ Ext.onReady(function() {
 	Om_busiorgstore.load();//加载数据
 	Om_busiorgstore.on("beforeload",function(){ 
 		Om_busiorgstore.baseParams = {
-				query : Ext.getCmp("query"+Om_busiorgaction).getValue()
+				query : Ext.getCmp("queryOm_busiorgaction").getValue()
 		}; 
 	});
 	var win = new Ext.Viewport({//只能有一个viewport

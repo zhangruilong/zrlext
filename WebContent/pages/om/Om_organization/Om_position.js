@@ -22,71 +22,16 @@ var Om_positionfields = ['positionid'
         			      ];// 全部字段
 var Om_positionkeycolumn = [ 'positionid' ];// 主键
 var Om_positionstore = dataStore(Om_positionfields, basePath + "Om_posiorgviewAction.do?method=selQuery");// 定义Om_positionstore
-var Om_positionsm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-var Om_positioncm = new Ext.grid.ColumnModel({// 定义columnModel
-	columns : [ new Ext.grid.RowNumberer(), Om_positionsm, {// 改
-		header : '岗位编号',
-		dataIndex : 'positionid',
-		hidden : true
-	}
-	, {
-		header : '岗位代码',
-		dataIndex : 'posicode',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '岗位名称',
-		dataIndex : 'posiname',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '机构',
-		dataIndex : 'orgname',
-		sortable : true
-	}
-	, {
-		header : '职务编号',
-		dataIndex : 'dutyid',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '岗位序列',
-		dataIndex : 'positionseq',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '岗位状态',
-		dataIndex : 'status',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	]
-});
-var statusStore = new Ext.data.ArrayStore({//
-	fields:["status"],
-	data:[["启用"],["禁用"]]
-});
 var Om_positiondataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
 	id:'Om_positiondataForm',
 	labelAlign : 'right',
 	frame : true,
 	layout : 'column',
 	items : [ {
-		items : [ {
-			xtype : 'textfield',
-			id : 'Om_positionpositionid',
-			name : 'positionid',
-			hidden : true
-		} ]
+		xtype : 'textfield',
+		id : 'Om_positionpositionid',
+		name : 'positionid',
+		hidden : true
 	}
 	, {
 		columnWidth : .5,
@@ -116,22 +61,10 @@ var Om_positiondataForm = new Ext.form.FormPanel({// 定义新增和修改的For
 		columnWidth : .5,
 		layout : 'form',
 		items : [ {
-			xtype : 'hidden',
+			xtype : 'textfield',
 			fieldLabel : '上级岗位',
 			id : 'Om_positionmanaposi',
 			name : 'manaposi',
-			maxLength : 100,
-			anchor : '95%'
-		} ]
-	}
-	, {
-		columnWidth : .5,
-		layout : 'form',
-		items : [ {
-			xtype : 'hidden',
-			fieldLabel : '职务编号',
-			id : 'Om_positiondutyid',
-			name : 'dutyid',
 			maxLength : 100,
 			anchor : '95%'
 		} ]
@@ -141,8 +74,8 @@ var Om_positiondataForm = new Ext.form.FormPanel({// 定义新增和修改的For
 		layout : 'form',
 		items : [ {
 			xtype : 'textfield',
-			fieldLabel : '职务编号',
-			id : 'Om_positiondutyname',
+			fieldLabel : '职务名称',
+			id : 'Om_positiondutyid',
 			name : 'dutyid',
 			maxLength : 100,
 			anchor : '95%'
@@ -155,22 +88,18 @@ var Om_positiondataForm = new Ext.form.FormPanel({// 定义新增和修改的For
 			xtype : 'button',
 			iconCls : 'select',
 			maxLength : 100,
-			handler : selectOm_duty.createCallback(),
-			scope : this,
-			anchor : '25%'
+			handler : function() {
+				selectOm_duty();
+			}
 		} ]
 	}
 	, {
-		columnWidth : .5,
-		layout : 'form',
-		items : [ {
-			xtype : 'hidden',
-			fieldLabel : '机构编号',
-			id : 'Om_positionorgid',
-			name : 'orgid',
-			maxLength : 100,
-			anchor : '95%'
-		} ]
+		xtype : 'hidden',
+		fieldLabel : '机构编号',
+		id : 'Om_positionorgid',
+		name : 'orgid',
+		maxLength : 100,
+		anchor : '95%'
 	}
 	, {
 		columnWidth : .5,
@@ -193,10 +122,10 @@ var Om_positiondataForm = new Ext.form.FormPanel({// 定义新增和修改的For
 			id : 'Om_positionstatus',
 			name : 'status',
 			emptyText : '请选择',
-			store : statusStore,
+			store : statueStore,
 			mode : 'local',
-			displayField : 'status',
-			valueField : 'status',
+			displayField : 'name',
+			valueField : 'name',
 			hiddenName : 'status',
 			triggerAction : 'all',
 			editable : false,
@@ -213,19 +142,69 @@ var Om_positiongrid = new Ext.grid.GridPanel({
 	width : '100%',
 	title : Om_positiontitle,
 	store : Om_positionstore,
-	stripeRows : true,
-	frame : true,
-	loadMask : {
-		msg : '正在加载表格数据,请稍等...'
-	},
-	cm : Om_positioncm,
-	sm : Om_positionsm,
+    selModel: {
+        type: 'spreadsheet',
+        checkboxSelect: true
+     },
+	columns : [ {// 改
+		header : '岗位编号',
+		dataIndex : 'positionid',
+		hidden : true
+	}
+	, {
+		header : '岗位代码',
+		dataIndex : 'posicode',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '岗位名称',
+		dataIndex : 'posiname',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '上级岗位',
+		dataIndex : 'manaposi',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '机构',
+		dataIndex : 'orgname',
+		sortable : true
+	}
+	, {
+		header : '职务名称',
+		dataIndex : 'dutyid',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '岗位序列',
+		dataIndex : 'positionseq',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '岗位状态',
+		dataIndex : 'status',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	],
 	bbar : Om_positionbbar,
 	tbar : [{
 			text : "修改",
 			iconCls : 'edit',
 			handler : function() {
-				var selections = Om_positiongrid.getSelectionModel().getSelections();
+				var selections = Om_positiongrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 					});
@@ -238,7 +217,7 @@ var Om_positiongrid = new Ext.grid.GridPanel({
 			text : "删除",
 			iconCls : 'delete',
 			handler : function() {
-				var selections = Om_positiongrid.getSelectionModel().getSelections();
+				var selections = Om_positiongrid.getSelection();
 				if (Ext.isEmpty(selections)) {
 					Ext.Msg.alert('提示', '请选择您要删除的数据！');
 					return;
@@ -271,7 +250,7 @@ var Om_positiongrid = new Ext.grid.GridPanel({
 			text : "附件",
 			iconCls : 'attach',
 			handler : function() {
-				var selections = Om_positiongrid.getSelectionModel().getSelections();
+				var selections = Om_positiongrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 					});
@@ -285,7 +264,7 @@ var Om_positiongrid = new Ext.grid.GridPanel({
 			}
 		},'->',{
 			xtype : 'textfield',
-			id : 'query'+Om_positionaction,
+			id : 'queryOm_positionaction',
 			name : 'query',
 			emptyText : '模糊匹配',
 			width : 100,
@@ -293,12 +272,12 @@ var Om_positiongrid = new Ext.grid.GridPanel({
 			listeners : {
 				specialkey : function(field, e) {
 					if (e.getKey() == Ext.EventObject.ENTER) {
-						if ("" == Ext.getCmp("query"+Om_positionaction).getValue()) {
+						if ("" == Ext.getCmp("queryOm_positionaction").getValue()) {
 							Om_positionstore.load();
 						} else {
 							Om_positionstore.load({
 								params : {
-									query : Ext.getCmp("query"+Om_positionaction).getValue()
+									query : Ext.getCmp("queryOm_positionaction").getValue()
 								}
 							});
 						}
@@ -312,6 +291,6 @@ Om_positiongrid.region = 'center';
 Om_positionstore.load();//加载数据
 Om_positionstore.on("beforeload",function(){ 
 	Om_positionstore.baseParams = {
-			query : Ext.getCmp("query"+Om_positionaction).getValue()
+			query : Ext.getCmp("queryOm_positionaction").getValue()
 	}; 
 });

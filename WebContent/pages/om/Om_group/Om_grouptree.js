@@ -1,57 +1,51 @@
 var treepanel;
 Ext.onReady(function() {
-	var root = new Ext.tree.AsyncTreeNode({
-		text : '工作组管理',
-		expanded : true,
-		icon : '../../../sysimages/home.gif',
-		id : 'root'
+	var treestore = Ext.create('Ext.data.TreeStore', {
+	    proxy: {
+	         type: 'ajax',
+	         url: basePath + Om_groupaction + "?method=selTree"
+	     }
 	});
 	treepanel = new Ext.tree.TreePanel({
-		loader : new Ext.tree.TreeLoader({
-			baseAttrs : {},
-			dataUrl : basePath + Om_groupaction + "?method=selTree"
-		}),
-		root : root,
+		store: treestore,
+		root: {
+			text : '职务层级树',
+			icon : '../../../common/sysimages/home.gif',
+			expanded : true,
+			id : 'root'
+		},
 		lines : true,
 		title : '工作组管理',
 		autoScroll : true,
 		height : document.documentElement.clientHeight - 4,
 		width : 180,
-		containerScroll : true,
-		animate : false,
-		useArrows : false,
-		enableDD : true, // 拖拽节点 
-	    listeners: {
-            'click': function(node, checked){
-            	node.getUI().getAnchor().href = "javascript:void(0);";
-            	var Om_groupqueryValue = node.attributes['code'];
-            	var Om_empgroupqueryValue = node.attributes['code'];
-            	if(node.id!='root'&&node.attributes['qtip']!='org'){
-            		Om_groupqueryValue = node.parentNode.id;
-            	}
-            	Om_groupstore.load({
-            		params : {
-            			query : Om_groupqueryValue
-            		}
-            	});
-            	Om_empgroupstore.load({
-            		params : {
-            			query : Om_empgroupqueryValue
-            		}
-            	});
-            }
-        }
-	}); 
+		viewConfig: {
+		    plugins: { ptype: 'treeviewdragdrop' }
+		}
+	});
+	treepanel.expandAll();
+	//点击事件
+	treepanel.on('itemclick',function( node , record , item , index , e , eOpts ) {  
+    	Om_groupstore.load({
+    		params : {
+    			query : record.data['code']
+    		}
+    	});
+    	Om_empgroupstore.load({
+    		params : {
+    			query : record.data['code']
+    		}
+    	});
+	});
 	// 拖拽后
-	treepanel.on('beforemovenode',function(tree, node, oldParent, newParent, index) {
+	treepanel.on('beforeitemmove',function(node, oldParent, newParent, index) {
 		if(newParent.attributes['qtip']=='org')
 			return true;
 		else
 			return false;
-	
 	});
 	// 在拖动的时候，主要通过发送ajax请求，到后台，进行数据的同步修改．
-	treepanel.on('movenode',function(tree,node,oldParent,newParent,index){  
+	treepanel.on('itemmove',function(node,oldParent,newParent,index){  
 		var url = basePath;
 		var json = "[{";
 		if(node.attributes['qtip']=='org'){
@@ -70,43 +64,42 @@ Ext.onReady(function() {
 		});  
 	}); 
 	// 点击右键出现tree菜单
-	treepanel.on('contextmenu', function(node, event) { 
-		node.select();// 点击右键同时选中该项
-		event.preventDefault(); 
+	treepanel.on('itemcontextmenu', function( node , record , item , index , e , eOpts ) {
+		e.preventDefault(); 
 		// 定义右键菜单
 		var contextMenu;
-		if(node.id=='root'){
+		if(record.data['id']=='root'){
 			contextMenu = new Ext.menu.Menu( {  
 				items : [{  
 					text : '增加下级工作组',  
 					handler : function() {
 						Om_groupdataForm.form.reset();
-						createWindow(basePath + Om_groupaction + "?method=insAll", "新增", Om_groupdataForm, node);
-						Om_groupdataForm.getForm().setValues({Om_groupparentgroupid:node.id});
+						createWindow(basePath + Om_groupaction + "?method=insAll", "新增", Om_groupdataForm, treestore);
+						Om_groupdataForm.getForm().setValues({Om_groupparentgroupid:record.data['id']});
 					}  
 				}, {
 					 text : "刷新",
 					 handler : function()
 					 { 
-						node.reload();
+						treestore.load();
 					 }
 				}]  
 			});
-		}else if(node.attributes['qtip']=='org'){
+		}else if(record.data['qtip']=='org'){
 			contextMenu = new Ext.menu.Menu( {  
 				items : [ {  
 					text : '增加下级工作组',  
 					handler : function() {
 						Om_groupdataForm.form.reset();
-						createWindow(basePath + Om_groupaction + "?method=insAll", "新增", Om_groupdataForm, node);
-						Om_groupdataForm.getForm().setValues({Om_groupparentgroupid:node.id});
+						createWindow(basePath + Om_groupaction + "?method=insAll", "新增", Om_groupdataForm, treestore);
+						Om_groupdataForm.getForm().setValues({Om_groupparentgroupid:record.data['id']});
 					}  
 				}, {  
 					text : '增加工作组人员',  
 					handler : function() {
 						Om_empgroupdataForm.form.reset();
-						createWindow(basePath + Om_empgroupaction + "?method=insAll", "新增", Om_empgroupdataForm, node);
-						Om_empgroupdataForm.getForm().setValues({Om_empgroupgroupid:node.id});
+						createWindow(basePath + Om_empgroupaction + "?method=insAll", "新增", Om_empgroupdataForm, treestore);
+						Om_empgroupdataForm.getForm().setValues({Om_empgroupgroupid:record.data['id']});
 					} 
 				}, {  
 					text : '删除本工作组',  
@@ -117,12 +110,12 @@ Ext.onReady(function() {
 									url : basePath + Om_groupaction + "?method=delAll",
 									method : 'POST',
 									params : {
-										json : '[{groupid:' + node.id + '}]'
+										json : '[{groupid:' + record.data['id'] + '}]'
 									},
 									success : function(response) {
 										var resp = Ext.decode(response.responseText); 
 										Ext.Msg.alert('提示', resp.msg, function(){
-											node.parentNode.reload(); 
+											treestore.load();
 										});
 									},
 									failure : function(response) {
@@ -136,12 +129,12 @@ Ext.onReady(function() {
 					 text : "刷新",
 					 handler : function()
 					 { 
-						node.reload();
+						treestore.load();
 					 }
 				}]  
 			});
 		} 
-		contextMenu.showAt(event.getPoint());  
+		contextMenu.showAt(e.getPoint());  
 	});
 	var groupemp = new Ext.TabPanel({
 		activeTab : 0,

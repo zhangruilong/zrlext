@@ -2,10 +2,6 @@ var statueStore = new Ext.data.ArrayStore({//状态下拉
     	fields:["name"],
     	data:[["启用"],["禁用"]]
     });
-var sexStore = new Ext.data.ArrayStore({//性别下拉
-	fields:["name"],
-	data:[["男"],["女"]]
-});
 //定义store
 function dataStore(fields,url) {
 	var store = Ext.create('Ext.data.Store', {

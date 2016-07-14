@@ -14,76 +14,16 @@ var Om_dutyfields = ['dutyid'
         			      ];// 全部字段
 var Om_dutykeycolumn = [ 'dutyid' ];// 主键
 var Om_dutystore = dataStore(Om_dutyfields, basePath + Om_dutyaction + "?method=selQuery");// 定义Om_dutystore
-var Om_dutysm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-var Om_dutycm = new Ext.grid.ColumnModel({// 定义columnModel
-	columns : [ new Ext.grid.RowNumberer(), Om_dutysm, {// 改
-		header : '职务编号',
-		dataIndex : 'dutyid',
-		hidden : true
-	}
-	, {
-		header : '职务代码',
-		dataIndex : 'dutycode',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '职务名称',
-		dataIndex : 'dutyname',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '上级职务编号',
-		dataIndex : 'parentduty',
-		align : 'center',
-		width : 80,
-		hidden : true
-	}
-	, {
-		header : '职务层次',
-		dataIndex : 'dutylevel',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '职务序列号',
-		dataIndex : 'dutyseq',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '职务套别',
-		dataIndex : 'dutytype',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	, {
-		header : '备注',
-		dataIndex : 'remark',
-		align : 'center',
-		width : 80,
-		sortable : true
-	}
-	]
-});
 var Om_dutydataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
 	id:'Om_dutydataForm',
 	labelAlign : 'right',
 	frame : true,
 	layout : 'column',
 	items : [ {
-		items : [ {
-			xtype : 'textfield',
-			id : 'Om_dutydutyid',
-			name : 'dutyid',
-			hidden : true
-		} ]
+		xtype : 'textfield',
+		id : 'Om_dutydutyid',
+		name : 'dutyid',
+		hidden : true
 	}
 	, {
 		columnWidth : 1,
@@ -178,13 +118,65 @@ var Om_dutygrid = new Ext.grid.GridPanel({
 	width : '100%',
 	title : Om_dutytitle,
 	store : Om_dutystore,
-	stripeRows : true,
-	frame : true,
-	loadMask : {
-		msg : '正在加载表格数据,请稍等...'
-	},
-	cm : Om_dutycm,
-	sm : Om_dutysm,
+    selModel: {
+        type: 'spreadsheet',
+        checkboxSelect: true
+     },
+	columns : [  {// 改
+		header : '职务编号',
+		dataIndex : 'dutyid',
+		hidden : true
+	}
+	, {
+		header : '职务代码',
+		dataIndex : 'dutycode',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '职务名称',
+		dataIndex : 'dutyname',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '上级职务编号',
+		dataIndex : 'parentduty',
+		align : 'center',
+		width : 80,
+		hidden : true
+	}
+	, {
+		header : '职务层次',
+		dataIndex : 'dutylevel',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '职务序列号',
+		dataIndex : 'dutyseq',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '职务套别',
+		dataIndex : 'dutytype',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	, {
+		header : '备注',
+		dataIndex : 'remark',
+		align : 'center',
+		width : 80,
+		sortable : true
+	}
+	],
 	bbar : Om_dutybbar,
 	tbar : [{
 			text : "新增",
@@ -197,7 +189,7 @@ var Om_dutygrid = new Ext.grid.GridPanel({
 			text : "修改",
 			iconCls : 'edit',
 			handler : function() {
-				var selections = Om_dutygrid.getSelectionModel().getSelections();
+				var selections = Om_dutygrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
 					});
@@ -210,7 +202,7 @@ var Om_dutygrid = new Ext.grid.GridPanel({
 			text : "删除",
 			iconCls : 'delete',
 			handler : function() {
-				var selections = Om_dutygrid.getSelectionModel().getSelections();
+				var selections = Om_dutygrid.getSelection();
 				if (Ext.isEmpty(selections)) {
 					Ext.Msg.alert('提示', '请选择您要删除的数据！');
 					return;
@@ -243,7 +235,7 @@ var Om_dutygrid = new Ext.grid.GridPanel({
 			text : "附件",
 			iconCls : 'attach',
 			handler : function() {
-				var selections = Om_dutygrid.getSelectionModel().getSelections();
+				var selections = Om_dutygrid.getSelection();
 				if (selections.length != 1) {
 					Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
 					});
@@ -257,7 +249,7 @@ var Om_dutygrid = new Ext.grid.GridPanel({
 			}
 		},'->',{
 			xtype : 'textfield',
-			id : 'query'+Om_dutyaction,
+			id : 'queryOm_dutyaction',
 			name : 'query',
 			emptyText : '模糊匹配',
 			width : 100,
@@ -265,12 +257,12 @@ var Om_dutygrid = new Ext.grid.GridPanel({
 			listeners : {
 				specialkey : function(field, e) {
 					if (e.getKey() == Ext.EventObject.ENTER) {
-						if ("" == Ext.getCmp("query"+Om_dutyaction).getValue()) {
+						if ("" == Ext.getCmp("queryOm_dutyaction").getValue()) {
 							Om_dutystore.load();
 						} else {
 							Om_dutystore.load({
 								params : {
-									query : Ext.getCmp("query"+Om_dutyaction).getValue()
+									query : Ext.getCmp("queryOm_dutyaction").getValue()
 								}
 							});
 						}
@@ -284,6 +276,6 @@ Om_dutygrid.region = 'center';
 Om_dutystore.load();//加载数据
 Om_dutystore.on("beforeload",function(){ 
 	Om_dutystore.baseParams = {
-			query : Ext.getCmp("query"+Om_dutyaction).getValue()
+			query : Ext.getCmp("queryOm_dutyaction").getValue()
 	}; 
 });
