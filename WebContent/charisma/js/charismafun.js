@@ -103,17 +103,19 @@ function charisma() {
     //ajaxify menus
     $('a.ajax-link').click(function (e) {
         if (msie) e.which = 1;
+        var $clink = $(this);
+        var url = $clink.attr('href');
 //        if (e.which != 1 || !$('#is-ajax').prop('checked') || $(this).parent().hasClass('active')) return;
-        if (e.which != 1) return;
+        if (e.which != 1||url.indexOf("undefined")>0) return;
         e.preventDefault();
         $('.sidebar-nav').removeClass('active');
         $('.navbar-toggle').removeClass('active');
-        $('#loading').remove();
-        $('#content').fadeOut().parent().append('<div id="loading" class="center">Loading...<div class="center"></div></div>');
-        var $clink = $(this);
+//        $('#loading').remove();
+//        $('#content').fadeOut().parent().append('<div id="loading" class="center">Loading...<div class="center"></div></div>');
+//        var $clink = $(this);
 //        History.pushState(null, null, $clink.attr('href'));
-        $('#mainFrame').attr("src",$clink.attr('href'));
-        $('#loading').remove();
+        $('#mainFrame').attr("src",url);
+//        $('#loading').remove();
         $('#content').fadeIn();
         
         $('ul.main-menu li.active').removeClass('active');

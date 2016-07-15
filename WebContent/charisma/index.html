@@ -197,14 +197,13 @@ $(function(){
 })
 function initmenu(data){	
 	var respText = eval('('+data+')'); 
-	$("#leftmenu").html("");
 	$.each(respText, function(i, item) {
 		var menuchild = "";
 		$.each(item.children, function(y, ytem) {			
 			menuchild += '<li><a class="ajax-link" href="../'+ytem.href+'">'+ytem.text+'</a></li>';
 	    });
 		$("#leftmenu").append('<li class="accordion">'+
-                '<a href="#"><i class="glyphicon glyphicon-align-justify"></i><span> '+item.text+'</span></a>'+
+                '<a class="ajax-link" href="../'+item.href+'"><i class="glyphicon glyphicon-align-justify"></i><span> '+item.text+'</span></a>'+
                 '<ul class="nav nav-pills nav-stacked">'+menuchild+
                 '</ul></li>');
     });
