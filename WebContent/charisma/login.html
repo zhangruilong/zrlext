@@ -68,8 +68,13 @@
                     <div class="input-prepend">
                         <label class="remember" for="remember"><input type="checkbox" id="remember"> Remember me</label>
                     </div>
+                    <div id="erromsg">
+                    <div class="alert alert-danger">
+	                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+	                    <strong>注意!</strong> 账号密码不能为空.
+	                </div>
+                    </div>
                     <div class="clearfix"></div>
-
                     <p class="center col-md-5">
                         <button type="button" class="btn btn-primary" onclick="submitdata()">Login</button>
                     </p>
@@ -119,14 +124,22 @@
 <script type=text/javascript>
 if (top != window) top.location.href = window.location.href;
 function submitdata() {
-	var username = document.getElementById('username').value;
+	var username = $('#username').val();
 	if(username==''||username==null){
-		alert("用户名不能为空");
+		noty({
+		      text: '用户名不能为空',
+		      layout: "center",
+		      type: 'error',
+		    });
 		return;
 	}
-	var password = document.getElementById('password').value;
+	var password = $('#password').val();
 	if(password==''||password==null){
-		alert("密码不能为空");
+		noty({
+		      text: '密码不能为空',
+		      layout: "center",
+		      type: 'error',
+		    });
 		return;
 	}
 	$.ajax({
@@ -138,7 +151,12 @@ function submitdata() {
 			},
 		success: function(r) {
 			var respText = eval('('+r+')'); 
-			if(respText.code != 202) alert(respText.msg);
+			if(respText.code != 202) 
+				noty({
+			      text: respText.msg,
+			      layout: "center",
+			      type: 'error',
+			    });
 			else window.location.href = "index.html";
 		},
 		error:function(r) {

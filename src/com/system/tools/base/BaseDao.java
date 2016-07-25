@@ -222,6 +222,38 @@ public class BaseDao {
 		}
 	}
 	@SuppressWarnings("finally")
+	public List selAll(String selectsql, Queryinfo queryinfo) {
+		Connection  conn=connectionMan.getConnection(CommonConst.DSNAME); 
+		Statement stmt = null;
+		ResultSet rs = null;
+		List objs = new ArrayList();
+		try {
+			String sql = selectsql + " where 1=1 ";
+			if(CommonUtil.isNotEmpty(queryinfo.getWheresql())){
+				sql += " and (" + queryinfo.getWheresql() + ") ";
+			}
+			if(CommonUtil.isNotEmpty(queryinfo.getQuery())){
+				sql += " and (" + queryinfo.getQuery() + ") ";
+			}
+			if(CommonUtil.isNotEmpty(queryinfo.getOrder())){
+				sql += " order by " + queryinfo.getOrder();
+			}
+			stmt = conn.createStatement();
+			System.out.println(sql);
+			rs = stmt.executeQuery(sql);
+			//所有的属性  
+	        Field[] field = queryinfo.getType().getDeclaredFields(); 
+			while (rs.next()) {
+				objs.add(this.rsToObj(queryinfo.getType(), field, rs));
+			}
+		} catch (Exception e) {
+			System.out.println("Exception:" + e.getMessage());
+		} finally{
+			connectionMan.freeConnection(CommonConst.DSNAME,conn,stmt,rs);
+	        return objs;
+		}
+	}
+	@SuppressWarnings("finally")
 	public List selAll(Class type, String selectsql) {
 		Connection  conn=connectionMan.getConnection(CommonConst.DSNAME); 
 		Statement stmt = null;
@@ -662,13 +694,14 @@ public class BaseDao {
 	 * @param TABLE 表名
 	 * @param datasql 指update table set 后面跟的字符串，例如fieldname='test'
 	 * @param wheresql 指where后面跟的字符串，例如fieldname='test'
+	 * @param param 参数集合
 	 * @return 成功CommonConst.SUCCESS,失败CommonConst.FAILURE
 	 */
 	public String updSingle(String DSNAME, String TABLE, String datasql,
-			String wheresql) {
+			String wheresql, Object... param) {
 		String sql = "update " + TABLE + " set " + datasql + " where "
 				+ wheresql;
-		return doSingle(DSNAME, sql);
+		return doSingle(DSNAME, sql, param);
 	}
 
 	/**

@@ -1,4 +1,37 @@
 /**
+ * 公用保存
+ * 
+ * @param {}
+ *            url
+ * @param {}
+ *            grid
+ */
+function commonSave(url, selections) {
+	Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要保存当前选择的条目？', function(btn, text) {
+		if (btn == 'yes') {
+			var json = '[';
+			for (var i = 0; i < selections.length; i++) {
+				json += Ext.encode(selections[i].getData())+",";
+			};
+			Ext.Ajax.request({
+				url : url,
+				method : 'POST',
+				params : {
+					json : json.substr(0, json.length - 1) + "]"
+				},
+				success : function(response) {
+					var resp = Ext.decode(response.responseText); 
+					Ext.Msg.alert('提示', resp.msg, function(){
+					});
+				},
+				failure : function(response) {
+					Ext.Msg.alert('提示', '网络出现问题，请稍后再试');
+				}
+			});
+		}
+	});
+}
+/**
  * 公用删除，联合主键
  * 
  * @param {}
@@ -51,17 +84,15 @@ function commonDelete(url, selections, store, keycolumn) {
 function commonImp(url,title,store) {
 	var commonImpForm = new Ext.form.FormPanel({
 		labelWidth : 100, // 标签宽度
-		defaultType : 'textfield', // 表单元素默认类型
 		labelAlign : 'right', // 标签对齐方式
 		bodyStyle : 'padding:5px', // 表单元素和表单面板的边距
 		layout : 'form',
 		frame : true,
-		fileUpload : true,
 		items : [ {
+			xtype : 'filefield',
 			fieldLabel : '上传文件名',
 			name : 'inputfile',
 			id : 'inputfile',
-			inputType : 'file',
 			allowBlank : false,
 			anchor : '95%'
 		} ]
@@ -79,7 +110,7 @@ function commonImp(url,title,store) {
 		constrain : true, // 设置窗口是否可以溢出父容器
 		pageY : 50, // 页面定位Y坐标
 		pageX : document.body.clientWidth / 2 - 420 / 2, // 页面定位X坐标
-		items : [ commonImpForm ], // 嵌入的表单面板
+		items : commonImpForm, // 嵌入的表单面板
 		buttons : [
 				{
 					text : '提交',
@@ -101,7 +132,6 @@ function commonImp(url,title,store) {
 								store.reload();
 								Ext.Msg.alert('提示', '操作成功');
 								commonImpWindow.close();
-								form.reset();
 							},
 							failure : function(form, action) {
 								Ext.Msg.alert('提示', '网络出现问题，请稍后再试');
@@ -302,7 +332,6 @@ function commonAttachUpload(saveurl,fid, classify, store) {
 		labelAlign : 'right', // 标签对齐方式
 		bodyStyle : 'padding:5px', // 表单元素和表单面板的边距
 		layout : 'column',
-		fileUpload : true,
 		frame : true,
 		items : [ {
 			columnWidth : 1,
@@ -313,7 +342,6 @@ function commonAttachUpload(saveurl,fid, classify, store) {
 				id : 'attachcode',
 				name : 'code',
 				maxLength : 100,
-				allowBlank : true,
 				anchor : '95%'
 			} ]
 		}, {
@@ -325,7 +353,6 @@ function commonAttachUpload(saveurl,fid, classify, store) {
 				id : 'attachdetail',
 				name : 'detail',
 				maxLength : 100,
-				allowBlank : true,
 				anchor : '95%'
 			} ]
 		}, {
@@ -358,11 +385,11 @@ function commonAttachUpload(saveurl,fid, classify, store) {
 			columnWidth : 1,
 			layout : 'form',
 			items : [ {
-				xtype : 'textfield',
+				xtype : 'filefield',
 				fieldLabel : '文件',
 				id : 'upload',
 				name : 'upload',
-				inputType : 'file',
+				allowBlank : false,
 				anchor : '95%'
 			} ]
 		} ]
@@ -381,38 +408,32 @@ function commonAttachUpload(saveurl,fid, classify, store) {
 		animateTarget : Ext.getBody(),
 		pageY : 50, // 页面定位Y坐标
 		pageX : document.body.clientWidth / 2 - 420 / 2, // 页面定位X坐标
-		items : [ commonAttachUploadForm ], // 嵌入的表单面板
+		items : commonAttachUploadForm, // 嵌入的表单面板
 		buttons : [
 				{
 					text : '提交',
 					iconCls : 'ok',
 					handler : function() {
-						commonAttachUploadForm.form.submit({
-							url : saveurl,
-							waitTitle : '提示',
-							method : 'GET',
-							waitMsg : '正在处理数据,请稍候...',
-							params : {// 改
-								json : '[{"code":' + '"'
-										+ Ext.getCmp("attachcode").getValue() + '"'
-										+ ',' + '"detail":' + '"'
-										+ Ext.getCmp("attachdetail").getValue() + '"'
-										+ ',' + '"classify":' + '"'
-										+ Ext.getCmp("attachclassify").getValue()
-										+ '"' + ',' + '"fid":' + '"'
-										+ Ext.getCmp("attachfid").getValue()
-										+ '"' + '}]'
-							},
-							success : function(form, action) {
-								Ext.Msg.alert('提示', '操作成功');
-								store.reload();
-								commonAttachUploadWindow.close();
-								form.reset();
-							},
-							failure : function(form, action) {
-								Ext.Msg.alert('提示', '网络出现问题，请稍后再试');
-							}
-						});
+						if (commonAttachUploadForm.form.isValid()) {
+							var json = "[" + Ext.encode(commonAttachUploadForm.form.getValues(false)) + "]";
+							commonAttachUploadForm.form.submit({
+								url : saveurl+"&json="+json,
+								waitTitle : '提示',
+								method : 'GET',
+								waitMsg : '正在处理数据,请稍候...',
+								success : function(form, action) {
+									Ext.Msg.alert('提示', '操作成功');
+									store.reload();
+									commonAttachUploadWindow.close();
+									form.reset();
+								},
+								failure : function(form, action) {
+									Ext.Msg.alert('提示', '网络出现问题，请稍后再试');
+								}
+							});
+						} else {
+					        Ext.Msg.alert('提示', '请正确填写表单!');
+					    }
 					}
 				}, {
 					text : '关闭',
