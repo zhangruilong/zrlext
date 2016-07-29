@@ -202,16 +202,14 @@ function createTextWindow(url,title,_form,store) {
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
 		width : Ext.os.deviceType === 'Phone' ? '100%' : 650, // 窗口宽度
-		height : document.body.clientHeight / 1, // 窗口高度
 		modal : true,
 		closeAction: 'hide',
 		closable : true, // 是否可关闭
 		collapsible : true, // 是否可收缩
 		maximizable : true, // 设置是否可以最大化
 		border : false, // 边框线设置
-		constrain : true, // 设置窗口是否可以溢出父容器
 		animateTarget : Ext.getBody(),
-		pageY : 50, // 页面定位Y坐标
+		pageY : 0, // 页面定位Y坐标
 		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 620 / 2, // 页面定位X坐标
 		items : _form, // 嵌入的表单面板
 		buttons : [
