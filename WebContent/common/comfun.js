@@ -34,7 +34,7 @@ function pagesizebar(store) {
 	/** *********************分页工具条 开始**************************** */
 	var PAGESIZEStore = new Ext.data.SimpleStore({
 		fields : [ 'value', 'text' ],
-		data : [ [ 20, '20/页' ], [ 50, '50/页' ], [ 100, '100/页' ] , [ 0, '全部' ] ]
+		data : [ [ 20, '20/页' ], [ 40, '40/页' ], [ 80, '80/页' ] , [ 0, '全部' ] ]
 	});
 	
 	var pagesize_combo = new Ext.form.ComboBox({
@@ -48,7 +48,7 @@ function pagesizebar(store) {
 		displayField : 'text',
 		value : '20',
 		editable : false,
-		width : 85
+		width : 65
 	});
 	
 	var number = parseInt(pagesize_combo.getValue());
@@ -70,7 +70,7 @@ function pagesizebar(store) {
 		displayMsg : '显示{0}条到{1}条,共{2}条',
 		// plugins : new Ext.ux.ProgressBarPager(), // 分页进度条
 		emptyMsg : "没有符合条件的记录",
-		items : [ '-', '&nbsp;&nbsp;', pagesize_combo ]
+		items : [ '-', pagesize_combo ]
 	})
 	/** *********************分页工具条 结束**************************** */
 	return bbar;
@@ -146,7 +146,7 @@ function createWindow(url,title,_form,store) {
 	var dataWindow = new Ext.Window({
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
-		width : 650, // 窗口宽度
+		width : Ext.os.deviceType === 'Phone' ? '100%' : 650, // 窗口宽度
 		height : document.body.clientHeight / 1, // 窗口高度
 		modal : true,
 		closeAction: 'hide',
@@ -157,7 +157,7 @@ function createWindow(url,title,_form,store) {
 		constrain : true, // 设置窗口是否可以溢出父容器
 		animateTarget : Ext.getBody(),
 		pageY : 50, // 页面定位Y坐标
-		pageX : document.body.clientWidth / 2 - 620 / 2, // 页面定位X坐标
+		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 620 / 2, // 页面定位X坐标
 		items : _form, // 嵌入的表单面板
 		buttons : [
 				{
@@ -201,7 +201,7 @@ function createTextWindow(url,title,_form,store) {
 	var dataWindow = new Ext.Window({
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
-		width : 650, // 窗口宽度
+		width : Ext.os.deviceType === 'Phone' ? '100%' : 650, // 窗口宽度
 		height : document.body.clientHeight / 1, // 窗口高度
 		modal : true,
 		closeAction: 'hide',
@@ -212,7 +212,7 @@ function createTextWindow(url,title,_form,store) {
 		constrain : true, // 设置窗口是否可以溢出父容器
 		animateTarget : Ext.getBody(),
 		pageY : 50, // 页面定位Y坐标
-		pageX : document.body.clientWidth / 2 - 620 / 2, // 页面定位X坐标
+		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 620 / 2, // 页面定位X坐标
 		items : _form, // 嵌入的表单面板
 		buttons : [
 				{
@@ -267,7 +267,7 @@ function selectWindow(title,selectgrid) {
 		constrain : true, // 设置窗口是否可以溢出父容器
 		animateTarget : Ext.getBody(),
 		pageY : 50, // 页面定位Y坐标
-		pageX : document.body.clientWidth / 2 - 420 / 2, // 页面定位X坐标
+		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 420 / 2, // 页面定位X坐标
 		items : selectgrid, // 嵌入的表单面板
 		buttons : [
 					{

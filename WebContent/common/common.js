@@ -100,7 +100,7 @@ function commonImp(url,title,store) {
 	var commonImpWindow = new Ext.Window({
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
-		width : 420, // 窗口宽度
+		width : Ext.os.deviceType === 'Phone' ? '100%' : 650, // 窗口宽度
 		height : 120, // 窗口高度
 		modal : true,
 		closable : true, // 是否可关闭
@@ -109,7 +109,7 @@ function commonImp(url,title,store) {
 		border : false, // 边框线设置
 		constrain : true, // 设置窗口是否可以溢出父容器
 		pageY : 50, // 页面定位Y坐标
-		pageX : document.body.clientWidth / 2 - 420 / 2, // 页面定位X坐标
+		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 420 / 2, // 页面定位X坐标
 		items : commonImpForm, // 嵌入的表单面板
 		buttons : [
 				{
@@ -216,12 +216,11 @@ function commonAttach(fid, classify) {
 	     }
 	 });
 	var selectgrid = new Ext.grid.GridPanel({
-			width : '100%',
+			width : Ext.os.deviceType === 'Phone' ? '100%' : 650, // 窗口宽度
 			height : 333,
 			store : selectstore,
 		    selModel: {
-		        type: 'spreadsheet',
-		        checkboxSelect: true
+		    	type: 'checkboxmodel'
 		     },
 		     columns : [{
 				header : "编码",
@@ -277,7 +276,7 @@ function commonAttach(fid, classify) {
 					text : '删除',
 					iconCls : 'delete',
 					handler : function() {
-						var selections = selectgrid.getSelectionModel().getSelections();
+						var selections = selectgrid.getSelection();
 						if (Ext.isEmpty(selections)) {
 							Ext.Msg.alert('提示', '请选择您要删除的数据！');
 							return;
@@ -311,16 +310,11 @@ function commonAttach(fid, classify) {
 		});
 	var commonAttachWindow = new Ext.Window({
 		title : '附件管理',
-		layout : 'form',
-		width : 620,
+		width : Ext.os.deviceType === 'Phone' ? '100%' : 650, // 窗口宽度
 		height : 370,
-		closable : true, // 是否可关闭
 		collapsible : true, // 是否可收缩
 		maximizable : true, // 设置是否可以最大化
-		animateTarget : Ext.getBody(),
-		constrain : true, // 设置窗口是否可以溢出父容器
-		modal : true,
-		plain : true,
+		modal : true,//背景失效
 		items : selectgrid
 	});
 	commonAttachWindow.show();
@@ -330,7 +324,6 @@ function commonAttachUpload(saveurl,fid, classify, store) {
 	var commonAttachUploadForm = new Ext.form.FormPanel({
 		id : 'commonAttachUpload-form',
 		labelAlign : 'right', // 标签对齐方式
-		bodyStyle : 'padding:5px', // 表单元素和表单面板的边距
 		layout : 'column',
 		frame : true,
 		items : [ {
@@ -397,17 +390,15 @@ function commonAttachUpload(saveurl,fid, classify, store) {
 	var commonAttachUploadWindow = new Ext.Window({
 		title : '上传附件', // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
-		width : 420, // 窗口宽度
+		width : Ext.os.deviceType === 'Phone' ? '100%' : 420, // 窗口宽度
 		height :300, // 窗口高度
 		modal : true,//背景失效
 		closable : true, // 是否可关闭
 		collapsible : true, // 是否可收缩
 		maximizable : true, // 设置是否可以最大化
 		border : false, // 边框线设置
-		constrain : true, // 设置窗口是否可以溢出父容器
-		animateTarget : Ext.getBody(),
 		pageY : 50, // 页面定位Y坐标
-		pageX : document.body.clientWidth / 2 - 420 / 2, // 页面定位X坐标
+		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 320 / 2, // 页面定位X坐标
 		items : commonAttachUploadForm, // 嵌入的表单面板
 		buttons : [
 				{

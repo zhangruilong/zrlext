@@ -32,16 +32,15 @@ Ext.onReady(function(){
 	var System_passwordWindow = new Ext.Window({
 		title : '修改密码', // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
-		width : 420, // 窗口宽度
+		width : Ext.os.deviceType === 'Phone' ? '100%' : 620, // 窗口宽度
 		height : 250, // 窗口高度
 		modal : true,
 		closable : true, // 是否可关闭
 		collapsible : true, // 是否可收缩
 		maximizable : true, // 设置是否可以最大化
 		border : false, // 边框线设置
-		constrain : true, // 设置窗口是否可以溢出父容器
 		pageY : 50, // 页面定位Y坐标
-		pageX : document.body.clientWidth / 2 - 420 / 2, // 页面定位X坐标
+		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 420 / 2, // 页面定位X坐标
 		items : [System_passwordForm], // 嵌入的表单面板
 		buttons : [{
 			text : '提交',
