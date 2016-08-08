@@ -87,7 +87,7 @@ function pagesizebar(store) {
  * @param {}
  *            store
  */
-function createBigWindow(url,title,_form,store) {
+function createBigWindow(url,title,_form,store,callback) {
 	var dataWindow = new Ext.Window({
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
@@ -121,6 +121,7 @@ function createBigWindow(url,title,_form,store) {
 									Ext.Msg.alert('提示', action.result.msg,function(){
 										dataWindow.hide();
 										store.reload();
+										callback && callback();
 									});
 								},
 								failure : function(form, action) {
@@ -142,7 +143,7 @@ function createBigWindow(url,title,_form,store) {
 	});
 	dataWindow.show();
 }
-function createWindow(url,title,_form,store) {
+function createWindow(url,title,_form,store,callback) {
 	var dataWindow = new Ext.Window({
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
@@ -176,6 +177,7 @@ function createWindow(url,title,_form,store) {
 									Ext.Msg.alert('提示', action.result.msg,function(){
 										dataWindow.hide();
 										store.reload();
+										callback && callback();
 									});
 								},
 								failure : function(form, action) {
@@ -197,7 +199,7 @@ function createWindow(url,title,_form,store) {
 	});
 	dataWindow.show();
 }
-function createTextWindow(url,title,_form,store) {
+function createTextWindow(url,title,_form,store,callback) {
 	var dataWindow = new Ext.Window({
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
@@ -229,6 +231,7 @@ function createTextWindow(url,title,_form,store) {
 									Ext.Msg.alert('提示', action.result.msg,function(){
 										dataWindow.hide();
 										store.reload();
+										callback && callback();
 									});
 								},
 								failure : function(form, action) {
@@ -250,14 +253,12 @@ function createTextWindow(url,title,_form,store) {
 	});
 	dataWindow.show();
 }
-function selectWindow(title,selectgrid) {
+function selectWindow(title,selectgrid,callback) {
 	var selectgridWindow = new Ext.Window({
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
-		width : 420, // 窗口宽度
-		height : document.body.clientHeight / 1.5, // 窗口高度
+		width : Ext.os.deviceType === 'Phone' ? '100%' : 650, // 窗口宽度
 		modal : true,
-		closeAction: 'hide',
 		closable : true, // 是否可关闭
 		collapsible : true, // 是否可收缩
 		maximizable : true, // 设置是否可以最大化
@@ -265,31 +266,31 @@ function selectWindow(title,selectgrid) {
 		constrain : true, // 设置窗口是否可以溢出父容器
 		animateTarget : Ext.getBody(),
 		pageY : 50, // 页面定位Y坐标
-		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 420 / 2, // 页面定位X坐标
+		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 620 / 2, // 页面定位X坐标
 		items : selectgrid, // 嵌入的表单面板
 		buttons : [
 					{
 						text : '确定',
 						iconCls : 'ok',
 						handler : function() {
-							var selectRows = selectgrid.getSelectionModel()
-									.getSelections();
+							var selectRows = selectgrid.getSelection();
 							if (selectRows.length != 1) {
 								Ext.Msg.alert('提示', '请选择一条！', function() {
 								});
 								return;
 							}
-							Ext.getCmp('System_powerparentname').setValue(selectRows[0].get("name"));
-							Ext.getCmp('System_powerparentid').setValue(selectRows[0].get("id"));
-							win.close();
+//							Ext.getCmp('System_powerparentname').setValue(selectRows[0].get("name"));
+//							Ext.getCmp('System_powerparentid').setValue(selectRows[0].get("id"));
+							callback && callback();
+							selectgridWindow.close();
 						}
 					}, '-', {
 						text : '关闭',
 						iconCls : 'close',
 						handler : function() {
-							win.close();
+							selectgridWindow.close();
 						}
 					}]
 	});
-	dataWindow.show();
+	selectgridWindow.show();
 }
