@@ -19,6 +19,26 @@ import com.system.tools.pojo.BeanToArray;
 
 public class TypeUtil {
 
+	public static String beanToSql(Object bean) {
+		String wheresql = "";
+		Field[] fields = bean.getClass().getDeclaredFields();
+		Field.setAccessible(fields, true);
+		for (int i = 0; i < fields.length; i++) {
+			Field field = fields[i];
+			try {
+				if (field.get(bean) == null)
+					continue;
+				wheresql += field.getName() + " like '%" + field.get(bean)
+						+ "%' and ";
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(CommonUtil.isNotEmpty(wheresql)){
+			wheresql = wheresql.substring(0, wheresql.length()-4);
+		}
+		return wheresql;
+	}
     /**
      * 为空的字段不加入
      * @param bean

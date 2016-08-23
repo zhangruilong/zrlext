@@ -8,7 +8,8 @@ public class Queryinfo {
 	 private String wheresql;
 	 private String query;
 	 private String order;
-	
+	 private Object json;
+	 
 	 public Queryinfo() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -58,6 +59,12 @@ public class Queryinfo {
 		this.wheresql = wheresql;
 		this.query = query;
 		this.order = order;
+	}
+	public Object getJson() {
+		return json;
+	}
+	public void setJson(Object json) {
+		this.json = json;
 	}
 
 }
