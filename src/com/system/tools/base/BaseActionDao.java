@@ -1,16 +1,13 @@
 package com.system.tools.base;
 
+import java.lang.reflect.Type;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
-//import com.server.pojo.Customer;
 import com.system.pojo.System_user;
 import com.system.tools.CommonConst;
 import com.system.tools.pojo.Queryinfo;
@@ -19,6 +16,20 @@ import com.system.tools.util.CommonUtil;
 import com.system.tools.util.TypeUtil;
 
 public class BaseActionDao extends BaseDao {
+
+	/**
+    * 模糊查询语句
+    * @param query
+    * @return "filedname like '%query%' or ..."
+    */
+    public static String getQuerysql(String query,String queryfieldname[]) {
+    	if(CommonUtil.isEmpty(query)) return null;
+    	String querysql = "";
+    	for(int i=0;i<queryfieldname.length;i++){
+    		querysql += queryfieldname[i] + " like '%" + query + "%' or ";
+    	}
+		return querysql.substring(0, querysql.length() - 4);
+	};
 	/**
 	 * 跳转后浏览器地址栏变化。这种方式要传值出去的话，只能在url中带parameter或者放在session中，无法使用request.setAttribute来传递。
 	 * 
@@ -314,6 +325,51 @@ public class BaseActionDao extends BaseDao {
 		return queryinfo;
 	}
 	/**
+	 * 
+	 * @param request
+	 * @param type
+	 * @param queryfieldname POCO要模糊查询字段
+	 * @param pocoorder POCO实体排序
+	 * @param TYPE
+	 * @return
+	 */
+	public static Queryinfo getQueryinfo(HttpServletRequest request, Class type, 
+			String[] queryfieldname, String pocoorder, Type TYPE) {
+		String start = request.getParameter("start");
+		if(CommonUtil.isEmpty(start)) start = "0";
+		String limit = request.getParameter("limit");
+		if(CommonUtil.isEmpty(limit)) limit = "20";
+		int endtemp = TypeUtil.stringToInt(start) + TypeUtil.stringToInt(limit);
+		String end = TypeUtil.intToString(endtemp);
+		String wheresql = request.getParameter("wheresql");
+		String query = request.getParameter("query");
+		String order = request.getParameter("order");
+		if(CommonUtil.isNull(order)) order = pocoorder;
+		Queryinfo queryinfo = new Queryinfo(type, start, end, wheresql, 
+				getQuerysql(query,queryfieldname), order);
+		String json = request.getParameter("json");
+		if(CommonUtil.isNotEmpty(json)){
+			System.out.println("json : " + json);
+			json = json.replace("\"\"", "null");
+			if(CommonUtil.isNotEmpty(json)) {
+				ArrayList<Object> cuss = CommonConst.GSON.fromJson(json, TYPE);
+				queryinfo.setJson(cuss.get(0));
+			}
+		}
+		return queryinfo;
+	}
+	/**
+	 * 设置了默认值的Queryinfo，start = 0,end = 20
+	 * @param request
+	 * @return
+	 */
+	public static Queryinfo getQueryinfo(Class type, String wheresql, String querysql, String order) {
+		String start = "0";
+		String end = "20";
+		Queryinfo queryinfo = new Queryinfo(type, start, end, wheresql, querysql, order);
+		return queryinfo;
+	}
+	/**
 	 * 使用request.getParameter()获取Queryinfo信息
 	 * new String(wheresql.getBytes("iso8859-1"),"utf-8");
 	 * new String(query.getBytes("iso8859-1"),"utf-8");
@@ -348,15 +404,4 @@ public class BaseActionDao extends BaseDao {
 //		Queryinfo queryinfo = new Queryinfo(null, start, end, wheresql, query, null);
 //		return queryinfo;
 //	}
-	/**
-	 * 设置了默认值的Queryinfo，start = 0,end = 20
-	 * @param request
-	 * @return
-	 */
-	public static Queryinfo getQueryinfo() {
-		String start = "0";
-		String end = "20";
-		Queryinfo queryinfo = new Queryinfo(null, start, end, null, null, null);
-		return queryinfo;
-	}
 }
