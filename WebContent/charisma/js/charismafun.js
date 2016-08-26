@@ -1,8 +1,8 @@
 function charisma() {
-//	var b=document.documentElement.clientHeight-12;  
+	var b=document.documentElement.clientHeight-86;  
 	//取得iframe框架的实际宽度
-//	document.getElementById("content").style.height=b+"px";
-	document.getElementById("content").style.height="666px";
+	document.getElementById("content").style.height=b+"px";
+//	document.getElementById("content").style.height="666px";
     //themes, change CSS with JS
     //default theme(CSS) is cerulean, change it if needed
     var defaultTheme = 'cerulean';
