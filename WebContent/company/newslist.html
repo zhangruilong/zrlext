@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<title>index</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/index.min.css" rel="stylesheet" />
+</head>
+<body>
+<!--browser-->
+<DIV style="DISPLAY: none" id=browser_ie>
+  <DIV class=brower_info>
+    <DIV class=notice_info>
+      <P>你的浏览器版本过低，可能导致网站不能正常访问！<BR>
+        为了你能正常使用网站功能，请使用这些浏览器。</P>
+    </DIV>
+    <DIV class=browser_list> <SPAN><A href="http://rj.baidu.com/soft/detail/14744.html" target=_blank><IMG src="images/Chrome.png"><BR>
+      Chrome</A></SPAN> <SPAN><A href="http://www.firefox.com.cn/" target=_blank><IMG src="images/Firefox.png"><BR>
+      Firefox</A></SPAN> <SPAN><A href="http://windows.microsoft.com/zh-cn/internet-explorer/download-ie" target=_blank><IMG src="images/IE.png"><BR>
+      IE9及以上</A></SPAN> </DIV>
+    <a class="brower-close">关闭</a> </DIV>
+</DIV>
+<!--browser end-->
+<div class="header">
+    <div class="logo">
+        <a href="index.html"><img src="images/logo.png" alt="谷粒网" class="img-responsive" /></a>
+    </div>
+    <div class="bth">
+    	<a href="index.html">返回首页</a>
+    </div>
+    <!--<nav class="menu">
+        <ul class="list-inline">
+            <li class="active"><a>首页</a></li>
+            <li><a>关于</a></li>
+            <li><a>服务</a></li>
+            <li><a>方案</a></li>
+            <li><a>联系</a></li>
+        </ul>
+    </nav>-->
+</div>
+<div class="newslistbanner"><img src="images/zhaopinbanner.jpg" width="100%" height="400"></div>
+<div class="midwrapper">
+	<div class="breadcrumb">当前位置：<a href="index.html">首页</a> > 新闻资讯</div>
+    <div class="newswrapper">
+    <ul>
+    	<li>
+        	<p class="newspic"><img src="images/shiyongyou.jpg"></p>
+        	<h1>【行业】什么是坚果油、初榨油、特种油？<span>时间：2016-8-29</span></h1>
+            <p class="newsbrief">坚果油、谷物油、初榨油、压榨油、特种油......油脂新技术新产品不断问世，不仅消费者困惑，行业内也没有规范的界定，存在一些似是而非的说法。油脂学术界的几位专家（王莉蓉、金青哲、何东平、王兴国）撰文对热门的油料油脂术语，进行了辨析：</p>
+            <a href="newsdetail.html" class="detaillink">查看详情 > </a>
+        </li>
+    </ul>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="js/jquery.min.js"></script>
+<script src="js/index.min.js"></script>
+<script src="js/public.js"></script>
+<script>
+	//判断浏览器版本
+	if (!$.support.leadingWhitespace){$("#browser_ie").show();}
+	$(".brower-close").click(function(){$("#browser_ie").hide()})
+</script>
