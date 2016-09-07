@@ -40,7 +40,7 @@ Ext.onReady(function() {
 			columnWidth : 1,
 			layout : 'form',
 			items : [ {
-				xtype : 'textfield',
+				xtype : 'textareafield',
 				fieldLabel : '详细',
 				id : 'Seoseodetail',
 				name : 'seodetail',
@@ -114,7 +114,7 @@ Ext.onReady(function() {
 				text : Ext.os.deviceType === 'Phone' ? null : "新增",
 				iconCls : 'add',
 				handler : function() {
-					SeodataForm.form.reset();
+					SeodataForm.reset();
 					Ext.getCmp("Seoseoid").setEditable (true);
 					createTextWindow(basePath + Seoaction + "?method=insAll", "新增", SeodataForm, Seostore);
 				}

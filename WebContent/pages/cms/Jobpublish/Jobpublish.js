@@ -53,7 +53,7 @@ Ext.onReady(function() {
 			columnWidth : 1,
 			layout : 'form',
 			items : [ {
-				xtype : 'textfield',
+				xtype : 'textareafield',
 				fieldLabel : '职位描述',
 				id : 'Jobpublishjobpublishdetail',
 				name : 'jobpublishdetail',
@@ -64,7 +64,7 @@ Ext.onReady(function() {
 			columnWidth : 1,
 			layout : 'form',
 			items : [ {
-				xtype : 'textfield',
+				xtype : 'textareafield',
 				fieldLabel : '岗位要求',
 				id : 'Jobpublishjobpublishmust',
 				name : 'jobpublishmust',

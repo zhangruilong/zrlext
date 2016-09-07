@@ -54,11 +54,10 @@ Ext.onReady(function() {
 			columnWidth : 1,
 			layout : 'form',
 			items : [ {
-				xtype : 'textfield',
+				xtype : 'htmleditor',
 				fieldLabel : '详细',
 				id : 'Contentcontentdetail',
-				name : 'contentdetail',
-				maxLength : 100
+				name : 'contentdetail'
 			} ]
 		}
 		, {
@@ -140,7 +139,7 @@ Ext.onReady(function() {
 		, {
 			header : '详细',
 			dataIndex : 'contentdetail',
-			sortable : true,  
+			hidden : true,  
 			editor: {
                 xtype: 'textfield'
             }

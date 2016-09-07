@@ -33,11 +33,12 @@
 	<bean id="Om_empgroupAction" class="com.om.action.Om_empgroupAction" />
 	<bean id="Om_dutyAction" class="com.om.action.Om_dutyAction" />
 	<bean id="Om_busiorgAction" class="com.om.action.Om_busiorgAction" />
-	<bean id="ContentAction" class="com.cms.action.ContentAction" />
+	<bean id="SeoAction" class="com.cms.action.SeoAction" />
 	<bean id="ApplysAction" class="com.cms.action.ApplysAction" />
 	<bean id="IntentioncAction" class="com.cms.action.IntentioncAction" />
 	<bean id="JobpublishAction" class="com.cms.action.JobpublishAction" />
-	<bean id="SeoAction" class="com.cms.action.SeoAction" />
+	<bean id="ContentAction" class="com.cms.action.ContentAction" />
+	
 
 
 </beans>
