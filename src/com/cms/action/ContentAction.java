@@ -3,10 +3,13 @@ package com.cms.action;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cms.pojo.Content;
+import com.cms.pojo.HomePageInfo;
 import com.cms.poco.ContentPoco;
 import com.system.tools.CommonConst;
 import com.system.tools.base.BaseActionDao;
@@ -90,4 +93,23 @@ public class ContentAction extends BaseActionDao {
 		result = CommonConst.GSON.toJson(pageinfo);
 		responsePW(response, result);
 	}
+	//首页信息
+	@SuppressWarnings("unchecked")
+	public void homePageInfo(HttpServletRequest request, HttpServletResponse response){
+		List<HomePageInfo> hpiLi = new ArrayList<HomePageInfo>();		//首页信息
+		cuss = (ArrayList<Content>) selAll(Content.class,"select * from content c where c.contentparent='1' order by c.contentcode");
+		Pageinfo pageinfo = new Pageinfo(0, cuss);
+		result = CommonConst.GSON.toJson(pageinfo);
+		responsePW(response, result);
+	}
 }
+
+
+
+
+
+
+
+
+
+
