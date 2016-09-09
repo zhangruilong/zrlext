@@ -26,6 +26,14 @@ public class SeoPoco
 	 	"关键字",
 	 	"详细",
 	 	"模板",
+	 	"LOGO",
+	 	"公司",
+	 	"地址",
+	 	"电话",
+	 	"邮编",
+	 	"邮箱",
+	 	"COPYRIGHT",
+	 	"备案",
 	};
 	/**
 	 * 实体英文字段
@@ -35,6 +43,14 @@ public class SeoPoco
 	 	"seokeword",
 	 	"seodetail",
 	 	"seomodel",
+	 	"logo",
+	 	"seocompany",
+	 	"seoaddress",
+	 	"seotel",
+	 	"seoposcode",
+	 	"seoemail",
+	 	"seocopyright",
+	 	"seoicp",
    };
    /**
     * 实体排序
@@ -48,6 +64,14 @@ public class SeoPoco
 	 	"seokeword",
 	 	"seodetail",
 	 	"seomodel",
+	 	"logo",
+	 	"seocompany",
+	 	"seoaddress",
+	 	"seotel",
+	 	"seoposcode",
+	 	"seoemail",
+	 	"seocopyright",
+	 	"seoicp",
    };
 }
 
