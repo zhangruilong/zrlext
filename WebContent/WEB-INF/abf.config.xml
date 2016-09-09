@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
 	<bean id="404" class="com.system.tools.base.HandlerFor404" />
+	<bean id="SeoAction" class="com.cms.action.SeoAction" />
+	<bean id="ApplycAction" class="com.cms.action.ApplycAction" />
+	<bean id="IntentioncAction" class="com.cms.action.IntentioncAction" />
+	<bean id="JobpublishAction" class="com.cms.action.JobpublishAction" />
+	<bean id="ContentAction" class="com.cms.action.ContentAction" />
 	<bean id="BaseAction" class="com.system.tools.base.BaseAction" />
 	<bean id="System_userAction" class="com.system.action.System_userAction" />
 	<bean id="System_power_quickAction" class="com.system.action.System_power_quickAction" />
@@ -33,11 +38,6 @@
 	<bean id="Om_empgroupAction" class="com.om.action.Om_empgroupAction" />
 	<bean id="Om_dutyAction" class="com.om.action.Om_dutyAction" />
 	<bean id="Om_busiorgAction" class="com.om.action.Om_busiorgAction" />
-	<bean id="SeoAction" class="com.cms.action.SeoAction" />
-	<bean id="ApplysAction" class="com.cms.action.ApplysAction" />
-	<bean id="IntentioncAction" class="com.cms.action.IntentioncAction" />
-	<bean id="JobpublishAction" class="com.cms.action.JobpublishAction" />
-	<bean id="ContentAction" class="com.cms.action.ContentAction" />
 	
 
 

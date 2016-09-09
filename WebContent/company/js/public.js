@@ -3,7 +3,7 @@ preloadCount = 0;
 var loopPlayback = false,
 stopSwitch = true;
 var videoSwiper, aboutSwiper;
-$(function() {
+/*$(function() {
     if (window.location.host > 0) {
         $("section").remove();
         return
@@ -11,7 +11,7 @@ $(function() {
     var m = document.location.href.toLowerCase().match(/#p(\d+)$/);
     if (m != null) pageIndex = m[1] - 1;
     preload()
-});
+});*/
 function preload() {
     $("body>section, .video .swiper-container, .video .swiper-slide").height($(window).height());
     var selector = $("section.video .swiper-container .swiper-slide:lt(2)");
@@ -39,6 +39,7 @@ function loadImage(url, callback) {
 function imgLoaded() {
     if (preloadCount == 0) pageLoad()
 }
+//页面加载
 function pageLoad() {
     $("body").bind("mousewheel",
     function(e, delta) {
