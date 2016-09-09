@@ -97,42 +97,44 @@ public class ContentAction extends BaseActionDao {
 	//首页信息
 	@SuppressWarnings("unchecked")
 	public void homePageInfo(HttpServletRequest request, HttpServletResponse response){
-		List<Content> homeConLi = selAll(Content.class,											//首页内容
+		List<Content> homeConLi = selAll(Content.class,											//"首页"内容
 				"select * from content c where c.contentparent='1' order by c.contentcode");
-		List<Content> gyConLi = selAll(Content.class, 											//关于内容
+		List<Content> gyConLi = selAll(Content.class, 											//"关于"内容
 				"select * from content c where c.contentparent='2' order by c.contentcode");
-		List<Content> newsLi = selAll(Content.class, 											//关于的新闻内容
-				"select * from content c where c.contentparent='5' order by c.contentcode");
+		List<Content> newsLi = selAll(Content.class, 											//"关于"的 "动态" 内容
+				"select * from (select A.*, ROWNUM RN from (select * from content c where c.contentparent='5' order by c.contentcode )"
+				+ " A where ROWNUM  <= 2 ) where RN > 0");
+		List<Content> servConLi = selAll(Content.class, 										//"服务"内容
+				"select * from content c where c.contentparent='3' order by c.contentcode");
 		List<System_attach> saList = selAll(System_attach.class,"select * from system_attach sa where sa.classify='图文'");
+		
 		for (Content con : homeConLi) {
 			for (System_attach sa : saList) {
 				if(sa.getFid().indexOf(con.getContentid()) != -1){
-					con.setContentname(sa.getName());					//首页背景图片路径
-				}
-				if(sa.getFid().indexOf("2,") == 0){
-					
+					con.setContentback(sa.getName());					//"首页"背景图片路径
 				}
 			}
 		}
+		
 		for (System_attach sa : saList) {
 			if(sa.getFid().indexOf("2,") == 0){
-				
+				gyConLi.get(0).setContentback(sa.getName());			//"关于"的背景图片
 			}
 		}
-		List<System_attach> gyBgiList = selAll(System_attach.class,								//背景图
-				"select * from system_attach sa where sa.classify='图文' and fid like '2,%'");
 		
-		Pageinfo pageinfo = new Pageinfo(0, cuss);
+		for (System_attach sa : saList) {
+			if(sa.getFid().indexOf("3,") == 0){
+				servConLi.get(0).setContentback(sa.getName());			//"服务"的背景图片
+			}
+		}
+		
+		List<Object> objLi = new ArrayList<Object>();
+		objLi.add(homeConLi);							//首页
+		objLi.add(gyConLi);								//关于
+		objLi.add(newsLi);								//动态
+		objLi.add(servConLi);							//服务
+		Pageinfo pageinfo = new Pageinfo(0, objLi);
 		result = CommonConst.GSON.toJson(pageinfo);
-		responsePW(response, result);
-	}
-	//关于信息
-	@SuppressWarnings("unchecked")
-	public void guanyuInfo(HttpServletRequest request, HttpServletResponse response){
-		//查询得到 关于 模块的信息
-		List<System_attach> saList = selAll(System_attach.class,								//背景图
-				"select * from system_attach sa where sa.classify='图文' and fid like '2,%'");
-		
 		responsePW(response, result);
 	}
 }
