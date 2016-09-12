@@ -106,7 +106,9 @@ public class ContentAction extends BaseActionDao {
 				+ " A where ROWNUM  <= 2 ) where RN > 0");
 		List<Content> servConLi = selAll(Content.class, 										//"服务"内容
 				"select * from content c where c.contentparent='3' order by c.contentcode");
-		List<System_attach> saList = selAll(System_attach.class,"select * from system_attach sa where sa.classify='图文'");
+		List<Content> productConLi = selAll(Content.class, 										//"方案"内容
+				"select * from content c where c.contentparent='4' order by c.contentcode");
+		List<System_attach> saList = selAll(System_attach.class,"select * from system_attach sa where sa.classify='图文'");		//全部图片
 		
 		for (Content con : homeConLi) {
 			for (System_attach sa : saList) {
@@ -128,11 +130,20 @@ public class ContentAction extends BaseActionDao {
 			}
 		}
 		
+		for (Content con : productConLi) {
+			for (System_attach sa : saList) {
+				if(sa.getFid().indexOf(con.getContentid()) != -1){
+					con.setContentback(sa.getName() );					//"方案"背景图片路径
+				}
+			}
+		}
+		
 		List<Object> objLi = new ArrayList<Object>();
 		objLi.add(homeConLi);							//首页
 		objLi.add(gyConLi);								//关于
 		objLi.add(newsLi);								//动态
 		objLi.add(servConLi);							//服务
+		objLi.add(productConLi);						//方案
 		Pageinfo pageinfo = new Pageinfo(0, objLi);
 		result = CommonConst.GSON.toJson(pageinfo);
 		responsePW(response, result);
