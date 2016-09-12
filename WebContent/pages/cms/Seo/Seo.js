@@ -6,6 +6,14 @@ Ext.onReady(function() {
 	        			    ,'seokeword' 
 	        			    ,'seodetail' 
 	        			    ,'seomodel' 
+	        			    ,'logo' 
+	        			    ,'seocompany' 
+	        			    ,'seoaddress' 
+	        			    ,'seotel' 
+	        			    ,'seoposcode' 
+	        			    ,'seoemail' 
+	        			    ,'seocopyright' 
+	        			    ,'seoicp' 
 	        			      ];// 全部字段
 	var Seokeycolumn = [ 'seoid' ];// 主键
 	var Seostore = dataStore(Seofields, basePath + Seoaction + "?method=selAll");// 定义Seostore
@@ -55,6 +63,94 @@ Ext.onReady(function() {
 				fieldLabel : '模板',
 				id : 'Seoseomodel',
 				name : 'seomodel',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : 'LOGO',
+				id : 'Seologo',
+				name : 'logo',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '公司',
+				id : 'Seoseocompany',
+				name : 'seocompany',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '地址',
+				id : 'Seoseoaddress',
+				name : 'seoaddress',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '电话',
+				id : 'Seoseotel',
+				name : 'seotel',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '邮编',
+				id : 'Seoseoposcode',
+				name : 'seoposcode',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '邮箱',
+				id : 'Seoseoemail',
+				name : 'seoemail',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : 'COPYRIGHT',
+				id : 'Seoseocopyright',
+				name : 'seocopyright',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '备案',
+				id : 'Seoseoicp',
+				name : 'seoicp',
 				maxLength : 100
 			} ]
 		}
@@ -109,12 +205,76 @@ Ext.onReady(function() {
                 xtype: 'textfield'
             }
 		}
+		, {
+			header : 'LOGO',
+			dataIndex : 'logo',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '公司',
+			dataIndex : 'seocompany',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '地址',
+			dataIndex : 'seoaddress',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '电话',
+			dataIndex : 'seotel',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '邮编',
+			dataIndex : 'seoposcode',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '邮箱',
+			dataIndex : 'seoemail',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : 'COPYRIGHT',
+			dataIndex : 'seocopyright',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '备案',
+			dataIndex : 'seoicp',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
 		],
 		tbar : [{
 				text : Ext.os.deviceType === 'Phone' ? null : "新增",
 				iconCls : 'add',
 				handler : function() {
-					SeodataForm.reset();
+					SeodataForm.form.reset();
 					Ext.getCmp("Seoseoid").setEditable (true);
 					createTextWindow(basePath + Seoaction + "?method=insAll", "新增", SeodataForm, Seostore);
 				}
