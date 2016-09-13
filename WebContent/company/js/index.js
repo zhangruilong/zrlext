@@ -78,9 +78,19 @@ $(function(){
 //提交"入驻"表单
 function subSQRZfm(){
 	var strJson = '[{';
+	var flag = false;
 	$('#sqrz-fm input').each(function(i,item){
-		strJson += '"'+item.name+'":"'+item.value+'",';
+		if($(item).val()){
+			strJson += '"'+item.name+'":"'+item.value+'",';
+		} else {
+			alert('请将申请信息填写完整。');
+			flag = true;
+			return false;
+		}
 	});
+	if(flag){
+		return;
+	}
 	strJson = strJson.substring(0,strJson.length-1) + '}]';
 	$.ajax({
 		url:"IntentioncAction.do?method=insAll",

@@ -59,13 +59,13 @@
 		<div class="cd-buttons">
             <div class="cd-box text-center">
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="Name">姓名</label>
+                        <label class="control-label col-md-2" for="applycname">姓名</label>
                         <div class="col-md-3">
-                            <input class="form-control text-box single-line" id="Name" name="Name" type="text" value="">
+                            <input class="form-control text-box single-line" id="applycname" name="姓名" type="text" value="">
                         </div>
-                        <label class="control-label col-md-2" for="Sex">性别</label>
+                        <label class="control-label col-md-2" for="applycsex">性别</label>
                         <div class="col-md-3">
-                            <select class="form-control" id="Sex" name="Sex">
+                            <select class="form-control" id="applycsex" name="性别">
                             <option selected="selected" value="1">男</option>
                             <option value="0">女</option>
                             </select>
@@ -73,9 +73,9 @@
                     </div>
             
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="Educational">学历</label>
+                        <label class="control-label col-md-2" for="applycedu">学历</label>
                         <div class="col-md-3">
-                            <select class="form-control" id="Educational" name="Educational">
+                            <select class="form-control" id="applycedu" name="学历" >
                             <option value="1">中专</option>
                             <option selected="selected" value="2">高中</option>
                             <option value="3">专科</option>
@@ -85,35 +85,35 @@
                             <option value="7">其他</option>
                             </select>
                         </div>
-                        <label class="control-label col-md-2" for="Experience">经验</label>
+                        <label class="control-label col-md-2" for="applycexp">经验</label>
                         <div class="col-md-3">
-                            <input class="form-control text-box single-line" data-val="true" data-val-required="经验 必填" id="Experience" name="Experience" type="text" value="">
+                            <input class="form-control text-box single-line" data-val="true" data-val-required="经验 必填" id="applycexp" name="经验" type="text" value="">
                         </div>
                     </div>
             
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="PhoneNumber">电话</label>
+                        <label class="control-label col-md-2" for="applycphone">电话</label>
                         <div class="col-md-8">
-                            <input class="form-control text-box single-line" id="PhoneNumber" name="PhoneNumber" type="text" value="">
+                            <input class="form-control text-box single-line" id="applycphone" name="电话" type="text" value="">
                         </div>
                     </div>
             
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="Address">现住址</label>
+                        <label class="control-label col-md-2" for="applycaddress">现住址</label>
                         <div class="col-md-8">
-                            <input class="form-control text-box single-line" id="Address" name="Address" type="text" value="">
+                            <input class="form-control text-box single-line" id="applycaddress" name="现住址" type="text" value="">
                         </div>
                     </div>
             
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="Remark">自我描述</label>
+                        <label class="control-label col-md-2" for="applycdetail">自我描述</label>
                         <div class="col-md-8">
-                            <textarea class="form-control" cols="4" id="Remark" name="Remark" rows="4"></textarea>
+                            <textarea class="form-control" cols="4" id="applycdetail" name="自我描述" rows="4"></textarea>
                         </div>
                     </div>
                 </div>
 			<div class="col-md-offset-2 col-md-8">
-				<a class="confirm-btn">确认</a><a class="cel-btn cd-popup-close">取消</a>
+				<a class="confirm-btn" onclick="subApplyc()">确认</a><a class="cel-btn cd-popup-close">取消</a>
 			</div>
             </div>
 		</div>
@@ -134,15 +134,15 @@
 		$('.cd-popup').addClass('is-visible');
 	});
 	//关闭
-		$('.cd-popup').on('click', function(event){
-			if( $(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup') ) {
-				event.preventDefault();
-				$(this).removeClass('is-visible');
-			}
-		});
-		//弹出层定位
-		var cdw = $(".cd-popup .cd-popup-container").width()/2;
-		var cdy = $(".cd-popup .cd-popup-container").height()/2;
-		$(".cd-popup .cd-popup-container").css({"margin-left":-cdw,"margin-top":-cdy});
+	$('.cd-popup').on('click', function(event){
+		if( $(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup') ) {
+			event.preventDefault();
+			$(this).removeClass('is-visible');
+		}
+	});
+	//弹出层定位
+	var cdw = $(".cd-popup .cd-popup-container").width()/2;
+	var cdy = $(".cd-popup .cd-popup-container").height()/2;
+	$(".cd-popup .cd-popup-container").css({"margin-left":-cdw,"margin-top":-cdy});
 </script>
 </html>
