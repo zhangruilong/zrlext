@@ -56,8 +56,7 @@ Ext.onReady(function() {
 				xtype : 'textareafield',
 				fieldLabel : '职位描述',
 				id : 'Jobpublishjobpublishdetail',
-				name : 'jobpublishdetail',
-				maxLength : 100
+				name : 'jobpublishdetail'
 			} ]
 		}
 		, {
@@ -67,8 +66,7 @@ Ext.onReady(function() {
 				xtype : 'textareafield',
 				fieldLabel : '岗位要求',
 				id : 'Jobpublishjobpublishmust',
-				name : 'jobpublishmust',
-				maxLength : 100
+				name : 'jobpublishmust'
 			} ]
 		}
 		, {

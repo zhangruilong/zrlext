@@ -41,7 +41,6 @@ Ext.onReady(function() {
 				fieldLabel : '关键字',
 				id : 'Seoseokeword',
 				name : 'seokeword',
-				maxLength : 100
 			} ]
 		}
 		, {
@@ -52,7 +51,6 @@ Ext.onReady(function() {
 				fieldLabel : '详细',
 				id : 'Seoseodetail',
 				name : 'seodetail',
-				maxLength : 100
 			} ]
 		}
 		, {
