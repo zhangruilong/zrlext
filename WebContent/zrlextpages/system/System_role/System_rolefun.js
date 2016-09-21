@@ -2,7 +2,7 @@ function getTabPanel(roleid){
 	var treestore = Ext.create('Ext.data.TreeStore', {
 	    proxy: {
 	         type: 'ajax',
-	         url: basePath+"System_rolepowerviewAction.do?method=selRolepowertree&roleid="+roleid
+	         url: basePath+"System_powerAction.do?method=selRolepowertree&roleid="+roleid
 	     }
 	});
 	var dree = new Ext.tree.TreePanel({
@@ -95,7 +95,6 @@ function editeInfo(roleid){
 }
 function selQueryRemoveRoleuser(roleid,System_roleuserstore) {
 	var System_userclassify = "用户";
-	var System_usertitle = null;
 	var System_useraction = "System_userAction.do";
 	var System_userfields = ['id'
 	        			    ,'loginname' 
@@ -106,17 +105,15 @@ function selQueryRemoveRoleuser(roleid,System_roleuserstore) {
 	var System_userkeycolumn = [ 'id' ];// 主键
 	var System_userstore = dataStore(System_userfields, basePath + System_useraction + "?method=selQueryRemoveRoleuser&roleid=" + roleid);// 定义System_userstore
 	
-	var System_userbbar = pagesizebar(System_userstore);//定义分页
 	var System_usergrid = new Ext.grid.GridPanel({
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
-		title : System_usertitle,
 		store : System_userstore,
-	    selModel: {
-	        type: 'spreadsheet',
-	        checkboxSelect: true
-	     },
-		columns : [{// 改
+		selModel: {
+	        type: 'checkboxmodel'
+	    },
+	    columns : [{xtype: 'rownumberer',width:50}, 
+	    {// 改
 			header : 'ID',
 			dataIndex : 'id',
 			hidden : true
@@ -137,7 +134,6 @@ function selQueryRemoveRoleuser(roleid,System_roleuserstore) {
 			sortable : true
 		}
 		],
-		bbar : System_userbbar,
 		tbar : [{
 				xtype : 'textfield',
 				id : 'querySystem_useraction',
@@ -164,11 +160,6 @@ function selQueryRemoveRoleuser(roleid,System_roleuserstore) {
 		]
 	});
 	System_userstore.load();//加载数据
-	System_userstore.on("beforeload",function(){ 
-		System_userstore.baseParams = {
-			query : Ext.getCmp("querySystem_useraction").getValue()
-		}; 
-	});
 	var System_userwin = new Ext.Window({
 		title : '操作员列表',
 		layout : 'form',
@@ -246,20 +237,17 @@ function roleUserGrid(roleid) {
 	        			    ,'fdetail'
 	        			      ];// 全部字段
 	var System_roleuserkeycolumn = [ 'id' ];// 主键
-	var System_roleuserstore = dataStore(System_roleuserfields, basePath + System_roleuserviewaction + "?method=selRoleuser&roleid="+roleid);// 定义System_roleuserstore
-	var System_roleuserdataForm = null;
+	var System_roleuserstore = dataStore(System_roleuserfields, basePath + System_roleuserviewaction + "?method=selAll&wheresql=roleid='"+roleid+"'");// 定义System_roleuserstore
 
-	var System_roleuserbbar = pagesizebar(System_roleuserstore);//定义分页
 	var System_roleusergrid = new Ext.grid.GridPanel({
 		height : document.documentElement.clientHeight - 12,
 		width : '100%',
-		title : System_roleusertitle,
 		store : System_roleuserstore,
-	    selModel: {
-	        type: 'spreadsheet',
-	        checkboxSelect: true
-	     },
-		columns : [{// 改
+		selModel: {
+	        type: 'checkboxmodel'
+	    },
+	    columns : [{xtype: 'rownumberer',width:50}, 
+	    {// 改
 			header : 'ID',
 			dataIndex : 'id',
 			hidden : true
@@ -292,7 +280,6 @@ function roleUserGrid(roleid) {
 			sortable : true
 		}
 		],
-		bbar : System_roleuserbbar,
 		tbar : [{
 			iconCls : 'add',
 			text : '新增',
@@ -337,10 +324,5 @@ function roleUserGrid(roleid) {
 	});
 	System_roleusergrid.height = System_roleusergrid.height - 28;
 	System_roleuserstore.load();//加载数据
-	System_roleuserstore.on("beforeload",function(){ 
-		System_roleuserstore.baseParams = {
-				query : Ext.getCmp("querySystem_roleuseraction").getValue()
-		}; 
-	});
 	return System_roleusergrid;
 }

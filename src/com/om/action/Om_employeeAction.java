@@ -6,20 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.om.dao.Om_employeeDao;
-import com.om.dao.Om_emporgDao;
-import com.om.dao.Om_emppositionDao;
 import com.om.poco.Om_employeePoco;
 import com.om.pojo.Om_employee;
-import com.om.pojo.Om_emporg;
 import com.om.pojo.Om_empposition;
-import com.system.dao.System_userDao;
-import com.system.pojo.System_user;
 import com.system.tools.CommonConst;
 import com.system.tools.base.BaseAction;
 import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
-import com.system.tools.util.CipherUtil;
 import com.system.tools.util.CommonUtil;
 import com.system.tools.util.FileUtil;
 

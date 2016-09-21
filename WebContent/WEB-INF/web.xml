@@ -12,7 +12,7 @@
      <filter-name>login</filter-name>
      <url-pattern>/pages/*</url-pattern>
      <url-pattern>/charisma/index.html</url-pattern>
-     <url-pattern>/main.jsp</url-pattern>
+     <url-pattern>/</url-pattern>
      <url-pattern>/login.jsp</url-pattern>
  </filter-mapping>
  <servlet>

@@ -8,7 +8,7 @@ Ext.onReady(function() {
 	        			    ,'detail' 
 	        			      ];// 全部字段
 	var System_rolekeycolumn = [ 'id' ];// 主键
-	var System_rolestore = dataStore(System_rolefields, basePath + System_roleaction + "?method=selQuery");// 定义System_rolestore
+	var System_rolestore = dataStore(System_rolefields, basePath + System_roleaction + "?method=selAll");// 定义System_rolestore
 	var System_roledataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
 		id:'System_roledataForm',
 		labelAlign : 'right',
@@ -58,91 +58,149 @@ Ext.onReady(function() {
 		}
 		]
 	});
-	var System_rolebbar = pagesizebar(System_rolestore);//定义分页
+//	var System_rolebbar = pagesizebar(System_rolestore);//定义分页
 	var System_rolegrid = new Ext.grid.GridPanel({
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
-		title : System_roletitle,
+		//title : System_roletitle,
 		store : System_rolestore,
+		//bbar : System_rolebbar,
 	    selModel: {
-	        type: 'spreadsheet',
-	        checkboxSelect: true
-	     },
-		columns : [{// 改
+	        type: 'checkboxmodel'
+	    },
+	    plugins: {
+	         ptype: 'cellediting',
+	         clicksToEdit: 1
+	    },
+		columns : [{xtype: 'rownumberer',width:50}, 
+		{// 改
 			header : 'ID',
 			dataIndex : 'id',
-			hidden : true
+			sortable : true, 
+			editor: {
+                xtype: 'textfield',
+                editable: false
+            }
 		}
 		, {
 			header : '编码',
 			dataIndex : 'code',
-			sortable : true
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
 		}
 		, {
 			header : '名称',
 			dataIndex : 'name',
-			sortable : true
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
 		}
 		, {
 			header : '描述',
 			dataIndex : 'detail',
-			sortable : true
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
 		}
 		],
-		bbar : System_rolebbar,
 		tbar : [{
-				text : "新增",
+				text : Ext.os.deviceType === 'Phone' ? null : "新增",
 				iconCls : 'add',
 				handler : function() {
 					System_roledataForm.form.reset();
-					createWindow(basePath + System_roleaction + "?method=insAll", "新增", System_roledataForm, System_rolestore);
+					Ext.getCmp("System_roleid").setEditable (true);
+					createTextWindow(basePath + System_roleaction + "?method=insAll", "新增", System_roledataForm, System_rolestore);
 				}
 			},'-',{
-				text : "修改",
+				text : Ext.os.deviceType === 'Phone' ? null : "保存",
+				iconCls : 'ok',
+				handler : function() {
+					var selections = System_rolegrid.getSelection();
+					if (Ext.isEmpty(selections)) {
+						Ext.Msg.alert('提示', '请至少选择一条数据！');
+						return;
+					}
+					commonSave(basePath + System_roleaction + "?method=updAll",selections);
+				}
+			},'-',{
+				text : Ext.os.deviceType === 'Phone' ? null : "修改",
 				iconCls : 'edit',
 				handler : function() {
 					var selections = System_rolegrid.getSelection();
 					if (selections.length != 1) {
-						Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
+						Ext.Msg.alert('提示', '请选择一条数据！', function() {
 						});
 						return;
 					}
-					createWindow(basePath +  System_roleaction + "?method=updAll", "修改", System_roledataForm, System_rolestore);
+					System_roledataForm.form.reset();
+					Ext.getCmp("System_roleid").setEditable (false);
+					createTextWindow(basePath + System_roleaction + "?method=updAll", "修改", System_roledataForm, System_rolestore);
 					System_roledataForm.form.loadRecord(selections[0]);
 				}
 			},'-',{
-				text : "删除",
-				iconCls : 'delete',
-				handler : function() {
-					var selections = System_rolegrid.getSelection();
-					if (Ext.isEmpty(selections)) {
-						Ext.Msg.alert('提示', '请选择您要删除的数据！');
-						return;
-					}
-					commonDelete(basePath +  System_roleaction + "?method=delAll",selections,System_rolestore,System_rolekeycolumn);
-				}
-			},'-',{
-				text : "导入",
-				iconCls : 'imp',
-				handler : function() {
-					commonImp(basePath +  System_roleaction + "?method=impAll","导入",System_rolestore);
-				}
-			},'-',{
-				text : "后台导出",
-				iconCls : 'exp',
-				handler : function() {
-					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
-						if (btn == 'yes') {
-							window.location.href = basePath +  System_roleaction + "?method=expAll"; 
-						}
-					});
-				}
-			},'-',{
-				text : "前台导出",
-				iconCls : 'exp',
-				handler : function() {
-					commonExp(System_rolegrid);
-				}
+	            text: '操作',
+	            menu: {
+	                xtype: 'menu',
+	                items: {
+	                    xtype: 'buttongroup',
+	                    columns: 3,
+	                    items: [{
+	                    	text : "删除",
+	        				iconCls : 'delete',
+	        				handler : function() {
+	        					var selections = System_rolegrid.getSelection();
+	        					if (Ext.isEmpty(selections)) {
+	        						Ext.Msg.alert('提示', '请至少选择一条数据！');
+	        						return;
+	        					}
+	        					commonDelete(basePath + System_roleaction + "?method=delAll",selections,System_rolestore,System_rolekeycolumn);
+	        				}
+	                    },{
+	                    	text : "导入",
+	        				iconCls : 'imp',
+	        				handler : function() {
+	        					commonImp(basePath + System_roleaction + "?method=impAll","导入",System_rolestore);
+	        				}
+	                    },{
+	                    	text : "导出",
+	        				iconCls : 'exp',
+	        				handler : function() {
+	        					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
+	        						if (btn == 'yes') {
+	        							window.location.href = basePath + System_roleaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("querySystem_roleaction").getValue(); 
+	        						}
+	        					});
+	        				}
+	                    },{
+	                    	text : "附件",
+	        				iconCls : 'attach',
+	        				handler : function() {
+	        					var selections = System_rolegrid.getSelection();
+	        					if (selections.length != 1) {
+	        						Ext.Msg.alert('提示', '请选择一条数据！', function() {
+	        						});
+	        						return;
+	        					}
+	        					var fid = '';
+	        					for (var i=0;i<System_rolekeycolumn.length;i++){
+	        						fid += selections[0].data[System_rolekeycolumn[i]] + ","
+	        					}
+	        					commonAttach(fid, System_roleclassify);
+	        				}
+	                    },{
+	        				text : "筛选",
+    						iconCls : 'select',
+    						handler : function() {
+    							Ext.getCmp("System_roleid").setEditable (true);
+    							createQueryWindow("筛选", System_roledataForm, System_rolestore,Ext.getCmp("querySystem_roleaction").getValue());
+    						}
+    					}]
+	                }
+	            }
 			},'->',{
 				xtype : 'textfield',
 				id : 'querySystem_roleaction',
@@ -154,10 +212,15 @@ Ext.onReady(function() {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
 							if ("" == Ext.getCmp("querySystem_roleaction").getValue()) {
-								System_rolestore.load();
+								System_rolestore.load({
+									params : {
+										json : queryjson
+									}
+								});
 							} else {
 								System_rolestore.load({
 									params : {
+										json : queryjson,
 										query : Ext.getCmp("querySystem_roleaction").getValue()
 									}
 								});
@@ -173,15 +236,10 @@ Ext.onReady(function() {
 	});
 	System_rolegrid.region = 'center';
 	System_rolestore.load();//加载数据
-	System_rolestore.on("beforeload",function(){ 
-		System_rolestore.baseParams = {
-				query : Ext.getCmp("querySystem_roleaction").getValue()
-		}; 
-	});
 	var editPanel = new Ext.Panel({
         id:"editPanel",
         bodyStyle : 'padding:0px;',
-        width: 380
+        width: 400
     });
 	editPanel.region = 'east';
 	var win = new Ext.Viewport({//只能有一个viewport

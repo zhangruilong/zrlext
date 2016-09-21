@@ -21,17 +21,16 @@ function selectSystem_power() {
 	        			    ,'menuorder' 
 	        			      ];// 全部字段
 	var System_powerkeycolumn = [ 'id' ];// 主键
-	var System_powerstore = dataStore(System_powerfields, basePath + System_powerviewaction + "?method=selQuery");// 定义System_powerstore
-	var System_powerbbar = pagesizebar(System_powerstore);//定义分页
+	var System_powerstore = dataStore(System_powerfields, basePath + System_powerviewaction + "?method=selAll");// 定义System_powerstore
 	var System_powergrid = new Ext.grid.GridPanel({
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
 		store : System_powerstore,
-	    selModel: {
-	        type: 'spreadsheet',
-	        checkboxSelect: true
-	     },
-		columns : [ {// 改
+		selModel: {
+	        type: 'checkboxmodel'
+	    },
+		columns : [{xtype: 'rownumberer',width:50}, 
+		{// 改
 			header : 'ID',
 			dataIndex : 'id',
 			hidden : true
@@ -53,7 +52,7 @@ function selectSystem_power() {
 			sortable : true
 		}
 		],
-		bbar : System_powerbbar,
+//		bbar : System_powerbbar,
 		tbar : [{
 			xtype : 'textfield',
 			id : 'query',
@@ -79,11 +78,6 @@ function selectSystem_power() {
 		}]
 	});
 	System_powerstore.load();//加载数据
-	System_powerstore.on("beforeload",function(){ 
-		System_powerstore.baseParams = {
-				query : Ext.getCmp("query").getValue()
-		}; 
-	});
 	var selectgridWindow = new Ext.Window({
 		title : System_powertitle,
 		layout : 'fit', // 设置窗口布局模式

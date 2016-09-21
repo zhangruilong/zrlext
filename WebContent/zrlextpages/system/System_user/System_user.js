@@ -9,17 +9,22 @@ Ext.onReady(function() {
 	        			    ,'statue' 
 	        			      ];// 全部字段
 	var System_userkeycolumn = [ 'id' ];// 主键
-	var System_userstore = dataStore(System_userfields, basePath + System_useraction + "?method=selQuery");// 定义System_userstore
+	var System_userstore = dataStore(System_userfields, basePath + System_useraction + "?method=selAll");// 定义System_userstore
 	var System_userdataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
 		id:'System_userdataForm',
 		labelAlign : 'right',
 		frame : true,
 		layout : 'column',
 		items : [ {
-			xtype : 'textfield',
-			id : 'System_userid',
-			name : 'id',
-			hidden : true
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : 'ID',
+				id : 'System_userid',
+				name : 'id',
+				maxLength : 100
+			} ]
 		}
 		, {
 			columnWidth : 1,
@@ -30,8 +35,7 @@ Ext.onReady(function() {
 				id : 'System_userloginname',
 				name : 'loginname',
 				allowBlank : false,
-				maxLength : 20,
-				anchor : '95%'
+				maxLength : 100
 			} ]
 		}
 		, {
@@ -43,211 +47,241 @@ Ext.onReady(function() {
 				id : 'System_userusername',
 				name : 'username',
 				allowBlank : false,
-				maxLength : 20,
-				anchor : '95%'
+				maxLength : 100
 			} ]
 		}
 		, {
 			columnWidth : 1,
 			layout : 'form',
 			items : [ {
-				xtype : 'combo',
+				xtype : 'textfield',
 				fieldLabel : '状态',
 				id : 'System_userstatue',
 				name : 'statue',
-				emptyText : '请选择',
-				store : statueStore,
-				mode : 'local',
-				displayField : 'name',
-				valueField : 'name',
-				hiddenName : 'statue',
-				triggerAction : 'all',
-				editable : false,
-				maxLength : 100,
 				allowBlank : false,
-				anchor : '95%'
+				maxLength : 100
 			} ]
 		}
- 		, {
-			columnWidth : 1,
-			layout : 'form',
-			items : [ {
-				xtype : "checkbox",
-				id : "resetpassword",
-				name : "resetpassword",
-				boxLabel : "初始化密码"
-			} ]
- 		}
- 		]
+		]
 	});
-	var System_userbbar = pagesizebar(System_userstore);//定义分页
+	
+	//var System_userbbar = pagesizebar(System_userstore);//定义分页
 	var System_usergrid =  Ext.create('Ext.grid.Panel', {
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
-		title : System_usertitle,
+		//title : System_usertitle,
 		store : System_userstore,
+		//bbar : System_userbbar,
 	    selModel: {
-	        type: 'spreadsheet',
-	        checkboxSelect: true
-	     },
-		columns : [{// 改
+	        type: 'checkboxmodel'
+	    },
+	    plugins: {
+	         ptype: 'cellediting',
+	         clicksToEdit: 1
+	    },
+		columns : [{xtype: 'rownumberer',width:50}, 
+		{// 改
 			header : 'ID',
 			dataIndex : 'id',
-			hidden : true
+			sortable : true, 
+			editor: {
+                xtype: 'textfield',
+                editable: false
+            }
 		}
 		, {
 			header : '登录名',
 			dataIndex : 'loginname',
-			flex: 1,
-			sortable : true
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '密码',
+			dataIndex : 'password',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield',
+                editable: false
+            }
 		}
 		, {
 			header : '用户名',
 			dataIndex : 'username',
-			flex: 1,
-			sortable : true
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
 		}
 		, {
 			header : '状态',
 			dataIndex : 'statue',
-			flex: 1,
-			sortable : true
-		}],
-		bbar : System_userbbar,
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		],
 		tbar : [{
-			text : '初始化密码',
+			text : Ext.os.deviceType === 'Phone' ? null : "初始化密码",
 			iconCls : 'reset',
 			handler : function() {
-				var currRecord = System_usergrid.getSelection();
-				if (currRecord) {
-					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要初始化密码？', function(btn, text) {
-						if (btn == 'yes') {
-							var ids = '[';
-							for (var i = 0; i < currRecord.length; i++) {
-								ids += "{'id':'" + currRecord[i].data['id'] + "'},"
-							};
-							Ext.Ajax.request({
-								url : basePath + System_useraction + "?method=resetpassword",
-								method : 'POST',
+				var selections = System_usergrid.getSelection();
+				if (Ext.isEmpty(selections)) {
+					Ext.Msg.alert('提示', '请至少选择一条数据！');
+					return;
+				}
+				Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要初始化密码？', function(btn, text) {
+					if (btn == 'yes') {
+						var ids = '[';
+						for (var i = 0; i < selections.length; i++) {
+							ids += "{'id':'" + selections[i].data['id'] + "'},"
+						};
+						Ext.Ajax.request({
+							url : basePath + System_useraction + "?method=resetpassword",
+							method : 'POST',
+							params : {
+								json : ids.substr(0, ids.length - 1) + "]"
+							},
+							success : function(response) {
+								Ext.Msg.alert('提示', '操作成功',function(){
+									System_userstore.reload();
+								});
+							},
+							failure : function(response) {
+								Ext.Msg.alert('提示', '网络出现问题，请稍后再试');
+							}
+						});
+					}
+				});
+			}
+		},'-',{
+			text : Ext.os.deviceType === 'Phone' ? null : "新增",
+			iconCls : 'add',
+			handler : function() {
+				System_userdataForm.form.reset();
+				Ext.getCmp("System_userid").setEditable (false);
+				createTextWindow(basePath + System_useraction + "?method=insAll", "新增", System_userdataForm, System_userstore);
+			}
+		},'-',{
+			text : Ext.os.deviceType === 'Phone' ? null : "保存",
+			iconCls : 'ok',
+			handler : function() {
+				var selections = System_usergrid.getSelection();
+				if (Ext.isEmpty(selections)) {
+					Ext.Msg.alert('提示', '请至少选择一条数据！');
+					return;
+				}
+				commonSave(basePath + System_useraction + "?method=updAll",selections);
+			}
+		},'-',{
+			text : Ext.os.deviceType === 'Phone' ? null : "修改",
+			iconCls : 'edit',
+			handler : function() {
+				var selections = System_usergrid.getSelection();
+				if (selections.length != 1) {
+					Ext.Msg.alert('提示', '请选择一条数据！', function() {
+					});
+					return;
+				}
+				System_userdataForm.form.reset();
+				Ext.getCmp("System_userid").setEditable (false);
+				createTextWindow(basePath + System_useraction + "?method=updAll", "修改", System_userdataForm, System_userstore);
+				System_userdataForm.form.loadRecord(selections[0]);
+			}
+		},'-',{
+            text: '操作',
+            menu: {
+                xtype: 'menu',
+                items: {
+                    xtype: 'buttongroup',
+                    columns: 3,
+                    items: [{
+                    	text : "删除",
+        				iconCls : 'delete',
+        				handler : function() {
+        					var selections = System_usergrid.getSelection();
+        					if (Ext.isEmpty(selections)) {
+        						Ext.Msg.alert('提示', '请至少选择一条数据！');
+        						return;
+        					}
+        					commonDelete(basePath + System_useraction + "?method=delAll",selections,System_userstore,System_userkeycolumn);
+        				}
+                    },{
+                    	text : "导入",
+        				iconCls : 'imp',
+        				handler : function() {
+        					commonImp(basePath + System_useraction + "?method=impAll","导入",System_userstore);
+        				}
+                    },{
+                    	text : "导出",
+        				iconCls : 'exp',
+        				handler : function() {
+        					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
+        						if (btn == 'yes') {
+        							window.location.href = basePath + System_useraction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("querySystem_useraction").getValue(); 
+        						}
+        					});
+        				}
+                    },{
+                    	text : "附件",
+        				iconCls : 'attach',
+        				handler : function() {
+        					var selections = System_usergrid.getSelection();
+        					if (selections.length != 1) {
+        						Ext.Msg.alert('提示', '请选择一条数据！', function() {
+        						});
+        						return;
+        					}
+        					var fid = '';
+        					for (var i=0;i<System_userkeycolumn.length;i++){
+        						fid += selections[0].data[System_userkeycolumn[i]] + ","
+        					}
+        					commonAttach(fid, System_userclassify);
+        				}
+                    },{
+        				text : "筛选",
+						iconCls : 'select',
+						handler : function() {
+							Ext.getCmp("System_userid").setEditable (true);
+							createQueryWindow("筛选", System_userdataForm, System_userstore,Ext.getCmp("querySystem_useraction").getValue());
+						}
+					}]
+                }
+            }
+		},'->',{
+			xtype : 'textfield',
+			id : 'querySystem_useraction',
+			name : 'query',
+			emptyText : '模糊匹配',
+			width : 100,
+			enableKeyEvents : true,
+			listeners : {
+				specialkey : function(field, e) {
+					if (e.getKey() == Ext.EventObject.ENTER) {
+						if ("" == Ext.getCmp("querySystem_useraction").getValue()) {
+							System_userstore.load({
 								params : {
-									json : ids.substr(0, ids.length - 1) + "]"
-								},
-								success : function(response) {
-									Ext.Msg.alert('提示', '操作成功',function(){
-										System_userstore.reload();
-									});
-								},
-								failure : function(response) {
-									Ext.Msg.alert('提示', '网络出现问题，请稍后再试');
+									json : queryjson
+								}
+							});
+						} else {
+							System_userstore.load({
+								params : {
+									json : queryjson,
+									query : Ext.getCmp("querySystem_useraction").getValue()
 								}
 							});
 						}
-					});
-				} else {
-					Ext.Msg.alert('提示', '请选择您要初始化密码的数据！');
-				}
-			}
-		},'-',{
-				text : "新增",
-				iconCls : 'add',
-				handler : function() {
-					System_userdataForm.form.reset();
-					createWindow(basePath + System_useraction + "?method=insAll", "新增", System_userdataForm, System_userstore);
-				}
-			},'-',{
-				text : "修改",
-				iconCls : 'edit',
-				handler : function() {
-					var selections = System_usergrid.getSelection();
-					if (selections.length != 1) {
-						Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
-						});
-						return;
-					}
-					createWindow(basePath + System_useraction + "?method=updAll", "修改", System_userdataForm, System_userstore);
-					System_userdataForm.form.loadRecord(selections[0]);
-				}
-			},'-',{
-				text : "删除",
-				iconCls : 'delete',
-				handler : function() {
-					var selections = System_usergrid.getSelection();
-					if (Ext.isEmpty(selections)) {
-						Ext.Msg.alert('提示', '请选择您要删除的数据！');
-						return;
-					}
-					commonDelete(basePath + System_useraction + "?method=delAll",selections,System_userstore,System_userkeycolumn);
-				}
-			},'-',{
-				text : "导入",
-				iconCls : 'imp',
-				handler : function() {
-					commonImp(basePath + System_useraction + "?method=impAll","导入",System_userstore);
-				}
-			},'-',{
-				text : "后台导出",
-				iconCls : 'exp',
-				handler : function() {
-					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
-						if (btn == 'yes') {
-							window.location.href = basePath + System_useraction + "?method=expAll"; 
-						}
-					});
-				}
-			},'-',{
-				text : "前台导出",
-				iconCls : 'exp',
-				handler : function() {
-					commonExp(System_usergrid);
-				}
-			},'-',{
-				text : "附件",
-				iconCls : 'attach',
-				handler : function() {
-					var selections = System_usergrid.getSelection();
-					if (selections.length != 1) {
-						Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
-						});
-						return;
-					}
-					var fid = '';
-					for (var i=0;i<System_userkeycolumn.length;i++){
-						fid += selections[0].data[System_userkeycolumn[i]] + ","
-					}
-					commonAttach(fid, System_userclassify);
-				}
-			},'->',{
-				xtype : 'textfield',
-				id : 'querySystem_useraction',
-				name : 'query',
-				emptyText : '模糊匹配',
-				width : 100,
-				enableKeyEvents : true,
-				listeners : {
-					specialkey : function(field, e) {
-						if (e.getKey() == Ext.EventObject.ENTER) {
-							if ("" == Ext.getCmp("querySystem_useraction").getValue()) {
-								System_userstore.load();
-							} else {
-								System_userstore.load({
-									params : {
-										query : Ext.getCmp("querySystem_useraction").getValue()
-									}
-								});
-							}
-						}
 					}
 				}
 			}
-		]
-	});
+		}
+	]
+});
 	System_usergrid.region = 'center';
 	System_userstore.load();//加载数据
-	System_userstore.on("beforeload",function(){ 
-		System_userstore.baseParams = {
-				query : Ext.getCmp("querySystem_useraction").getValue()
-		}; 
-	});
 	var win = new Ext.Viewport({//只能有一个viewport
 		resizable : true,
 		layout : 'border',

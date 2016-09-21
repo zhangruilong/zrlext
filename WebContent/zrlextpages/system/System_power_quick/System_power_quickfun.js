@@ -1,7 +1,7 @@
 function selectSystem_power(store) {
 	var System_powerclassify = "菜单";
 	var System_powertitle = "当前位置:系统管理》" + System_powerclassify;
-	var System_poweraction = "System_menuAction.do";
+	var System_poweraction = "System_powerAction.do";
 	var System_powerfields = ['id'
 	        			    ,'code' 
 	        			    ,'name' 
