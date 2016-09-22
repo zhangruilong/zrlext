@@ -266,8 +266,11 @@ html { overflow: hidden; }
 <!-- pageInfo -->
 <script type="text/cbs" src="cbs/index.cbs"></script>
 <script>
+/* $(function(){
 	//判断浏览器版本
-	if (!$.support.leadingWhitespace){$("#browser_ie").show();}
+	//if (!$.support.leadingWhitespace){$("#browser_ie").show();}
+}); */
+	
 	$(".brower-close").click(function(){$("#browser_ie").hide()})
 	//弹出层
 	$('.cd-popup-trigger').on('click', function(event){

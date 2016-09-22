@@ -57,7 +57,8 @@ Ext.onReady(function() {
 				xtype : 'htmleditor',
 				fieldLabel : '详细',
 				id : 'Contentcontentdetail',
-				name : 'contentdetail'
+				name : 'contentdetail',
+				height : 200
 			} ]
 		}
 		, {
