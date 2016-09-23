@@ -36,7 +36,7 @@ public class Oauth2 extends HttpServlet {
 		// 发送 GET 请求
 		String s = HttpRequest.sendGet(
 				"https://api.weixin.qq.com/sns/oauth2/access_token",
-				"appid=wx0720dd830e92482a&secret=13573905dd8bc4619408beaa62b6c65f&code="
+				"appid=wxf5c7a8afa90e6be2&secret=3ad77b3d40d1ab37c052f40b6ce5ba47&code="
 						+ code + "&grant_type=authorization_code");
 		System.out.println(s);
 
@@ -45,18 +45,24 @@ public class Oauth2 extends HttpServlet {
 			}.getType();
 			WxToken mWxToken = CommonConst.GSON.fromJson(s, TYPE);
 			System.out.println("openid: " + mWxToken.getOpenid());
-			RequestDispatcher dispatcher = request
-					.getRequestDispatcher("oauth2.jsp");
-			request.setAttribute("openid", mWxToken.getOpenid());
 			try {
-				dispatcher.forward(request, response);
-			} catch (ServletException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				response.sendRedirect("oauth2.jsp?openid="+mWxToken.getOpenid());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+//			RequestDispatcher dispatcher = request
+//					.getRequestDispatcher("oauth2.jsp");
+//			request.setAttribute("openid", mWxToken.getOpenid());
+//			try {
+//				dispatcher.forward(request, response);
+//			} catch (ServletException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 
 	}
