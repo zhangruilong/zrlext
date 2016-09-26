@@ -33,7 +33,7 @@ public class ParseDSConfig {
  {
   //String rpath=this.getClass().getResource("").getPath().substring(1)+path;
  // String rpath1=Thread.currentThread().getContextClassLoader().getResource("").getPath().substring(1)+path;
-  String rpath2=this.getClass().getResource("/").getPath().substring(1)+path;
+  String rpath2="/"+this.getClass().getResource("/").getPath().substring(1)+path;
   Vector dsConfig=null;
   FileInputStream fi = null;
   try
