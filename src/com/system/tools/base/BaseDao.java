@@ -21,16 +21,6 @@ import com.system.tools.util.TypeUtil;
 
 public class BaseDao {
 	public static DBConnectionManager connectionMan = DBConnectionManager.getInstance();
-
-	public Queryinfo checkQueryinfo(Queryinfo queryinfo) {
-		if(CommonUtil.isEmpty(queryinfo.getStart())){
-			queryinfo.setStart("0");
-		}
-		if(CommonUtil.isEmpty(queryinfo.getEnd())){
-			queryinfo.setEnd("20");
-		}
-		return queryinfo;
-	}
 	
 	@SuppressWarnings("finally")
 	public int getTotal(Queryinfo queryinfo) {
@@ -58,88 +48,19 @@ public class BaseDao {
 			return total;
 		}
 	}
-	public Object rsToObj(Class type, Field[] field, ResultSet rs) {
-		try {
-			Object obj = type.newInstance();
-			for (int i = 0; i < field.length; i++) {
-				// 得到属性名
-				String fieldname = field[i].getName();
-				// 包装成SetXXX方法
-				String methodname = "set"
-						+ fieldname.substring(0, 1).toUpperCase()
-						+ fieldname.substring(1);
-				// 得到类型
-				Class c = field[i].getType();
-				// 得到方法
-				Method method = type.getMethod(methodname, c);
-				if (c == String.class) {
-					try {
-						method.invoke(obj, rs.getString(fieldname));
-					} catch (Exception e) {
-					}
-				} else if (c == Integer.class) {
-					try {
-						method.invoke(obj, rs.getInt(fieldname));
-					} catch (Exception e) {
-					}
-				} else if (c == Float.class) {
-					try {
-						method.invoke(obj, rs.getFloat(fieldname));
-					} catch (Exception e) {
-					}
-				} else if (c == Double.class) {
-					try {
-						method.invoke(obj, rs.getDouble(fieldname));
-					} catch (Exception e) {
-					}
-				} else if (c == java.sql.Date.class) {
-					try {
-						method.invoke(obj, rs.getDate(fieldname));
-					} catch (Exception e) {
-					}
-				} else if (c == int.class) {
-					try {
-						method.invoke(obj, rs.getInt(fieldname));
-					} catch (Exception e) {
-					}
-				} else if (c == float.class) {
-					try {
-						method.invoke(obj, rs.getFloat(fieldname));
-					} catch (Exception e) {
-					}
-				} else if (c == double.class) {
-					try {
-						method.invoke(obj, rs.getDouble(fieldname));
-					} catch (Exception e) {
-					}
-				} else if (c == boolean.class) {
-					try {
-						method.invoke(obj, rs.getBoolean(fieldname));
-					} catch (Exception e) {
-					}
-				} else {
-					try {
-						method.invoke(obj, rs.getObject(fieldname));
-					} catch (Exception e) {
-					}
-				}
-			}
-			return obj;
-		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
-			return null;
-		}
-	}
+	
 	@SuppressWarnings("finally")
 	public List selQuery(Queryinfo queryinfo) {
 		Connection  conn=connectionMan.getConnection(CommonConst.DSNAME); 
 		Statement stmt = null;
 		ResultSet rs = null;
 		List objs = new ArrayList();
-		queryinfo = checkQueryinfo(queryinfo);
 		try {
-			String sql = "select * from (select A.*, ROWNUM RN from (select * from " + 
-						 	queryinfo.getType().getSimpleName() + " where 1=1 ";
+			String sql = "";
+			if(CommonConst.DSNAME.equals("oracle")){
+				sql += "select * from (select A.*, ROWNUM RN from (";
+			}
+			sql += "select * from " + queryinfo.getType().getSimpleName() + " where 1=1 ";
 			if(CommonUtil.isNotEmpty(queryinfo.getJson())){
 				String jsonsql = TypeUtil.beanToSql(queryinfo.getJson());
 				if(CommonUtil.isNotNull(jsonsql))
@@ -154,17 +75,21 @@ public class BaseDao {
 			if(CommonUtil.isNotEmpty(queryinfo.getOrder())){
 				sql += " order by " + queryinfo.getOrder();
 			}
-			if(queryinfo.getEnd().equals("0"))
-				sql = sql+") A where ROWNUM  > "+queryinfo.getEnd()+" ) ";
-			else
-				sql = sql+") A where ROWNUM  <= "+queryinfo.getEnd()+" ) where RN > "+queryinfo.getStart();
+			if(CommonConst.DSNAME.equals("oracle")){
+				if(queryinfo.getEnd().equals("0"))
+					sql += ") A where ROWNUM  > "+queryinfo.getEnd()+" ) ";
+				else
+					sql += ") A where ROWNUM  <= "+queryinfo.getEnd()+" ) where RN > "+queryinfo.getStart();
+			}else if(!queryinfo.getEnd().equals("0")){
+				sql += " limit " + queryinfo.getStart() + "," + queryinfo.getLimit();
+			}
 			stmt = conn.createStatement();
 			System.out.println(sql);
 			rs = stmt.executeQuery(sql);
 			//所有的属性  
 	        Field[] field = queryinfo.getType().getDeclaredFields(); 
 			while (rs.next()) {
-				objs.add(this.rsToObj(queryinfo.getType(), field, rs));
+				objs.add(TypeUtil.rsToObj(queryinfo.getType(), field, rs));
 			}
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
@@ -174,25 +99,32 @@ public class BaseDao {
 		}
 	}
 	@SuppressWarnings("finally")
-	public List selQuery(Queryinfo queryinfo,String selectsql) {
+	public List selQuery(String selectsql,Queryinfo queryinfo) {
 		Connection  conn=connectionMan.getConnection(CommonConst.DSNAME); 
 		Statement stmt = null;
 		ResultSet rs = null;
 		List objs = new ArrayList();
-		queryinfo = checkQueryinfo(queryinfo);
 		try {
-			String sql = "select * from (select A.*, ROWNUM RN from (" + selectsql;
-			if(queryinfo.getEnd().equals("0"))
-				sql += ") A where ROWNUM  > "+queryinfo.getEnd()+" ) ";
-			else
-				sql += ") A where ROWNUM  <= "+queryinfo.getEnd()+" ) where RN > "+queryinfo.getStart();
+			String sql = "";
+			if(CommonConst.DSNAME.equals("oracle")){
+				sql += "select * from (select A.*, ROWNUM RN from (";
+			}
+			sql += selectsql;
+			if(CommonConst.DSNAME.equals("oracle")){
+				if(queryinfo.getEnd().equals("0"))
+					sql += ") A where ROWNUM  > "+queryinfo.getEnd()+" ) ";
+				else
+					sql += ") A where ROWNUM  <= "+queryinfo.getEnd()+" ) where RN > "+queryinfo.getStart();
+			}else if(!queryinfo.getEnd().equals("0")){
+				sql += " limit " + queryinfo.getStart() + "," + queryinfo.getLimit();
+			}
 			stmt = conn.createStatement();
 			System.out.println(sql);
 			rs = stmt.executeQuery(sql);
 			//所有的属性  
 	        Field[] field = queryinfo.getType().getDeclaredFields(); 
 			while (rs.next()) {
-				objs.add(this.rsToObj(queryinfo.getType(), field, rs));
+				objs.add(TypeUtil.rsToObj(queryinfo.getType(), field, rs));
 			}
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
@@ -229,7 +161,7 @@ public class BaseDao {
 			//所有的属性  
 	        Field[] field = queryinfo.getType().getDeclaredFields(); 
 			while (rs.next()) {
-				objs.add(this.rsToObj(queryinfo.getType(), field, rs));
+				objs.add(TypeUtil.rsToObj(queryinfo.getType(), field, rs));
 			}
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
@@ -261,7 +193,7 @@ public class BaseDao {
 			//所有的属性  
 	        Field[] field = queryinfo.getType().getDeclaredFields(); 
 			while (rs.next()) {
-				objs.add(this.rsToObj(queryinfo.getType(), field, rs));
+				objs.add(TypeUtil.rsToObj(queryinfo.getType(), field, rs));
 			}
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
@@ -283,250 +215,13 @@ public class BaseDao {
 			//所有的属性  
 	        Field[] field = type.getDeclaredFields(); 
 			while (rs.next()) {
-				objs.add(this.rsToObj(type, field, rs));
+				objs.add(TypeUtil.rsToObj(type, field, rs));
 			}
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 		} finally{
 			connectionMan.freeConnection(CommonConst.DSNAME,conn,stmt,rs);
 	        return objs;
-		}
-	}
-	/**
-	 * 获取TABLE的date类型fieldname的最大值
-	 * @param DSNAME 数据源
-	 * @param TABLE 表名
-	 * @param fieldname 所要查找的自动
-	 * @param wheresql 指where条件后面字符串fieldname='test1'
-	 * @return 最大的date
-	 */
-	@SuppressWarnings("finally")
-	public Date getMaxDate(String DSNAME, String TABLE, String fieldname,
-			String wheresql) {
-		String sql = null;
-		Connection conn = connectionMan.getConnection(DSNAME);
-		Statement stmt = null;
-		ResultSet rs = null;
-		Date maxcode = null;
-		try {
-			sql = "SELECT max(" + fieldname + ") FROM " + TABLE
-					+ " where 1 = 1 ";
-			if (CommonUtil.isNotEmpty(wheresql)) {
-				sql = sql + " and (" + wheresql + ") ";
-			}
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			if (rs.next())
-				maxcode = rs.getDate(fieldname);
-		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
-		} finally {
-			connectionMan.freeConnection(DSNAME, conn, stmt, rs);
-			return maxcode;
-		}
-	}
-
-	/**
-	 * 获取TABLE的date类型fieldname的最小值
-	 * @param DSNAME 数据源
-	 * @param TABLE 表名
-	 * @param fieldname 所要查找的自动
-	 * @param wheresql 指where条件后面字符串fieldname='test1'
-	 * @return 最小的date
-	 */
-	@SuppressWarnings("finally")
-	public Date getMinDate(String DSNAME, String TABLE, String fieldname,
-			String wheresql) {
-		String sql = null;
-		Connection conn = connectionMan.getConnection(DSNAME);
-		Statement stmt = null;
-		ResultSet rs = null;
-		Date mincode = null;
-		try {
-			sql = "SELECT min(" + fieldname + ") FROM " + TABLE
-					+ " where 1 = 1 ";
-			if (CommonUtil.isNotEmpty(wheresql)) {
-				sql = sql + " and (" + wheresql + ") ";
-			}
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			if (rs.next())
-				mincode = rs.getDate(fieldname);
-		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
-		} finally {
-			connectionMan.freeConnection(DSNAME, conn, stmt, rs);
-			return mincode;
-		}
-	}
-
-	/**
-	 * 获取TABLE的int类型fieldname的最大值
-	 * @param DSNAME 数据源
-	 * @param TABLE 表名
-	 * @param fieldname 所要查找的自动
-	 * @param wheresql 指where条件后面字符串fieldname='test1'
-	 * @return 最大的int
-	 */
-	@SuppressWarnings("finally")
-	public int getMaxInt(String DSNAME, String TABLE, String fieldname,
-			String wheresql) {
-		String sql = null;
-		Connection conn = connectionMan.getConnection(DSNAME);
-		Statement stmt = null;
-		ResultSet rs = null;
-		int maxcode = 0;
-		try {
-			sql = "SELECT max(" + fieldname + ") FROM " + TABLE
-					+ " where 1 = 1 ";
-			if (CommonUtil.isNotEmpty(wheresql)) {
-				sql = sql + " and (" + wheresql + ") ";
-			}
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			if (rs.next())
-				maxcode = rs.getInt(fieldname);
-		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
-		} finally {
-			connectionMan.freeConnection(DSNAME, conn, stmt, rs);
-			return maxcode;
-		}
-	}
-
-	/**
-	 * 获取TABLE的日期类型fieldname的最小值
-	 * @param DSNAME 数据源
-	 * @param TABLE 表名
-	 * @param fieldname 所要查找的自动
-	 * @param wheresql 指where条件后面字符串fieldname='test1'
-	 * @return 最小的int
-	 */
-	@SuppressWarnings("finally")
-	public int getMinInt(String DSNAME, String TABLE, String fieldname,
-			String wheresql) {
-		String sql = null;
-		Connection conn = connectionMan.getConnection(DSNAME);
-		Statement stmt = null;
-		ResultSet rs = null;
-		int mincode = 0;
-		try {
-			sql = "SELECT min(" + fieldname + ") FROM " + TABLE
-					+ " where 1 = 1 ";
-			if (CommonUtil.isNotEmpty(wheresql)) {
-				sql = sql + " and (" + wheresql + ") ";
-			}
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			if (rs.next())
-				mincode = rs.getInt(fieldname);
-		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
-		} finally {
-			connectionMan.freeConnection(DSNAME, conn, stmt, rs);
-			return mincode;
-		}
-	}
-
-	/**
-	 * 获取TABLE的String类型fieldname的最大值
-	 * @param DSNAME 数据源
-	 * @param TABLE 表名
-	 * @param fieldname 所要查找的自动
-	 * @param wheresql 指where条件后面字符串fieldname='test1'
-	 * @return 最大的String
-	 */
-	@SuppressWarnings("finally")
-	public String getMaxString(String DSNAME, String TABLE, String fieldname,
-			String wheresql) {
-		String sql = null;
-		Connection conn = connectionMan.getConnection(DSNAME);
-		Statement stmt = null;
-		ResultSet rs = null;
-		String maxcode = null;
-		try {
-			sql = "SELECT max(" + fieldname + ") FROM " + TABLE
-					+ " where 1 = 1 ";
-			if (CommonUtil.isNotEmpty(wheresql)) {
-				sql = sql + " and (" + wheresql + ") ";
-			}
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			if (rs.next())
-				maxcode = rs.getString(fieldname);
-		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
-		} finally {
-			connectionMan.freeConnection(DSNAME, conn, stmt, rs);
-			return maxcode;
-		}
-	}
-
-	/**
-	 * 获取TABLE的String类型fieldname的最小值
-	 * @param DSNAME 数据源
-	 * @param TABLE 表名
-	 * @param fieldname 所要查找的自动
-	 * @param wheresql 指where条件后面字符串fieldname='test1'
-	 * @return 最小的String
-	 */
-	@SuppressWarnings("finally")
-	public String getMinString(String DSNAME, String TABLE, String fieldname,
-			String wheresql) {
-		String sql = null;
-		Connection conn = connectionMan.getConnection(DSNAME);
-		Statement stmt = null;
-		ResultSet rs = null;
-		String mincode = null;
-		try {
-			sql = "SELECT min(" + fieldname + ") FROM " + TABLE
-					+ " where 1 = 1 ";
-			if (CommonUtil.isNotEmpty(wheresql)) {
-				sql = sql + " and (" + wheresql + ") ";
-			}
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			if (rs.next())
-				mincode = rs.getString(fieldname);
-		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
-		} finally {
-			connectionMan.freeConnection(DSNAME, conn, stmt, rs);
-			return mincode;
-		}
-	}
-
-	/**
-	 * 获取TABLE的数据总条数
-	 * @param DSNAME 数据源
-	 * @param TABLE 表名
-	 * @param wheresql 指where条件后面字符串fieldname='test1'
-	 * @return 条数
-	 */
-	@SuppressWarnings("finally")
-	public int getTotal(String DSNAME, String TABLE, String wheresql, String querysql) {
-		String sql = null;
-		Connection conn = connectionMan.getConnection(DSNAME);
-		Statement stmt = null;
-		ResultSet rs = null;
-		int total = 0;
-		try {
-			sql = "SELECT count(*) AS rowcount FROM " + TABLE + " where 1=1 ";
-			if(CommonUtil.isNotEmpty(wheresql)){
-				sql += " and (" + wheresql + ") ";
-			}
-			if(CommonUtil.isNotEmpty(querysql)){
-				sql += " and (" + querysql + ")";
-			}
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			rs.next();
-			total = rs.getInt(1);
-		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
-		} finally {
-			connectionMan.freeConnection(DSNAME, conn, stmt, rs);
-			return total;
 		}
 	}
 

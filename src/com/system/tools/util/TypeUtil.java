@@ -7,6 +7,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,86 @@ import com.system.tools.pojo.BeanToArray;
 
 public class TypeUtil {
 
+	/**
+	 * 
+	 * @param type 实体类，字段可以多
+	 * @param field 要从rs中挑选出来的字段
+	 * @param rs
+	 * @return
+	 */
+	public static Object rsToObj(Class type, Field[] field, ResultSet rs) {
+		try {
+			Object obj = type.newInstance();
+			for (int i = 0; i < field.length; i++) {
+				// 得到属性名
+				String fieldname = field[i].getName();
+				// 包装成SetXXX方法
+				String methodname = "set"
+						+ fieldname.substring(0, 1).toUpperCase()
+						+ fieldname.substring(1);
+				// 得到类型
+				Class c = field[i].getType();
+				// 得到方法
+				Method method = type.getMethod(methodname, c);
+				if (c == String.class) {
+					try {
+						method.invoke(obj, rs.getString(fieldname));
+					} catch (Exception e) {
+					}
+				} else if (c == Integer.class) {
+					try {
+						method.invoke(obj, rs.getInt(fieldname));
+					} catch (Exception e) {
+					}
+				} else if (c == Float.class) {
+					try {
+						method.invoke(obj, rs.getFloat(fieldname));
+					} catch (Exception e) {
+					}
+				} else if (c == Double.class) {
+					try {
+						method.invoke(obj, rs.getDouble(fieldname));
+					} catch (Exception e) {
+					}
+				} else if (c == java.sql.Date.class) {
+					try {
+						method.invoke(obj, rs.getDate(fieldname));
+					} catch (Exception e) {
+					}
+				} else if (c == int.class) {
+					try {
+						method.invoke(obj, rs.getInt(fieldname));
+					} catch (Exception e) {
+					}
+				} else if (c == float.class) {
+					try {
+						method.invoke(obj, rs.getFloat(fieldname));
+					} catch (Exception e) {
+					}
+				} else if (c == double.class) {
+					try {
+						method.invoke(obj, rs.getDouble(fieldname));
+					} catch (Exception e) {
+					}
+				} else if (c == boolean.class) {
+					try {
+						method.invoke(obj, rs.getBoolean(fieldname));
+					} catch (Exception e) {
+					}
+				} else {
+					try {
+						method.invoke(obj, rs.getObject(fieldname));
+					} catch (Exception e) {
+					}
+				}
+			}
+			return obj;
+		} catch (Exception e) {
+			System.out.println("Exception:" + e.getMessage());
+			return null;
+		}
+	}
+	
 	public static String beanToSql(Object bean) {
 		String wheresql = "";
 		Field[] fields = bean.getClass().getDeclaredFields();

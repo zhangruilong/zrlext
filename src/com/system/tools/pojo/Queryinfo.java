@@ -4,6 +4,7 @@ package com.system.tools.pojo;
 public class Queryinfo {
 	 private Class type;
 	 private String start;
+	 private String limit;
 	 private String end;
 	 private String wheresql;
 	 private String query;
@@ -50,6 +51,30 @@ public class Queryinfo {
 	public void setOrder(String order) {
 		this.order = order;
 	}
+	public Object getJson() {
+		return json;
+	}
+	public void setJson(Object json) {
+		this.json = json;
+	}
+	public String getLimit() {
+		return limit;
+	}
+	public void setLimit(String limit) {
+		this.limit = limit;
+	}
+	public Queryinfo(Class type, String start, String limit, String end, String wheresql, String query, String order,
+			Object json) {
+		super();
+		this.type = type;
+		this.start = start;
+		this.limit = limit;
+		this.end = end;
+		this.wheresql = wheresql;
+		this.query = query;
+		this.order = order;
+		this.json = json;
+	}
 	public Queryinfo(Class type, String start, String end, String wheresql,
 			String query, String order) {
 		super();
@@ -60,12 +85,7 @@ public class Queryinfo {
 		this.query = query;
 		this.order = order;
 	}
-	public Object getJson() {
-		return json;
-	}
-	public void setJson(Object json) {
-		this.json = json;
-	}
+
 
 }
 	

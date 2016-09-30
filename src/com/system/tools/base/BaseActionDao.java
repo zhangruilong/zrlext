@@ -321,7 +321,7 @@ public class BaseActionDao extends BaseDao {
 		String wheresql = request.getParameter("wheresql");
 		String query = request.getParameter("query");
 		String order = request.getParameter("order");
-		Queryinfo queryinfo = new Queryinfo(null, start, end, wheresql, query, order);
+		Queryinfo queryinfo = new Queryinfo(null, start,limit, end, wheresql, query, order,null);
 		return queryinfo;
 	}
 	/**
@@ -345,8 +345,8 @@ public class BaseActionDao extends BaseDao {
 		String query = request.getParameter("query");
 		String order = request.getParameter("order");
 		if(CommonUtil.isNull(order)) order = pocoorder;
-		Queryinfo queryinfo = new Queryinfo(type, start, end, wheresql, 
-				getQuerysql(query,queryfieldname), order);
+		Queryinfo queryinfo = new Queryinfo(type, start, limit, end, wheresql, 
+				getQuerysql(query,queryfieldname), order, null);
 		String json = request.getParameter("json");
 		if(CommonUtil.isNotEmpty(json)){
 			System.out.println("json : " + json);
@@ -364,9 +364,7 @@ public class BaseActionDao extends BaseDao {
 	 * @return
 	 */
 	public static Queryinfo getQueryinfo(Class type, String wheresql, String querysql, String order) {
-		String start = "0";
-		String end = "20";
-		Queryinfo queryinfo = new Queryinfo(type, start, end, wheresql, querysql, order);
+		Queryinfo queryinfo = new Queryinfo(type, "0", "20", "20", wheresql, querysql, order,null);
 		return queryinfo;
 	}
 	/**

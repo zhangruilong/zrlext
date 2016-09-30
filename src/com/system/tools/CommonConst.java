@@ -37,5 +37,5 @@ public class CommonConst {
 	//INPUTEERRO
 	public static final String INPUTEERRO = "{success:false,code:400,msg:'验证码错误'}";
 	//DSNAME
-	public static final String DSNAME = "oracle";
+	public static final String DSNAME = "mysql";
 }

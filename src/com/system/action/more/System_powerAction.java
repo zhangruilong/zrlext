@@ -202,7 +202,7 @@ public class System_powerAction extends com.system.action.System_powerAction {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			sql = "select id,code,name,detail,entrance,menulevel,parentname,iconcls,hreftarget from System_MenuView where 1=1 ";
+			sql = "select * from System_MenuView where 1=1 ";
 			if(CommonUtil.isNotEmpty(menulevel)){
 				sql =sql+" and menulevel like '"+menulevel+"' ";
 			}
@@ -212,7 +212,8 @@ public class System_powerAction extends com.system.action.System_powerAction {
 			if(CommonUtil.isNotEmpty(userid)){
 				sql =sql+" and userid = '"+userid+"' ";
 			}
-			sql += " order by menuorder "; 
+			sql += " order by menuorder desc"; 
+			System.out.println(sql);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
@@ -221,7 +222,7 @@ public class System_powerAction extends com.system.action.System_powerAction {
 					leaf="true";
 				}
 				temp = new Treeinfo(rs.getString("id"), rs.getString("code"), rs.getString("name"), rs.getString("detail"),
-						rs.getString("iconcls"), rs.getString("entrance"), rs.getString("hreftarget"),leaf, rs.getString("parentname"));
+						rs.getString("iconcls"), rs.getString("entrance"), rs.getString("hreftarget"),leaf, rs.getString("parentid"));
 				temps.add(temp);
 			}
 		} catch (Exception e) {
