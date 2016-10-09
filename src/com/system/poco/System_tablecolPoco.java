@@ -22,6 +22,7 @@ public class System_tablecolPoco
     * 实体中文字段
     */
    public static String[] CHINESENAME = {
+			"id",
 	 	"录入表代码",
 	 	"录入表名称",
 	 	"字段序号",
@@ -35,6 +36,7 @@ public class System_tablecolPoco
 	 * 实体英文字段
 	 */
    public static final String[] FIELDNAME = {
+			"id",
 	 	"tablecode",
 	 	"tablename",
 	 	"colno",
@@ -52,6 +54,7 @@ public class System_tablecolPoco
 	 * 要模糊查询字段
 	 */
    public static final String[] QUERYFIELDNAME = {
+			"id",
 	 	"tablecode",
 	 	"tablename",
 	 	"colno",

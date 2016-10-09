@@ -22,6 +22,7 @@ public class System_attachPoco
     * 实体中文字段
     */
    public static String[] CHINESENAME = {
+			"id",
 	 	"编码",
 	 	"名称",
 	 	"描述",
@@ -36,6 +37,7 @@ public class System_attachPoco
 	 * 实体英文字段
 	 */
    public static final String[] FIELDNAME = {
+			"id",
 	 	"code",
 	 	"name",
 	 	"detail",
@@ -54,6 +56,7 @@ public class System_attachPoco
 	 * 要模糊查询字段
 	 */
    public static final String[] QUERYFIELDNAME = {
+		"id",
 	 	"code",
 	 	"name",
 	 	"detail",

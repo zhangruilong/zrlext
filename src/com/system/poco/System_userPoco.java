@@ -22,6 +22,7 @@ public class System_userPoco
     * 实体中文字段
     */
    public static String[] CHINESENAME = {
+			"id",
 	 	"登录名",
 	 	"密码",
 	 	"用户名",
@@ -31,6 +32,7 @@ public class System_userPoco
 	 * 实体英文字段
 	 */
    public static final String[] FIELDNAME = {
+			"id",
 	 	"loginname",
 	 	"password",
 	 	"username",
@@ -44,6 +46,7 @@ public class System_userPoco
 	 * 要模糊查询字段
 	 */
    public static final String[] QUERYFIELDNAME = {
+			"id",
 	 	"loginname",
 	 	"password",
 	 	"username",

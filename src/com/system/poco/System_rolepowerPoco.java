@@ -22,6 +22,7 @@ public class System_rolepowerPoco
     * 实体中文字段
     */
    public static String[] CHINESENAME = {
+			"id",
 	 	"ROLEID",
 	 	"POWERID",
 	};
@@ -29,6 +30,7 @@ public class System_rolepowerPoco
 	 * 实体英文字段
 	 */
    public static final String[] FIELDNAME = {
+			"id",
 	 	"roleid",
 	 	"powerid",
    };
@@ -40,6 +42,7 @@ public class System_rolepowerPoco
 	 * 要模糊查询字段
 	 */
    public static final String[] QUERYFIELDNAME = {
+			"id",
 	 	"roleid",
 	 	"powerid",
    };

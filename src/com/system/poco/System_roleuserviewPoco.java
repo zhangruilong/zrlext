@@ -22,6 +22,7 @@ public class System_roleuserviewPoco
     * 实体中文字段
     */
    public static String[] CHINESENAME = {
+			"id",
 	 	"roleid",
 	 	"userid",
 	 	"type",
@@ -36,6 +37,7 @@ public class System_roleuserviewPoco
 	 * 实体英文字段
 	 */
    public static final String[] FIELDNAME = {
+			"id",
 	 	"roleid",
 	 	"userid",
 	 	"type",
@@ -54,6 +56,7 @@ public class System_roleuserviewPoco
 	 * 要模糊查询字段
 	 */
    public static final String[] QUERYFIELDNAME = {
+			"id",
 	 	"roleid",
 	 	"userid",
 	 	"type",

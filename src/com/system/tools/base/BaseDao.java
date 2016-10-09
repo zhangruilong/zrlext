@@ -24,9 +24,9 @@ public class BaseDao {
 	
 	@SuppressWarnings("finally")
 	public int getTotal(Queryinfo queryinfo) {
-		String DSNAME = queryinfo.getDsname();
-		if(CommonUtil.isNull(DSNAME)) DSNAME = CommonConst.DSNAME;
-		Connection conn = connectionMan.getConnection(DSNAME);
+		String mDSNAME = queryinfo.getDsname();
+		if(CommonUtil.isNull(mDSNAME)) mDSNAME = CommonConst.DSNAME;
+		Connection conn = connectionMan.getConnection(mDSNAME);
 		Statement stmt = null;
 		ResultSet rs = null;
 		int total = 0;
@@ -45,22 +45,22 @@ public class BaseDao {
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 		} finally {
-			connectionMan.freeConnection(DSNAME, conn, stmt, rs);
+			connectionMan.freeConnection(mDSNAME, conn, stmt, rs);
 			return total;
 		}
 	}
 	
 	@SuppressWarnings("finally")
 	public List selQuery(Queryinfo queryinfo) {
-		String DSNAME = queryinfo.getDsname();
-		if(CommonUtil.isNull(DSNAME)) DSNAME = CommonConst.DSNAME;
-		Connection  conn=connectionMan.getConnection(DSNAME); 
+		String mDSNAME = queryinfo.getDsname();
+		if(CommonUtil.isNull(mDSNAME)) mDSNAME = CommonConst.DSNAME;
+		Connection  conn=connectionMan.getConnection(mDSNAME); 
 		Statement stmt = null;
 		ResultSet rs = null;
 		List objs = new ArrayList();
 		try {
 			String sql = "";
-			if(DSNAME.equals("oracle")){
+			if(mDSNAME.equals("oracle")){
 				sql += "select * from (select A.*, ROWNUM RN from (";
 			}
 			sql += "select * from " + queryinfo.getType().getSimpleName() + " where 1=1 ";
@@ -78,7 +78,7 @@ public class BaseDao {
 			if(CommonUtil.isNotEmpty(queryinfo.getOrder())){
 				sql += " order by " + queryinfo.getOrder();
 			}
-			if(DSNAME.equals("oracle")){
+			if(mDSNAME.equals("oracle")){
 				if(queryinfo.getEnd().equals("0"))
 					sql += ") A where ROWNUM  > "+queryinfo.getEnd()+" ) ";
 				else
@@ -97,26 +97,26 @@ public class BaseDao {
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 		} finally{
-			connectionMan.freeConnection(DSNAME,conn,stmt,rs);
+			connectionMan.freeConnection(mDSNAME,conn,stmt,rs);
 			return objs;
 		}
 	}
 	
 	@SuppressWarnings("finally")
 	public List selQuery(String selectsql,Queryinfo queryinfo) {
-		String DSNAME = queryinfo.getDsname();
-		if(CommonUtil.isNull(DSNAME)) DSNAME = CommonConst.DSNAME;
-		Connection  conn=connectionMan.getConnection(DSNAME); 
+		String mDSNAME = queryinfo.getDsname();
+		if(CommonUtil.isNull(mDSNAME)) mDSNAME = CommonConst.DSNAME;
+		Connection  conn=connectionMan.getConnection(mDSNAME); 
 		Statement stmt = null;
 		ResultSet rs = null;
 		List objs = new ArrayList();
 		try {
 			String sql = "";
-			if(DSNAME.equals("oracle")){
+			if(mDSNAME.equals("oracle")){
 				sql += "select * from (select A.*, ROWNUM RN from (";
 			}
 			sql += selectsql;
-			if(DSNAME.equals("oracle")){
+			if(mDSNAME.equals("oracle")){
 				if(queryinfo.getEnd().equals("0"))
 					sql += ") A where ROWNUM  > "+queryinfo.getEnd()+" ) ";
 				else
@@ -135,16 +135,16 @@ public class BaseDao {
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 		} finally{
-			connectionMan.freeConnection(DSNAME,conn,stmt,rs);
+			connectionMan.freeConnection(mDSNAME,conn,stmt,rs);
 			return objs;
 		}
 	}
 	
 	@SuppressWarnings("finally")
 	public List selAll(Queryinfo queryinfo) {
-		String DSNAME = queryinfo.getDsname();
-		if(CommonUtil.isNull(DSNAME)) DSNAME = CommonConst.DSNAME;
-		Connection  conn=connectionMan.getConnection(DSNAME); 
+		String mDSNAME = queryinfo.getDsname();
+		if(CommonUtil.isNull(mDSNAME)) mDSNAME = CommonConst.DSNAME;
+		Connection  conn=connectionMan.getConnection(mDSNAME); 
 		Statement stmt = null;
 		ResultSet rs = null;
 		List objs = new ArrayList();
@@ -175,15 +175,16 @@ public class BaseDao {
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 		} finally{
-			connectionMan.freeConnection(DSNAME,conn,stmt,rs);
+			connectionMan.freeConnection(mDSNAME,conn,stmt,rs);
 	        return objs;
 		}
 	}
 	
 	@SuppressWarnings("finally")
 	public List selAll(Class type, String selectsql, String... DSNAME) {
-		if(CommonUtil.isNull(DSNAME[0])) DSNAME[0] = CommonConst.DSNAME;
-		Connection  conn=connectionMan.getConnection(DSNAME[0]); 
+		String mDSNAME = CommonConst.DSNAME;
+		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
+		Connection  conn=connectionMan.getConnection(mDSNAME); 
 		Statement stmt = null;
 		ResultSet rs = null;
 		List objs = new ArrayList();
@@ -199,7 +200,7 @@ public class BaseDao {
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 		} finally{
-			connectionMan.freeConnection(DSNAME[0],conn,stmt,rs);
+			connectionMan.freeConnection(mDSNAME,conn,stmt,rs);
 	        return objs;
 		}
 	}
@@ -221,7 +222,7 @@ public class BaseDao {
 		}
 		sql = sql + names.substring(0, names.length() - 1) + ") values ("
 				+ values.substring(0, values.length() - 1) + ")";
-		return doSingle(DSNAME[0], sql, beanToArray.getValues());
+		return doSingle(sql, beanToArray.getValues(), DSNAME);
 	}
 
 	/**
@@ -260,7 +261,7 @@ public class BaseDao {
 					+ "=? ";
 		}
 		sql = sql + where;
-		return doSingle(DSNAME[0], sql, wherebeanToArray.getValues());
+		return doSingle(sql, wherebeanToArray.getValues(), DSNAME);
 	}
 
 	/**
@@ -273,18 +274,18 @@ public class BaseDao {
 		String table = whereobj.getClass().getSimpleName();
 		String sql = "delete from " + table + " where 1=1 ";
 		BeanToArray wherebeanToArray = TypeUtil.beanToList(whereobj);
-		List wherevalues = new ArrayList();
+		List values = new ArrayList();
 		for (int i = 0; i < wherebeanToArray.getBeanNames().size(); i++) {
 			String beanName = (String) wherebeanToArray.getBeanNames().get(i);
 			for (int j = 0; j < primaryKeys.length; j++) {
 				if (primaryKeys[j].equals(beanName)) {
-					wherevalues.add(wherebeanToArray.getValues().get(i));
+					values.add(wherebeanToArray.getValues().get(i));
 					sql += " and " + primaryKeys[j] + "=? ";
 					break;
 				}
 			}
 		}
-		return doSingle(DSNAME[0], sql, wherevalues);
+		return doSingle(sql, values, DSNAME);
 	}
 	/**
 	 * 获取删除whereobj数据的sql
@@ -326,7 +327,7 @@ public class BaseDao {
 		Object id = values.get(0);
 		values.remove(0);
 		values.add(id);
-		return doSingle(DSNAME[0], sql, values);
+		return doSingle(sql, values, DSNAME);
 	}
 
 	/**
@@ -362,7 +363,7 @@ public class BaseDao {
 			values.add(wherevaluestemp);
 		}
 		sql = sql + set.substring(0, set.length() - 1) + where;
-		return doSingle(DSNAME[0], sql, values);
+		return doSingle(sql, values, DSNAME);
 	}
 	/**
 	 * 获取修改obj数据的sql
@@ -393,39 +394,6 @@ public class BaseDao {
 
 	/**
 	 * 执行一条sql语句
-	 * @param sql sql语句
-	 * @param param 参数集合
-	 * @return 成功CommonConst.SUCCESS,失败CommonConst.FAILURE
-	 */
-	@SuppressWarnings("finally")
-	public String doSingle(String DSNAME, String sql, Object... param) {
-		String result = CommonConst.FAILURE;
-		if(CommonUtil.isNull(DSNAME)) DSNAME = CommonConst.DSNAME;
-		Connection conn = connectionMan.getConnection(DSNAME);
-		PreparedStatement pstmt = null;
-		try {
-			System.out.println(sql);
-			pstmt = conn.prepareStatement(sql);
-			if (param != null) {
-				for (int i = 0; i < param.length; i++) {
-					pstmt.setObject(i + 1, param[i]);
-				}
-			}
-			int num = pstmt.executeUpdate();
-			System.out.println("executeUpdate: " + num + " records！");
-			if (num > 0) {
-				result = CommonConst.SUCCESS;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			connectionMan.freeConnection(DSNAME, conn, pstmt);
-			return result;
-		}
-	}
-
-	/**
-	 * 执行一条sql语句
 	 * @param DSNAME 数据源
 	 * @param sql sql语句
 	 * @param param 参数集合
@@ -434,13 +402,14 @@ public class BaseDao {
 	@SuppressWarnings("finally")
 	public String doSingle(String sql, List param, String... DSNAME) {
 		String result = CommonConst.FAILURE;
-		if(CommonUtil.isNull(DSNAME[0])) DSNAME[0] = CommonConst.DSNAME;
-		Connection conn = connectionMan.getConnection(DSNAME[0]);
+		String mDSNAME = CommonConst.DSNAME;
+		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
+		Connection conn = connectionMan.getConnection(mDSNAME);
 		PreparedStatement pstmt = null;
 		try {
 			System.out.println(sql);
 			pstmt = conn.prepareStatement(sql);
-			if (param != null) {
+			if (null != param) {
 				for (int i = 0; i < param.size(); i++) {
 					pstmt.setObject(i + 1, param.get(i));
 				}
@@ -453,7 +422,7 @@ public class BaseDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			connectionMan.freeConnection(DSNAME[0], conn, pstmt);
+			connectionMan.freeConnection(mDSNAME, conn, pstmt);
 			return result;
 		}
 	}
@@ -494,8 +463,9 @@ public class BaseDao {
 	@SuppressWarnings("finally")
 	public String doAll(ArrayList<String> sqls, String... DSNAME) {
 		String result = CommonConst.FAILURE;
-		if(CommonUtil.isNull(DSNAME[0])) DSNAME[0] = CommonConst.DSNAME;
-		Connection conn = connectionMan.getConnection(DSNAME[0]);
+		String mDSNAME = CommonConst.DSNAME;
+		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
+		Connection conn = connectionMan.getConnection(mDSNAME);
 		PreparedStatement pstmt = null;
 		try {
 			conn.setAutoCommit(false);
@@ -515,7 +485,7 @@ public class BaseDao {
 			conn.setAutoCommit(true);// 恢复默认
 			e.printStackTrace();
         } finally {
-			connectionMan.freeConnection(DSNAME[0], conn, pstmt);
+			connectionMan.freeConnection(mDSNAME, conn, pstmt);
 			return result;
 		}
 	}

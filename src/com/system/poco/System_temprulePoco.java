@@ -22,6 +22,7 @@ public class System_temprulePoco
     * 实体中文字段
     */
    public static String[] CHINESENAME = {
+			"id",
 	 	"模板代码",
 	 	"模板名称",
 	 	"页签序号",
@@ -43,6 +44,7 @@ public class System_temprulePoco
 	 * 实体英文字段
 	 */
    public static final String[] FIELDNAME = {
+			"id",
 	 	"tempcode",
 	 	"tempname",
 	 	"sheetno",

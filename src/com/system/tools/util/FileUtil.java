@@ -458,7 +458,9 @@ public class FileUtil {
 			/*String u_name = catalinaHome + "/Uploaded/"  
                     + prefix + "." + type; */ 
 	        try {
-				fileItem.write(new File(fileurl));
+	        	File file = new File(fileurl);  
+	        	if(!file.getParentFile().exists()) file.getParentFile().mkdirs();  
+				fileItem.write(file);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
