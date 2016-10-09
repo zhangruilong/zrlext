@@ -10,6 +10,7 @@ public class Queryinfo {
 	 private String query;
 	 private String order;
 	 private Object json;
+	 private String dsname;
 	 
 	 public Queryinfo() {
 		super();
@@ -84,6 +85,12 @@ public class Queryinfo {
 		this.wheresql = wheresql;
 		this.query = query;
 		this.order = order;
+	}
+	public String getDsname() {
+		return dsname;
+	}
+	public void setDsname(String dsname) {
+		this.dsname = dsname;
 	}
 
 
