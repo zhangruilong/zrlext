@@ -49,7 +49,7 @@ public class Om_groupAction extends BaseAction {
 		for(Om_group temp : cuss){
 			result = DAO.delSingle(temp,Om_groupPoco.KEYCOLUMN);
 			if(result.equals(CommonConst.SUCCESS)){
-				result = new Om_empgroupDao().delSingle(Om_empgroupPoco.TABLE, "groupid='"+temp.getGroupid()+"'");
+				result = new Om_empgroupDao().doSingle("delete from " + Om_empgroupPoco.TABLE + " where groupid='"+temp.getGroupid()+"'",null);
 			}
 		}
 		responsePW(response, result);

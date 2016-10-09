@@ -46,7 +46,7 @@ public class System_rolepowerAction extends com.system.action.System_rolepowerAc
 		}
 		oldcuss.removeAll(commonidrolepowercuss);//等到要删除的rolepower
 		for(System_rolepower temp:oldcuss){
-			result = delSingle(temp);
+			result = delSingle(temp, null);
 		}
 		responsePW(response, result);
 	}

@@ -67,7 +67,7 @@ public class System_userAction extends com.system.action.System_userAction {
 		        String  pwd = CipherUtil.generatePassword(password);
 		        temp.setPassword(pwd);
 		        temp.setId(userid);
-		        result = updSingle(temp);
+		        result = updSingle(temp,null);
 			}else{
 				result = "原密码错误！";
 			}

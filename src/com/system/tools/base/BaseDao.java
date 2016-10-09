@@ -246,23 +246,6 @@ public class BaseDao {
 			   + ")";
 		return sql;
 	}
-	/**
-	 * 删除whereobj,TABLE由whereobj.getClass().getSimpleName()获得
-	 * @param whereobj where条件后面实体对象
-	 * @return 成功CommonConst.SUCCESS,失败CommonConst.FAILURE
-	 */
-	public String delSingle(Object whereobj, String... DSNAME) {
-		String table = whereobj.getClass().getSimpleName();
-		String sql = "delete from " + table;
-		BeanToArray wherebeanToArray = TypeUtil.beanToList(whereobj);
-		String where = " where 1=1 ";
-		for (int i = 0; i < wherebeanToArray.getBeanNames().size(); i++) {
-			where = where + " and " + wherebeanToArray.getBeanNames().get(i)
-					+ "=? ";
-		}
-		sql = sql + where;
-		return doSingle(sql, wherebeanToArray.getValues(), DSNAME);
-	}
 
 	/**
 	 * 删除whereobj数据
@@ -271,21 +254,34 @@ public class BaseDao {
 	 * @return 成功CommonConst.SUCCESS,失败CommonConst.FAILURE
 	 */
 	public String delSingle(Object whereobj, String[] primaryKeys, String... DSNAME) {
-		String table = whereobj.getClass().getSimpleName();
-		String sql = "delete from " + table + " where 1=1 ";
-		BeanToArray wherebeanToArray = TypeUtil.beanToList(whereobj);
-		List values = new ArrayList();
-		for (int i = 0; i < wherebeanToArray.getBeanNames().size(); i++) {
-			String beanName = (String) wherebeanToArray.getBeanNames().get(i);
-			for (int j = 0; j < primaryKeys.length; j++) {
-				if (primaryKeys[j].equals(beanName)) {
-					values.add(wherebeanToArray.getValues().get(i));
-					sql += " and " + primaryKeys[j] + "=? ";
-					break;
+		if(null!=primaryKeys&&primaryKeys.length>0){
+			String table = whereobj.getClass().getSimpleName();
+			String sql = "delete from " + table + " where 1=1 ";
+			BeanToArray wherebeanToArray = TypeUtil.beanToList(whereobj);
+			List values = new ArrayList();
+			for (int i = 0; i < wherebeanToArray.getBeanNames().size(); i++) {
+				String beanName = (String) wherebeanToArray.getBeanNames().get(i);
+				for (int j = 0; j < primaryKeys.length; j++) {
+					if (primaryKeys[j].equals(beanName)) {
+						values.add(wherebeanToArray.getValues().get(i));
+						sql += " and " + primaryKeys[j] + "=? ";
+						break;
+					}
 				}
 			}
+			return doSingle(sql, values, DSNAME);
+		}else{
+			String table = whereobj.getClass().getSimpleName();
+			String sql = "delete from " + table;
+			BeanToArray wherebeanToArray = TypeUtil.beanToList(whereobj);
+			String where = " where 1=1 ";
+			for (int i = 0; i < wherebeanToArray.getBeanNames().size(); i++) {
+				where = where + " and " + wherebeanToArray.getBeanNames().get(i)
+						+ "=? ";
+			}
+			sql = sql + where;
+			return doSingle(sql, wherebeanToArray.getValues(), DSNAME);
 		}
-		return doSingle(sql, values, DSNAME);
 	}
 	/**
 	 * 获取删除whereobj数据的sql
@@ -308,27 +304,6 @@ public class BaseDao {
 		}
 		return sql;
 	}
-	/**
-	 * 修改obj数据
-	 * @param whereobj pojo中有id是唯一主键，且id的位置在第一个
-	 * @return 成功CommonConst.SUCCESS,失败CommonConst.FAILURE
-	 */
-	public String updSingle(Object obj, String... DSNAME) {
-		String table = obj.getClass().getSimpleName();
-		BeanToArray beanToArray = TypeUtil.beanToList(obj);
-		String sql = "update " + table + " set ";
-		String where = beanToArray.getBeanNames().get(0) + "=? ";
-		String set = "";
-		for (int i = 1; i < beanToArray.getBeanNames().size(); i++) {// 从i=1开始
-			set = set + beanToArray.getBeanNames().get(i) + "=?,";
-		}
-		sql = sql + set.substring(0, set.length() - 1) + " where " + where;
-		List values = beanToArray.getValues();
-		Object id = values.get(0);
-		values.remove(0);
-		values.add(id);
-		return doSingle(sql, values, DSNAME);
-	}
 
 	/**
 	 * 修改obj数据
@@ -337,33 +312,50 @@ public class BaseDao {
 	 * @return 成功CommonConst.SUCCESS,失败CommonConst.FAILURE
 	 */
 	public String updSingle(Object obj, String[] primaryKeys, String... DSNAME) {
-		String table = obj.getClass().getSimpleName();
-		String sql = "update " + table;
-		String set = " set ";
-		String where = " where 1=1 ";
-		BeanToArray beanToArray = TypeUtil.beanToList(obj);
-		List values = new ArrayList();
-		List wherevalues = new ArrayList();
-		List valuestemps = beanToArray.getValues();
-		for (int i = 0; i < beanToArray.getBeanNames().size(); i++) {
-			String beanName = (String) beanToArray.getBeanNames().get(i);
-			for (int j = 0; j < primaryKeys.length; j++) {
-				if (primaryKeys[j].equals(beanName)) {
-					wherevalues.add(valuestemps.get(i));
-					where = where + " and " + primaryKeys[j] + "=? ";
-					break;
-				} else if (j == (primaryKeys.length - 1)) {
-					values.add(valuestemps.get(i));
-					set = set + beanToArray.getBeanNames().get(i) + "=?,";
+		if(null!=primaryKeys&&primaryKeys.length>0){
+			String table = obj.getClass().getSimpleName();
+			String sql = "update " + table;
+			String set = " set ";
+			String where = " where 1=1 ";
+			BeanToArray beanToArray = TypeUtil.beanToList(obj);
+			List values = new ArrayList();
+			List wherevalues = new ArrayList();
+			List valuestemps = beanToArray.getValues();
+			for (int i = 0; i < beanToArray.getBeanNames().size(); i++) {
+				String beanName = (String) beanToArray.getBeanNames().get(i);
+				for (int j = 0; j < primaryKeys.length; j++) {
+					if (primaryKeys[j].equals(beanName)) {
+						wherevalues.add(valuestemps.get(i));
+						where = where + " and " + primaryKeys[j] + "=? ";
+						break;
+					} else if (j == (primaryKeys.length - 1)) {
+						values.add(valuestemps.get(i));
+						set = set + beanToArray.getBeanNames().get(i) + "=?,";
+					}
 				}
 			}
+			// 拼接where到set后面
+			for (Object wherevaluestemp : wherevalues) {
+				values.add(wherevaluestemp);
+			}
+			sql = sql + set.substring(0, set.length() - 1) + where;
+			return doSingle(sql, values, DSNAME);
+		}else{
+			String table = obj.getClass().getSimpleName();
+			BeanToArray beanToArray = TypeUtil.beanToList(obj);
+			String sql = "update " + table + " set ";
+			String where = beanToArray.getBeanNames().get(0) + "=? ";
+			String set = "";
+			for (int i = 1; i < beanToArray.getBeanNames().size(); i++) {// 从i=1开始
+				set = set + beanToArray.getBeanNames().get(i) + "=?,";
+			}
+			sql = sql + set.substring(0, set.length() - 1) + " where " + where;
+			List values = beanToArray.getValues();
+			Object id = values.get(0);
+			values.remove(0);
+			values.add(id);
+			return doSingle(sql, values, DSNAME);
 		}
-		// 拼接where到set后面
-		for (Object wherevaluestemp : wherevalues) {
-			values.add(wherevaluestemp);
-		}
-		sql = sql + set.substring(0, set.length() - 1) + where;
-		return doSingle(sql, values, DSNAME);
 	}
 	/**
 	 * 获取修改obj数据的sql
