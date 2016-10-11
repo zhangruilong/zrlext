@@ -1,6 +1,5 @@
 package com.om.pojo;
 
-import java.sql.Date;
 /**
  * 机构信息表 实体类
  *@author ZhangRuiLong
@@ -22,7 +21,7 @@ public class Om_organization
    /**
     * 机构层次
     */
-   private int orglevel;   
+   private String orglevel;   
    /**
     * 机构等级
     */
@@ -78,11 +77,11 @@ public class Om_organization
    /**
     * 生效日期
     */
-   private Date startdate;   
+   private String startdate;   
    /**
     * 失效日期
     */
-   private Date enddate;   
+   private String enddate;   
    /**
     * 机构状态
     */
@@ -106,7 +105,7 @@ public class Om_organization
    /**
     * 排列顺序编号
     */
-   private int sortno;   
+   private String sortno;   
    /**
     * 是否叶子节点
     */
@@ -114,7 +113,7 @@ public class Om_organization
    /**
     * 子节点数
     */
-   private int subcount;   
+   private String subcount;   
    /**
     * 备注
     */
@@ -175,7 +174,7 @@ public class Om_organization
 	 *设置"机构层次"属性
 	 *@param orglevel 实体的Orglevel属性
 	 */
-	public void setOrglevel(int orglevel)
+	public void setOrglevel(String orglevel)
 	{
 		this.orglevel = orglevel;
 	}
@@ -183,7 +182,7 @@ public class Om_organization
 	/**
 	 *获取"机构层次"属性
 	 */
-	public int getOrglevel()
+	public String getOrglevel()
 	{
 		return this.orglevel;
 	}	   
@@ -413,7 +412,7 @@ public class Om_organization
 	 *设置"生效日期"属性
 	 *@param startdate 实体的Startdate属性
 	 */
-	public void setStartdate(Date startdate)
+	public void setStartdate(String startdate)
 	{
 		this.startdate = startdate;
 	}
@@ -421,7 +420,7 @@ public class Om_organization
 	/**
 	 *获取"生效日期"属性
 	 */
-	public Date getStartdate()
+	public String getStartdate()
 	{
 		return this.startdate;
 	}	   
@@ -430,7 +429,7 @@ public class Om_organization
 	 *设置"失效日期"属性
 	 *@param enddate 实体的Enddate属性
 	 */
-	public void setEnddate(Date enddate)
+	public void setEnddate(String enddate)
 	{
 		this.enddate = enddate;
 	}
@@ -438,7 +437,7 @@ public class Om_organization
 	/**
 	 *获取"失效日期"属性
 	 */
-	public Date getEnddate()
+	public String getEnddate()
 	{
 		return this.enddate;
 	}	   
@@ -532,7 +531,7 @@ public class Om_organization
 	 *设置"排列顺序编号"属性
 	 *@param sortno 实体的Sortno属性
 	 */
-	public void setSortno(int sortno)
+	public void setSortno(String sortno)
 	{
 		this.sortno = sortno;
 	}
@@ -540,7 +539,7 @@ public class Om_organization
 	/**
 	 *获取"排列顺序编号"属性
 	 */
-	public int getSortno()
+	public String getSortno()
 	{
 		return this.sortno;
 	}	   
@@ -566,7 +565,7 @@ public class Om_organization
 	 *设置"子节点数"属性
 	 *@param subcount 实体的Subcount属性
 	 */
-	public void setSubcount(int subcount)
+	public void setSubcount(String subcount)
 	{
 		this.subcount = subcount;
 	}
@@ -574,7 +573,7 @@ public class Om_organization
 	/**
 	 *获取"子节点数"属性
 	 */
-	public int getSubcount()
+	public String getSubcount()
 	{
 		return this.subcount;
 	}	   
@@ -603,7 +602,7 @@ public class Om_organization
 		String orgid
 	 	,String orgcode
 	 	,String orgname
-	 	,int orglevel
+	 	,String orglevel
 	 	,String orgdegree
 	 	,String parentorgid
 	 	,String orgseq
@@ -617,16 +616,16 @@ public class Om_organization
 	 	,String linktel
 	 	,String email
 	 	,String weburl
-	 	,Date startdate
-	 	,Date enddate
+	 	,String startdate
+	 	,String enddate
 	 	,String status
 	 	,String area
 	 	,String createtime
 	 	,String lastupdate
 	 	,String updator
-	 	,int sortno
+	 	,String sortno
 	 	,String isleaf
-	 	,int subcount
+	 	,String subcount
 	 	,String remark
 		 ){
 		super();

@@ -1,6 +1,5 @@
 package com.om.pojo;
 
-import java.sql.Date;
 /**
  * 岗位/职位 实体类
  *@author ZhangRuiLong
@@ -22,7 +21,7 @@ public class Om_position
    /**
     * 岗位层次
     */
-   private int posilevel;   
+   private String posilevel;   
    /**
     * 上级岗位
     */
@@ -58,11 +57,11 @@ public class Om_position
    /**
     * 岗位有效开始日期
     */
-   private Date startdate;   
+   private String startdate;   
    /**
     * 岗位有效截止日期
     */
-   private Date enddate;   
+   private String enddate;   
    /**
     * 岗位状态
     */
@@ -74,7 +73,7 @@ public class Om_position
    /**
     * 子节点数
     */
-   private int subcount;   
+   private String subcount;   
     //属性方法	    
      /**
 	 *设置主键"岗位编号"属性
@@ -131,7 +130,7 @@ public class Om_position
 	 *设置"岗位层次"属性
 	 *@param posilevel 实体的Posilevel属性
 	 */
-	public void setPosilevel(int posilevel)
+	public void setPosilevel(String posilevel)
 	{
 		this.posilevel = posilevel;
 	}
@@ -139,7 +138,7 @@ public class Om_position
 	/**
 	 *获取"岗位层次"属性
 	 */
-	public int getPosilevel()
+	public String getPosilevel()
 	{
 		return this.posilevel;
 	}	   
@@ -284,7 +283,7 @@ public class Om_position
 	 *设置"岗位有效开始日期"属性
 	 *@param startdate 实体的Startdate属性
 	 */
-	public void setStartdate(Date startdate)
+	public void setStartdate(String startdate)
 	{
 		this.startdate = startdate;
 	}
@@ -292,7 +291,7 @@ public class Om_position
 	/**
 	 *获取"岗位有效开始日期"属性
 	 */
-	public Date getStartdate()
+	public String getStartdate()
 	{
 		return this.startdate;
 	}	   
@@ -301,7 +300,7 @@ public class Om_position
 	 *设置"岗位有效截止日期"属性
 	 *@param enddate 实体的Enddate属性
 	 */
-	public void setEnddate(Date enddate)
+	public void setEnddate(String enddate)
 	{
 		this.enddate = enddate;
 	}
@@ -309,7 +308,7 @@ public class Om_position
 	/**
 	 *获取"岗位有效截止日期"属性
 	 */
-	public Date getEnddate()
+	public String getEnddate()
 	{
 		return this.enddate;
 	}	   
@@ -352,7 +351,7 @@ public class Om_position
 	 *设置"子节点数"属性
 	 *@param subcount 实体的Subcount属性
 	 */
-	public void setSubcount(int subcount)
+	public void setSubcount(String subcount)
 	{
 		this.subcount = subcount;
 	}
@@ -360,7 +359,7 @@ public class Om_position
 	/**
 	 *获取"子节点数"属性
 	 */
-	public int getSubcount()
+	public String getSubcount()
 	{
 		return this.subcount;
 	}	   
@@ -372,7 +371,7 @@ public class Om_position
 		String positionid
 	 	,String posicode
 	 	,String posiname
-	 	,int posilevel
+	 	,String posilevel
 	 	,String manaposi
 	 	,String dutyid
 	 	,String orgid
@@ -381,11 +380,11 @@ public class Om_position
 	 	,String createtime
 	 	,String lastupdate
 	 	,String updator
-	 	,Date startdate
-	 	,Date enddate
+	 	,String startdate
+	 	,String enddate
 	 	,String status
 	 	,String isleaf
-	 	,int subcount
+	 	,String subcount
 		 ){
 		super();
 		this.positionid = positionid;
