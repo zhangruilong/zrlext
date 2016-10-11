@@ -2,7 +2,7 @@ package com.om.pojo;
 
 /**
  * 人员 实体类
- *@author ZhangRuiLong
+ *@author ZhangRuiLong 
  */
 public class Om_employee
 {

@@ -1,6 +1,5 @@
 package com.om.pojo;
 
-import java.sql.Date;
 /**
  * 人员岗位对应关系 实体类
  *@author ZhangRuiLong
