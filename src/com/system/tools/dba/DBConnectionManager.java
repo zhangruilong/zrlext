@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
 
 import com.system.tools.CommonConst;
@@ -52,6 +53,7 @@ public class DBConnectionManager {
 	 * @param con
 	 */
 	public void freeConnection(String name, Connection con, Statement st, ResultSet rs) {
+		if(null==name) name = getDsname();
 		DBConnectionPool pool = (DBConnectionPool) pools.get(name);// 根据关键名字得到连接池
 		if (pool != null) {
 			try {
@@ -90,6 +92,7 @@ public class DBConnectionManager {
 	 * @param con
 	 */
 	public void freeConnection(String name, Connection con, Statement st) {
+		if(null==name) name = getDsname();
 		DBConnectionPool pool = (DBConnectionPool) pools.get(name);// 根据关键名字得到连接池
 		if (pool != null) {
 			try {
@@ -119,6 +122,7 @@ public class DBConnectionManager {
 	 * @param con
 	 */
 	public void freeConnection(String name, Connection con, PreparedStatement st, ResultSet rs) {
+		if(null==name) name = getDsname();
 		DBConnectionPool pool = (DBConnectionPool) pools.get(name);// 根据关键名字得到连接池
 		if (pool != null) {
 			try {
@@ -157,6 +161,7 @@ public class DBConnectionManager {
 	 * @param con
 	 */
 	public void freeConnection(String name, Connection con, PreparedStatement st) {
+		if(null==name) name = getDsname();
 		DBConnectionPool pool = (DBConnectionPool) pools.get(name);// 根据关键名字得到连接池
 		if (pool != null) {
 			try {
@@ -179,7 +184,7 @@ public class DBConnectionManager {
 		}
 	}
 	/**
-	 * 得到一个连接根据连接池的名字name
+	 * 根据连接池的名字name得到一个连接
 	 * 
 	 * @param name
 	 * @return
@@ -187,13 +192,37 @@ public class DBConnectionManager {
 	public Connection getConnection(String name) {
 		DBConnectionPool pool = null;
 		Connection con = null;
-		pool = (DBConnectionPool) pools.get(name);// 从名字中获取连接池
+		Iterator<String> keys = pools.keySet().iterator();
+		String keyname = "default";
+		while(keys.hasNext()){
+			keyname = keys.next();
+			if(null==name){
+				break;
+			}else if(name.equals(keyname)){
+				break;
+			}
+		}
+		pool = (DBConnectionPool) pools.get(keyname);// 从名字中获取连接池
 		con = pool.getConnection();// 从选定的连接池中获得连接
 		if (con != null)
-			System.out.println("得到连接。。。");
+			System.out.println("得"+keyname+"到连接。。。");
 		return con;
 	}
 
+	/**
+	 * 得到一个连接的名字Dsname
+	 * 
+	 * @return
+	 */
+	public String getDsname() {
+		Iterator<String> keys = pools.keySet().iterator();
+		String keyname = "default";
+		while(keys.hasNext()){
+			keyname = keys.next();
+			break;
+		}
+		return keyname;
+	}
 	/**
 	 * 得到一个连接，根据连接池的名字和等待时间
 	 * 

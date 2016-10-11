@@ -1,7 +1,7 @@
 <ds-config>
 	<pool>
 		<type>mysql</type>
-		<name>mysql</name>
+		<name>default</name>
 		<driver>com.mysql.jdbc.Driver</driver>
 		<url>jdbc:mysql://127.0.0.1:3306/zrl?characterEncoding=UTF-8</url>
 		<username>root</username>
