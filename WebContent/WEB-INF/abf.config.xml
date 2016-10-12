@@ -30,6 +30,6 @@
 	<bean id="ApplycAction" class="com.cms.action.ApplycAction" />
 	<bean id="IntentioncAction" class="com.cms.action.IntentioncAction" />
 	<bean id="JobpublishAction" class="com.cms.action.JobpublishAction" />
-	<bean id="ContentAction" class="com.cms.action.ContentAction" />
+	<bean id="ContentAction" class="com.cms.action.more.ContentAction" />
 
 </beans>
