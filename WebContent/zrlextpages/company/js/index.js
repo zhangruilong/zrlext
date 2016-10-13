@@ -8,15 +8,15 @@ $(function(){
 		},
 		success : function(resp){
 			var data = eval('('+resp+')');
-			$('#hmPage-Cont').html('');
+			//$('#hmPage-Cont').html('');
 			
 			//首页
 			$.each(data.root[0],function(i,item){
-				$('#hmPage-Cont').append(item.contentdetail);
+				$('#hmPage-Cont').append(decodeURI(item.contentdetail));
 				$('#hmPage-Cont .swiper-slide:eq('+i+')').css('background'," url('"+item.contentback+"') 50% 35% ");
 				$('#hmPage-Cont .swiper-slide:eq('+i+')').css('background-size',"cover");
 			});
-			
+			/*
 			//关于
 			$('#guanyu-cont').css('background'," url('"+data.root[1][0].contentback+"') 50% 60% ");
 			$('#guanyu-cont').css('background-size',"cover");
@@ -58,7 +58,7 @@ $(function(){
 						'</i><i>'+seoInfo.seocopyright+'<br>'+seoInfo.seoicp+'</i>');
 				$('meta[name="Keywords"]').attr('content',seoInfo.seokeword);				//关键字
 				$('meta[name="Description"]').attr('content',seoInfo.seodetail);			//描述
-			}
+			}*/
 			
 			//特效
 			if (window.location.host > 0) {
