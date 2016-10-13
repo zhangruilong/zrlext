@@ -100,17 +100,19 @@ public class ContentAction extends BaseActionDao {
 	public void homePageInfo(HttpServletRequest request, HttpServletResponse response){
 		List<Content> homeConLi = selAll(Content.class,											//"首页"内容
 				"select * from content c where c.contentparent='1' order by c.contentcode");
-		List<Content> gyConLi = selAll(Content.class, 											//"关于"内容
+		List<Content> gyConLi = selAll(Content.class, 											//"关于-简介"内容
 				"select * from content c where c.contentparent='2' order by c.contentcode");
-		List<Content> newsLi = selAll(Content.class, 											//"关于"的 "动态" 内容
-				"select * from (select A.*, ROWNUM RN from (select * from content c where c.contentparent='5' order by c.contentcode )"
-				+ " A where ROWNUM  <= 2 ) where RN > 0");
+		List<Content> wenhuaConLi = selAll(Content.class, 										//"关于-文化"内容
+				"select * from content c where c.contentparent='G14763279462272827' order by c.contentcode");
+		List<Content> newsLi = selAll(Content.class, 											//"关于-动态" 内容
+				"select * from (select A.*, ROWNUM RN from (select * from content c where c.contentparent='G14763280088554983' "
+				+ "order by c.contentcode ) A where ROWNUM  <= 2 ) where RN > 0");
 		List<Content> servConLi = selAll(Content.class, 										//"服务"内容
 				"select * from content c where c.contentparent='3' order by c.contentcode");
 		List<Content> productConLi = selAll(Content.class, 										//"方案"内容
 				"select * from content c where c.contentparent='4' order by c.contentcode");
 		List<Content> contectConLi = selAll(Content.class, 										//"联系"内容
-				"select * from content c where c.contentparent='6' order by c.contentcode");
+				"select * from content c where c.contentparent='5' order by c.contentcode");
 		List<Seo> seoLi = selAll(Seo.class, 												//首页"SEO"内容
 				"select * from seo s where s.seomodel='首页'");
 		
@@ -145,15 +147,16 @@ public class ContentAction extends BaseActionDao {
 		}
 		
 		for (System_attach sa : saList) {
-			if(sa.getFid().indexOf("6,") == 0){
+			if(sa.getFid().indexOf("5,") == 0){
 				contectConLi.get(0).setContentback(sa.getName());			//"联系"的背景图片
 			}
 		}
 		
 		List<Object> objLi = new ArrayList<Object>();
 		objLi.add(homeConLi);							//首页
-		objLi.add(gyConLi);								//关于
-		objLi.add(newsLi);								//动态
+		objLi.add(gyConLi);								//关于-简介
+		objLi.add(wenhuaConLi);							//关于-文化
+		objLi.add(newsLi);								//关于-动态
 		objLi.add(servConLi);							//服务
 		objLi.add(productConLi);						//方案
 		objLi.add(contectConLi);						//联系
