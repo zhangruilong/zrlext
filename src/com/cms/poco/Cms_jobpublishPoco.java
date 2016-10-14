@@ -4,7 +4,7 @@ package com.cms.poco;
  * 职位 实体类的常量
  *@author ZhangRuiLong
  */
-public class JobpublishPoco
+public class Cms_jobpublishPoco
 {
    /**
     * 实体中文名

@@ -4,7 +4,7 @@ package com.cms.poco;
  * SEO 实体类的常量
  *@author ZhangRuiLong
  */
-public class SeoPoco
+public class Cms_seoPoco
 {
    /**
     * 实体中文名

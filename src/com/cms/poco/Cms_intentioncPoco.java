@@ -4,7 +4,7 @@ package com.cms.poco;
  * 意向客户 实体类的常量
  *@author ZhangRuiLong
  */
-public class IntentioncPoco
+public class Cms_intentioncPoco
 {
    /**
     * 实体中文名

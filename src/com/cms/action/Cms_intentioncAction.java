@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cms.pojo.Intentionc;
-import com.cms.poco.IntentioncPoco;
+import com.cms.pojo.Cms_intentionc;
+import com.cms.poco.Cms_intentioncPoco;
 import com.system.tools.CommonConst;
 import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
@@ -20,10 +20,10 @@ import com.system.tools.pojo.Pageinfo;
  * 意向客户 逻辑层
  *@author ZhangRuiLong
  */
-public class IntentioncAction extends BaseActionDao {
+public class Cms_intentioncAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
-	public ArrayList<Intentionc> cuss = null;
-	public Type TYPE = new TypeToken<ArrayList<Intentionc>>() {}.getType();
+	public ArrayList<Cms_intentionc> cuss = null;
+	public Type TYPE = new TypeToken<ArrayList<Cms_intentionc>>() {}.getType();
 
 	//新增
 	public void insAll(HttpServletRequest request, HttpServletResponse response){
@@ -31,7 +31,7 @@ public class IntentioncAction extends BaseActionDao {
 		System.out.println("json : " + json);
 		json = json.replace("\"\"", "null");
 		if(CommonUtil.isNotEmpty(json)) cuss = CommonConst.GSON.fromJson(json, TYPE);
-		for(Intentionc temp:cuss){
+		for(Cms_intentionc temp:cuss){
 			if(CommonUtil.isNull(temp.getIntentioncid()))
 				temp.setIntentioncid(CommonUtil.getNewId());
 			result = insSingle(temp);
@@ -43,8 +43,8 @@ public class IntentioncAction extends BaseActionDao {
 		String json = request.getParameter("json");
 		System.out.println("json : " + json);
 		if(CommonUtil.isNotEmpty(json)) cuss = CommonConst.GSON.fromJson(json, TYPE);
-		for(Intentionc temp:cuss){
-			result = delSingle(temp,IntentioncPoco.KEYCOLUMN);
+		for(Cms_intentionc temp:cuss){
+			result = delSingle(temp,Cms_intentioncPoco.KEYCOLUMN);
 		}
 		responsePW(response, result);
 	}
@@ -53,17 +53,17 @@ public class IntentioncAction extends BaseActionDao {
 		String json = request.getParameter("json");
 		System.out.println("json : " + json);
 		if(CommonUtil.isNotEmpty(json)) cuss = CommonConst.GSON.fromJson(json, TYPE);
-		for(Intentionc temp:cuss){
-			result = updSingle(temp,IntentioncPoco.KEYCOLUMN);
+		for(Cms_intentionc temp:cuss){
+			result = updSingle(temp,Cms_intentioncPoco.KEYCOLUMN);
 		}
 		responsePW(response, result);
 	}
 	//导入
 	public void impAll(HttpServletRequest request, HttpServletResponse response){
-		Fileinfo fileinfo = FileUtil.upload(request,0,null,IntentioncPoco.NAME,"impAll");
-		String json = FileUtil.impExcel(fileinfo.getPath(),IntentioncPoco.FIELDNAME); 
+		Fileinfo fileinfo = FileUtil.upload(request,0,null,Cms_intentioncPoco.NAME,"impAll");
+		String json = FileUtil.impExcel(fileinfo.getPath(),Cms_intentioncPoco.FIELDNAME); 
 		if(CommonUtil.isNotEmpty(json)) cuss = CommonConst.GSON.fromJson(json, TYPE);
-		for(Intentionc temp:cuss){
+		for(Cms_intentionc temp:cuss){
 			if(CommonUtil.isNull(temp.getIntentioncid()))
 				temp.setIntentioncid(CommonUtil.getNewId());
 			result = insSingle(temp);
@@ -72,20 +72,20 @@ public class IntentioncAction extends BaseActionDao {
 	}
 	//导出
 	public void expAll(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Queryinfo queryinfo = getQueryinfo(request, Intentionc.class, IntentioncPoco.QUERYFIELDNAME, IntentioncPoco.ORDER, TYPE);
-		cuss = (ArrayList<Intentionc>) selAll(queryinfo);
-		FileUtil.expExcel(response,cuss,IntentioncPoco.CHINESENAME,IntentioncPoco.NAME);
+		Queryinfo queryinfo = getQueryinfo(request, Cms_intentionc.class, Cms_intentioncPoco.QUERYFIELDNAME, Cms_intentioncPoco.ORDER, TYPE);
+		cuss = (ArrayList<Cms_intentionc>) selAll(queryinfo);
+		FileUtil.expExcel(response,cuss,Cms_intentioncPoco.CHINESENAME,Cms_intentioncPoco.NAME);
 	}
 	//查询所有
 	public void selAll(HttpServletRequest request, HttpServletResponse response){
-		Queryinfo queryinfo = getQueryinfo(request, Intentionc.class, IntentioncPoco.QUERYFIELDNAME, IntentioncPoco.ORDER, TYPE);
+		Queryinfo queryinfo = getQueryinfo(request, Cms_intentionc.class, Cms_intentioncPoco.QUERYFIELDNAME, Cms_intentioncPoco.ORDER, TYPE);
 		Pageinfo pageinfo = new Pageinfo(0, selAll(queryinfo));
 		result = CommonConst.GSON.toJson(pageinfo);
 		responsePW(response, result);
 	}
 	//分页查询
 	public void selQuery(HttpServletRequest request, HttpServletResponse response){
-		Queryinfo queryinfo = getQueryinfo(request, Intentionc.class, IntentioncPoco.QUERYFIELDNAME, IntentioncPoco.ORDER, TYPE);
+		Queryinfo queryinfo = getQueryinfo(request, Cms_intentionc.class, Cms_intentioncPoco.QUERYFIELDNAME, Cms_intentioncPoco.ORDER, TYPE);
 		Pageinfo pageinfo = new Pageinfo(getTotal(queryinfo), selQuery(queryinfo));
 		result = CommonConst.GSON.toJson(pageinfo);
 		responsePW(response, result);

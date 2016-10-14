@@ -5,7 +5,7 @@ import java.sql.Date;
  * SEO 实体类
  *@author ZhangRuiLong
  */
-public class Seo
+public class Cms_seo
 {
    /**
     * ID,主键
@@ -259,11 +259,11 @@ public class Seo
 	{
 		return this.seoicp;
 	}	   
-	public Seo() {
+	public Cms_seo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Seo(
+	public Cms_seo(
 		String seoid
 	 	,String seokeword
 	 	,String seodetail

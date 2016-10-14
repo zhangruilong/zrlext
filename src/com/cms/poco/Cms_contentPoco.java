@@ -4,7 +4,7 @@ package com.cms.poco;
  * 图文 实体类的常量
  *@author ZhangRuiLong
  */
-public class ContentPoco
+public class Cms_contentPoco
 {
    /**
     * 实体中文名

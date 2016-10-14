@@ -5,7 +5,7 @@ import java.sql.Date;
  * 图文 实体类
  *@author ZhangRuiLong
  */
-public class Content
+public class Cms_content
 {
    /**
     * ID,主键
@@ -154,11 +154,11 @@ public class Content
 	{
 		return this.contentmodel;
 	}	   
-	public Content() {
+	public Cms_content() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Content(
+	public Cms_content(
 		String contentid
 	 	,String contentcode
 	 	,String contentname

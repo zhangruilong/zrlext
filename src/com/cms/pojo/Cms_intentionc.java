@@ -5,7 +5,7 @@ import java.sql.Date;
  * 意向客户 实体类
  *@author ZhangRuiLong
  */
-public class Intentionc
+public class Cms_intentionc
 {
    /**
     * ID,主键
@@ -133,11 +133,11 @@ public class Intentionc
 	{
 		return this.intentioncaddress;
 	}	   
-	public Intentionc() {
+	public Cms_intentionc() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Intentionc(
+	public Cms_intentionc(
 		String intentioncid
 	 	,String intentioncname
 	 	,String intentioncphone

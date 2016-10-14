@@ -26,10 +26,10 @@
 	<bean id="Om_empgroupAction" class="com.om.action.Om_empgroupAction" />
 	<bean id="Om_dutyAction" class="com.om.action.Om_dutyAction" />
 	<bean id="Om_busiorgAction" class="com.om.action.Om_busiorgAction" />
-	<bean id="SeoAction" class="com.cms.action.SeoAction" />
-	<bean id="ApplycAction" class="com.cms.action.ApplycAction" />
-	<bean id="IntentioncAction" class="com.cms.action.IntentioncAction" />
-	<bean id="JobpublishAction" class="com.cms.action.JobpublishAction" />
-	<bean id="ContentAction" class="com.cms.action.more.ContentAction" />
+	<bean id="Cms_seoAction" class="com.cms.action.Cms_seoAction" />
+	<bean id="Cms_applycAction" class="com.cms.action.Cms_applycAction" />
+	<bean id="Cms_intentioncAction" class="com.cms.action.Cms_intentioncAction" />
+	<bean id="Cms_jobpublishAction" class="com.cms.action.Cms_jobpublishAction" />
+	<bean id="Cms_contentAction" class="com.cms.action.more.Cms_contentAction" />
 
 </beans>

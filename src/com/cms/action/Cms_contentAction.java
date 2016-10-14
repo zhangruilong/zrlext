@@ -8,10 +8,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cms.pojo.Content;
-import com.cms.pojo.HomePageInfo;
-import com.cms.pojo.Seo;
-import com.cms.poco.ContentPoco;
+import com.cms.pojo.Cms_content;
+import com.cms.pojo.Cms_seo;
+import com.cms.poco.Cms_contentPoco;
 import com.system.pojo.System_attach;
 import com.system.tools.CommonConst;
 import com.system.tools.base.BaseActionDao;
@@ -25,10 +24,10 @@ import com.system.tools.pojo.Pageinfo;
  * 图文 逻辑层
  *@author ZhangRuiLong
  */
-public class ContentAction extends BaseActionDao {
+public class Cms_contentAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
-	public ArrayList<Content> cuss = null;
-	public Type TYPE = new TypeToken<ArrayList<Content>>() {}.getType();
+	public ArrayList<Cms_content> cuss = null;
+	public Type TYPE = new TypeToken<ArrayList<Cms_content>>() {}.getType();
 
 	//新增
 	public void insAll(HttpServletRequest request, HttpServletResponse response){
@@ -36,7 +35,7 @@ public class ContentAction extends BaseActionDao {
 		System.out.println("json : " + json);
 		json = json.replace("\"\"", "null");
 		if(CommonUtil.isNotEmpty(json)) cuss = CommonConst.GSON.fromJson(json, TYPE);
-		for(Content temp:cuss){
+		for(Cms_content temp:cuss){
 			if(CommonUtil.isNull(temp.getContentid()))
 				temp.setContentid(CommonUtil.getNewId());
 			result = insSingle(temp);
@@ -48,8 +47,8 @@ public class ContentAction extends BaseActionDao {
 		String json = request.getParameter("json");
 		System.out.println("json : " + json);
 		if(CommonUtil.isNotEmpty(json)) cuss = CommonConst.GSON.fromJson(json, TYPE);
-		for(Content temp:cuss){
-			result = delSingle(temp,ContentPoco.KEYCOLUMN);
+		for(Cms_content temp:cuss){
+			result = delSingle(temp,Cms_contentPoco.KEYCOLUMN);
 		}
 		responsePW(response, result);
 	}
@@ -58,17 +57,17 @@ public class ContentAction extends BaseActionDao {
 		String json = request.getParameter("json");
 		System.out.println("json : " + json);
 		if(CommonUtil.isNotEmpty(json)) cuss = CommonConst.GSON.fromJson(json, TYPE);
-		for(Content temp:cuss){
-			result = updSingle(temp,ContentPoco.KEYCOLUMN);
+		for(Cms_content temp:cuss){
+			result = updSingle(temp,Cms_contentPoco.KEYCOLUMN);
 		}
 		responsePW(response, result);
 	}
 	//导入
 	public void impAll(HttpServletRequest request, HttpServletResponse response){
-		Fileinfo fileinfo = FileUtil.upload(request,0,null,ContentPoco.NAME,"impAll");
-		String json = FileUtil.impExcel(fileinfo.getPath(),ContentPoco.FIELDNAME); 
+		Fileinfo fileinfo = FileUtil.upload(request,0,null,Cms_contentPoco.NAME,"impAll");
+		String json = FileUtil.impExcel(fileinfo.getPath(),Cms_contentPoco.FIELDNAME); 
 		if(CommonUtil.isNotEmpty(json)) cuss = CommonConst.GSON.fromJson(json, TYPE);
-		for(Content temp:cuss){
+		for(Cms_content temp:cuss){
 			if(CommonUtil.isNull(temp.getContentid()))
 				temp.setContentid(CommonUtil.getNewId());
 			result = insSingle(temp);
@@ -77,20 +76,20 @@ public class ContentAction extends BaseActionDao {
 	}
 	//导出
 	public void expAll(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Queryinfo queryinfo = getQueryinfo(request, Content.class, ContentPoco.QUERYFIELDNAME, ContentPoco.ORDER, TYPE);
-		cuss = (ArrayList<Content>) selAll(queryinfo);
-		FileUtil.expExcel(response,cuss,ContentPoco.CHINESENAME,ContentPoco.NAME);
+		Queryinfo queryinfo = getQueryinfo(request, Cms_content.class, Cms_contentPoco.QUERYFIELDNAME, Cms_contentPoco.ORDER, TYPE);
+		cuss = (ArrayList<Cms_content>) selAll(queryinfo);
+		FileUtil.expExcel(response,cuss,Cms_contentPoco.CHINESENAME,Cms_contentPoco.NAME);
 	}
 	//查询所有
 	public void selAll(HttpServletRequest request, HttpServletResponse response){
-		Queryinfo queryinfo = getQueryinfo(request, Content.class, ContentPoco.QUERYFIELDNAME, ContentPoco.ORDER, TYPE);
+		Queryinfo queryinfo = getQueryinfo(request, Cms_content.class, Cms_contentPoco.QUERYFIELDNAME, Cms_contentPoco.ORDER, TYPE);
 		Pageinfo pageinfo = new Pageinfo(0, selAll(queryinfo));
 		result = CommonConst.GSON.toJson(pageinfo);
 		responsePW(response, result);
 	}
 	//分页查询
 	public void selQuery(HttpServletRequest request, HttpServletResponse response){
-		Queryinfo queryinfo = getQueryinfo(request, Content.class, ContentPoco.QUERYFIELDNAME, ContentPoco.ORDER, TYPE);
+		Queryinfo queryinfo = getQueryinfo(request, Cms_content.class, Cms_contentPoco.QUERYFIELDNAME, Cms_contentPoco.ORDER, TYPE);
 		Pageinfo pageinfo = new Pageinfo(getTotal(queryinfo), selQuery(queryinfo));
 		result = CommonConst.GSON.toJson(pageinfo);
 		responsePW(response, result);
@@ -98,25 +97,25 @@ public class ContentAction extends BaseActionDao {
 	//首页信息
 	@SuppressWarnings("unchecked")
 	public void homePageInfo(HttpServletRequest request, HttpServletResponse response){
-		List<Content> homeConLi = selAll(Content.class,											//"首页"内容
+		List<Cms_content> homeConLi = selAll(Cms_content.class,											//"首页"内容
 				"select * from content c where c.contentparent='1' order by c.contentcode");
-		List<Content> gyConLi = selAll(Content.class, 											//"关于"内容
+		List<Cms_content> gyConLi = selAll(Cms_content.class, 											//"关于"内容
 				"select * from content c where c.contentparent='2' order by c.contentcode");
-		List<Content> newsLi = selAll(Content.class, 											//"关于"的 "动态" 内容
+		List<Cms_content> newsLi = selAll(Cms_content.class, 											//"关于"的 "动态" 内容
 				"select * from (select A.*, ROWNUM RN from (select * from content c where c.contentparent='5' order by c.contentcode )"
 				+ " A where ROWNUM  <= 2 ) where RN > 0");
-		List<Content> servConLi = selAll(Content.class, 										//"服务"内容
+		List<Cms_content> servConLi = selAll(Cms_content.class, 										//"服务"内容
 				"select * from content c where c.contentparent='3' order by c.contentcode");
-		List<Content> productConLi = selAll(Content.class, 										//"方案"内容
+		List<Cms_content> productConLi = selAll(Cms_content.class, 										//"方案"内容
 				"select * from content c where c.contentparent='4' order by c.contentcode");
-		List<Content> contectConLi = selAll(Content.class, 										//"联系"内容
+		List<Cms_content> contectConLi = selAll(Cms_content.class, 										//"联系"内容
 				"select * from content c where c.contentparent='6' order by c.contentcode");
-		List<Seo> seoLi = selAll(Seo.class, 												//首页"SEO"内容
+		List<Cms_seo> seoLi = selAll(Cms_seo.class, 												//首页"SEO"内容
 				"select * from seo s where s.seomodel='首页'");
 		
 		List<System_attach> saList = selAll(System_attach.class,"select * from system_attach sa where sa.classify='图文'");		//全部图片
 		
-		for (Content con : homeConLi) {
+		for (Cms_content con : homeConLi) {
 			for (System_attach sa : saList) {
 				if(sa.getFid().indexOf(con.getContentid()) != -1){
 					con.setContentback(sa.getName());					//"首页"背景图片路径
@@ -136,7 +135,7 @@ public class ContentAction extends BaseActionDao {
 			}
 		}
 		
-		for (Content con : productConLi) {
+		for (Cms_content con : productConLi) {
 			for (System_attach sa : saList) {
 				if(sa.getFid().indexOf(con.getContentid()) != -1){
 					con.setContentback(sa.getName() );					//"方案"背景图片路径

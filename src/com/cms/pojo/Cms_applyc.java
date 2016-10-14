@@ -5,7 +5,7 @@ import java.sql.Date;
  * 职位申请 实体类
  *@author ZhangRuiLong
  */
-public class Applyc
+public class Cms_applyc
 {
    /**
     * ID,主键
@@ -196,11 +196,11 @@ public class Applyc
 	{
 		return this.applycjob;
 	}	   
-	public Applyc() {
+	public Cms_applyc() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Applyc(
+	public Cms_applyc(
 		String applycid
 	 	,String applycname
 	 	,String applycsex

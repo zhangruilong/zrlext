@@ -5,7 +5,7 @@ import java.sql.Date;
  * 职位 实体类
  *@author ZhangRuiLong
  */
-public class Jobpublish
+public class Cms_jobpublish
 {
    /**
     * ID,主键
@@ -133,11 +133,11 @@ public class Jobpublish
 	{
 		return this.jobpublishnum;
 	}	   
-	public Jobpublish() {
+	public Cms_jobpublish() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Jobpublish(
+	public Cms_jobpublish(
 		String jobpublishid
 	 	,String jobpublishcode
 	 	,String jobpublishname
