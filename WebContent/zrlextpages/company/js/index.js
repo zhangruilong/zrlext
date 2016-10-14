@@ -7,7 +7,6 @@ $(function(){
 		success : function(resp){
 			var data = eval('('+resp+')');
 			//$('#hmPage-Cont').html('');
-			alert(resp);
 			//首页
 			$.each(data.root[0],function(i,item){
 				$('#hmPage-Cont').append(decodeURI(item.contentdetail));
@@ -16,7 +15,7 @@ $(function(){
 			});
 			
 			//关于
-			/*$('#guanyu-cont').css('background'," url('"+data.root[1][0].contentback+"') 50% 60% ");
+			$('#guanyu-cont').css('background'," url('"+data.root[1][0].contentback+"') 50% 60% ");
 			$('#guanyu-cont').css('background-size',"cover");
 			$('#guanyu-cont .nth1').append(decodeURI(data.root[1][0].contentdetail));				//简介
 			$.each(data.root[2],function(i,item){										//文化
@@ -34,7 +33,8 @@ $(function(){
 			$('#sever-cont').css('background'," url("+data.root[4][0].contentback+") 50% bottom");
 			$('#sever-cont').css('background-size',"cover");
 			$.each(data.root[4],function(i,item){
-				$('#sever-cont .items').append(item.contentdetail);
+				//alert(item.contentdetail);
+				$('#sever-cont .items').append(decodeURI(item.contentdetail));
 			});
 			
 			//提交"入驻"表单
@@ -61,7 +61,7 @@ $(function(){
 						'</i><i>'+seoInfo.seocopyright+'<br>'+seoInfo.seoicp+'</i>');
 				$('meta[name="Keywords"]').attr('content',seoInfo.seokeword);				//关键字
 				$('meta[name="Description"]').attr('content',seoInfo.seodetail);			//描述
-			}*/
+			}
 			
 			//特效
 			if (window.location.host > 0) {
@@ -96,7 +96,7 @@ function subSQRZfm(){
 	}
 	strJson = strJson.substring(0,strJson.length-1) + '}]';
 	$.ajax({
-		url:"IntentioncAction.do?method=insAll",
+		url:"Cms_intentioncAction.do?method=insAll",
 		type:"post",
 		data:{
 			json:strJson

@@ -24,8 +24,7 @@ public class Cms_contentAction extends com.cms.action.Cms_contentAction {
 		List<Cms_content> wenhuaConLi = selAll(Cms_content.class, 										//"关于-文化"内容
 				"select * from cms_content c where c.contentparent='G14763279462272827' order by c.contentcode");
 		List<Cms_content> newsLi = selAll(Cms_content.class, 											//"关于-动态" 内容
-				"select * from (select A.*, ROWNUM RN from (select * from cms_content c where c.contentparent='G14763280088554983' "
-				+ "order by c.contentcode ) A where ROWNUM  <= 2 ) where RN > 0");
+				"select * from cms_content c where c.contentparent='G14763280088554983' order by c.contentcode limit 0,2");
 		List<Cms_content> servConLi = selAll(Cms_content.class, 										//"服务"内容
 				"select * from cms_content c where c.contentparent='3' order by c.contentcode");
 		List<Cms_content> productConLi = selAll(Cms_content.class, 										//"方案"内容

@@ -1,6 +1,6 @@
 $(function(){
 	$.ajax({
-		url:"JobpublishAction.do?method=selAll",
+		url:"Cms_jobpublishAction.do?method=selAll",
 		type:"post",
 		data:{
 			

@@ -1,7 +1,7 @@
 var jbpid = getQueryString('jbpid');
 $(function(){
 	$.ajax({
-		url:"JobpublishAction.do?method=selAll",
+		url:"Cms_jobpublishAction.do?method=selAll",
 		type:"post",
 		data:{
 			json:'[{jobpublishid:"'+jbpid+'"}]'
@@ -39,7 +39,7 @@ function subApplyc(){
 	}
 	strJson += '"applycjob":"'+jbpid+'"}]';
 	$.ajax({
-		url:"ApplycAction.do?method=insAll",
+		url:"Cms_applycAction.do?method=insAll",
 		type:"post",
 		data:{
 			json:strJson
