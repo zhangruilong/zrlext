@@ -1,9 +1,9 @@
 Ext.onReady(function() {
-	var Seoclassify = "SEO";
-	var Seotitle = "当前位置:业务管理》" + Seoclassify;
-	var Seoaction = "SeoAction.do";
-	var Seofields = ['seoid'
-	        			    ,'seokeword' 
+	var Cms_seoclassify = "cms_seo";
+	var Cms_seotitle = "当前位置:业务管理》" + Cms_seoclassify;
+	var Cms_seoaction = "Cms_seoAction.do";
+	var Cms_seofields = ['seoid'
+	        			    ,'seokeyword' 
 	        			    ,'seodetail' 
 	        			    ,'seomodel' 
 	        			    ,'logo' 
@@ -15,10 +15,10 @@ Ext.onReady(function() {
 	        			    ,'seocopyright' 
 	        			    ,'seoicp' 
 	        			      ];// 全部字段
-	var Seokeycolumn = [ 'seoid' ];// 主键
-	var Seostore = dataStore(Seofields, basePath + Seoaction + "?method=selAll");// 定义Seostore
-	var SeodataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
-		id:'SeodataForm',
+	var Cms_seokeycolumn = [ 'seoid' ];// 主键
+	var Cms_seostore = dataStore(Cms_seofields, basePath + Cms_seoaction + "?method=selAll");// 定义Cms_seostore
+	var Cms_seodataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
+		id:'Cms_seodataForm',
 		labelAlign : 'right',
 		frame : true,
 		layout : 'column',
@@ -28,7 +28,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : 'ID',
-				id : 'Seoseoid',
+				id : 'Cms_seoseoid',
 				name : 'seoid',
 				maxLength : 100
 			} ]
@@ -39,8 +39,9 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '关键字',
-				id : 'Seoseokeword',
-				name : 'seokeword',
+				id : 'Cms_seoseokeyword',
+				name : 'seokeyword',
+				maxLength : 100
 			} ]
 		}
 		, {
@@ -49,8 +50,9 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textareafield',
 				fieldLabel : '详细',
-				id : 'Seoseodetail',
+				id : 'Cms_seoseodetail',
 				name : 'seodetail',
+				maxLength : 100
 			} ]
 		}
 		, {
@@ -59,7 +61,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '模板',
-				id : 'Seoseomodel',
+				id : 'Cms_seoseomodel',
 				name : 'seomodel',
 				maxLength : 100
 			} ]
@@ -70,7 +72,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : 'LOGO',
-				id : 'Seologo',
+				id : 'Cms_seologo',
 				name : 'logo',
 				maxLength : 100
 			} ]
@@ -81,7 +83,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '公司',
-				id : 'Seoseocompany',
+				id : 'Cms_seoseocompany',
 				name : 'seocompany',
 				maxLength : 100
 			} ]
@@ -92,7 +94,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '地址',
-				id : 'Seoseoaddress',
+				id : 'Cms_seoseoaddress',
 				name : 'seoaddress',
 				maxLength : 100
 			} ]
@@ -103,7 +105,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '电话',
-				id : 'Seoseotel',
+				id : 'Cms_seoseotel',
 				name : 'seotel',
 				maxLength : 100
 			} ]
@@ -114,7 +116,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '邮编',
-				id : 'Seoseoposcode',
+				id : 'Cms_seoseoposcode',
 				name : 'seoposcode',
 				maxLength : 100
 			} ]
@@ -125,7 +127,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '邮箱',
-				id : 'Seoseoemail',
+				id : 'Cms_seoseoemail',
 				name : 'seoemail',
 				maxLength : 100
 			} ]
@@ -136,7 +138,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : 'COPYRIGHT',
-				id : 'Seoseocopyright',
+				id : 'Cms_seoseocopyright',
 				name : 'seocopyright',
 				maxLength : 100
 			} ]
@@ -147,7 +149,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '备案',
-				id : 'Seoseoicp',
+				id : 'Cms_seoseoicp',
 				name : 'seoicp',
 				maxLength : 100
 			} ]
@@ -155,13 +157,13 @@ Ext.onReady(function() {
 		]
 	});
 	
-	//var Seobbar = pagesizebar(Seostore);//定义分页
-	var Seogrid =  Ext.create('Ext.grid.Panel', {
+	//var Cms_seobbar = pagesizebar(Cms_seostore);//定义分页
+	var Cms_seogrid =  Ext.create('Ext.grid.Panel', {
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
-		//title : Seotitle,
-		store : Seostore,
-		//bbar : Seobbar,
+		//title : Cms_seotitle,
+		store : Cms_seostore,
+		//bbar : Cms_seobbar,
 	    selModel: {
 	        type: 'checkboxmodel'
 	    },
@@ -181,7 +183,7 @@ Ext.onReady(function() {
 		}
 		, {
 			header : '关键字',
-			dataIndex : 'seokeword',
+			dataIndex : 'seokeyword',
 			sortable : true,  
 			editor: {
                 xtype: 'textfield'
@@ -272,35 +274,35 @@ Ext.onReady(function() {
 				text : Ext.os.deviceType === 'Phone' ? null : "新增",
 				iconCls : 'add',
 				handler : function() {
-					SeodataForm.form.reset();
-					Ext.getCmp("Seoseoid").setEditable (true);
-					createTextWindow(basePath + Seoaction + "?method=insAll", "新增", SeodataForm, Seostore);
+					Cms_seodataForm.form.reset();
+					Ext.getCmp("Cms_seoseoid").setEditable (true);
+					createTextWindow(basePath + Cms_seoaction + "?method=insAll", "新增", Cms_seodataForm, Cms_seostore);
 				}
 			},'-',{
 				text : Ext.os.deviceType === 'Phone' ? null : "保存",
 				iconCls : 'ok',
 				handler : function() {
-					var selections = Seogrid.getSelection();
+					var selections = Cms_seogrid.getSelection();
 					if (Ext.isEmpty(selections)) {
 						Ext.Msg.alert('提示', '请至少选择一条数据！');
 						return;
 					}
-					commonSave(basePath + Seoaction + "?method=updAll",selections);
+					commonSave(basePath + Cms_seoaction + "?method=updAll",selections);
 				}
 			},'-',{
 				text : Ext.os.deviceType === 'Phone' ? null : "修改",
 				iconCls : 'edit',
 				handler : function() {
-					var selections = Seogrid.getSelection();
+					var selections = Cms_seogrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条数据！', function() {
 						});
 						return;
 					}
-					SeodataForm.form.reset();
-					Ext.getCmp("Seoseoid").setEditable (false);
-					createTextWindow(basePath + Seoaction + "?method=updAll", "修改", SeodataForm, Seostore);
-					SeodataForm.form.loadRecord(selections[0]);
+					Cms_seodataForm.form.reset();
+					Ext.getCmp("Cms_seoseoid").setEditable (false);
+					createTextWindow(basePath + Cms_seoaction + "?method=updAll", "修改", Cms_seodataForm, Cms_seostore);
+					Cms_seodataForm.form.loadRecord(selections[0]);
 				}
 			},'-',{
 	            text: '操作',
@@ -313,18 +315,18 @@ Ext.onReady(function() {
 	                    	text : "删除",
 	        				iconCls : 'delete',
 	        				handler : function() {
-	        					var selections = Seogrid.getSelection();
+	        					var selections = Cms_seogrid.getSelection();
 	        					if (Ext.isEmpty(selections)) {
 	        						Ext.Msg.alert('提示', '请至少选择一条数据！');
 	        						return;
 	        					}
-	        					commonDelete(basePath + Seoaction + "?method=delAll",selections,Seostore,Seokeycolumn);
+	        					commonDelete(basePath + Cms_seoaction + "?method=delAll",selections,Cms_seostore,Cms_seokeycolumn);
 	        				}
 	                    },{
 	                    	text : "导入",
 	        				iconCls : 'imp',
 	        				handler : function() {
-	        					commonImp(basePath + Seoaction + "?method=impAll","导入",Seostore);
+	        					commonImp(basePath + Cms_seoaction + "?method=impAll","导入",Cms_seostore);
 	        				}
 	                    },{
 	                    	text : "导出",
@@ -332,7 +334,7 @@ Ext.onReady(function() {
 	        				handler : function() {
 	        					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
 	        						if (btn == 'yes') {
-	        							window.location.href = basePath + Seoaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("querySeoaction").getValue(); 
+	        							window.location.href = basePath + Cms_seoaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("queryCms_seoaction").getValue(); 
 	        						}
 	        					});
 	        				}
@@ -340,31 +342,31 @@ Ext.onReady(function() {
 	                    	text : "附件",
 	        				iconCls : 'attach',
 	        				handler : function() {
-	        					var selections = Seogrid.getSelection();
+	        					var selections = Cms_seogrid.getSelection();
 	        					if (selections.length != 1) {
 	        						Ext.Msg.alert('提示', '请选择一条数据！', function() {
 	        						});
 	        						return;
 	        					}
 	        					var fid = '';
-	        					for (var i=0;i<Seokeycolumn.length;i++){
-	        						fid += selections[0].data[Seokeycolumn[i]] + ","
+	        					for (var i=0;i<Cms_seokeycolumn.length;i++){
+	        						fid += selections[0].data[Cms_seokeycolumn[i]] + ","
 	        					}
-	        					commonAttach(fid, Seoclassify);
+	        					commonAttach(fid, Cms_seoclassify);
 	        				}
 	                    },{
 	        				text : "筛选",
     						iconCls : 'select',
     						handler : function() {
-    							Ext.getCmp("Seoseoid").setEditable (true);
-    							createQueryWindow("筛选", SeodataForm, Seostore,Ext.getCmp("querySeoaction").getValue());
+    							Ext.getCmp("Cms_seoseoid").setEditable (true);
+    							createQueryWindow("筛选", Cms_seodataForm, Cms_seostore,Ext.getCmp("queryCms_seoaction").getValue());
     						}
     					}]
 	                }
 	            }
 			},'->',{
 				xtype : 'textfield',
-				id : 'querySeoaction',
+				id : 'queryCms_seoaction',
 				name : 'query',
 				emptyText : '模糊匹配',
 				width : 100,
@@ -372,17 +374,17 @@ Ext.onReady(function() {
 				listeners : {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
-							if ("" == Ext.getCmp("querySeoaction").getValue()) {
-								Seostore.load({
+							if ("" == Ext.getCmp("queryCms_seoaction").getValue()) {
+								Cms_seostore.load({
 									params : {
 										json : queryjson
 									}
 								});
 							} else {
-								Seostore.load({
+								Cms_seostore.load({
 									params : {
 										json : queryjson,
-										query : Ext.getCmp("querySeoaction").getValue()
+										query : Ext.getCmp("queryCms_seoaction").getValue()
 									}
 								});
 							}
@@ -392,12 +394,12 @@ Ext.onReady(function() {
 			}
 		]
 	});
-	Seogrid.region = 'center';
-	Seostore.load();//加载数据
+	Cms_seogrid.region = 'center';
+	Cms_seostore.load();//加载数据
 	var win = new Ext.Viewport({//只能有一个viewport
 		resizable : true,
 		layout : 'border',
 		bodyStyle : 'padding:0px;',
-		items : [ Seogrid ]
+		items : [ Cms_seogrid ]
 	});
 })

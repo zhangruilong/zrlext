@@ -1,8 +1,8 @@
 Ext.onReady(function() {
-	var Applycclassify = "职位申请";
-	var Applyctitle = "当前位置:业务管理》" + Applycclassify;
-	var Applycaction = "ApplycAction.do";
-	var Applycfields = ['applycid'
+	var Cms_applycclassify = "cms_applyc";
+	var Cms_applyctitle = "当前位置:业务管理》" + Cms_applycclassify;
+	var Cms_applycaction = "Cms_applycAction.do";
+	var Cms_applycfields = ['applycid'
 	        			    ,'applycname' 
 	        			    ,'applycsex' 
 	        			    ,'applycedu' 
@@ -12,10 +12,10 @@ Ext.onReady(function() {
 	        			    ,'applycdetail' 
 	        			    ,'applycjob' 
 	        			      ];// 全部字段
-	var Applyckeycolumn = [ 'applycid' ];// 主键
-	var Applycstore = dataStore(Applycfields, basePath + Applycaction + "?method=selAll");// 定义Applycstore
-	var ApplycdataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
-		id:'ApplycdataForm',
+	var Cms_applyckeycolumn = [ 'applycid' ];// 主键
+	var Cms_applycstore = dataStore(Cms_applycfields, basePath + Cms_applycaction + "?method=selAll");// 定义Cms_applycstore
+	var Cms_applycdataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
+		id:'Cms_applycdataForm',
 		labelAlign : 'right',
 		frame : true,
 		layout : 'column',
@@ -25,7 +25,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : 'ID',
-				id : 'Applycapplycid',
+				id : 'Cms_applycapplycid',
 				name : 'applycid',
 				maxLength : 100
 			} ]
@@ -36,7 +36,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '姓名',
-				id : 'Applycapplycname',
+				id : 'Cms_applycapplycname',
 				name : 'applycname',
 				maxLength : 100
 			} ]
@@ -47,7 +47,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '性别',
-				id : 'Applycapplycsex',
+				id : 'Cms_applycapplycsex',
 				name : 'applycsex',
 				maxLength : 100
 			} ]
@@ -58,7 +58,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '学历',
-				id : 'Applycapplycedu',
+				id : 'Cms_applycapplycedu',
 				name : 'applycedu',
 				maxLength : 100
 			} ]
@@ -69,7 +69,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '经验',
-				id : 'Applycapplycexp',
+				id : 'Cms_applycapplycexp',
 				name : 'applycexp',
 				maxLength : 100
 			} ]
@@ -80,7 +80,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '电话',
-				id : 'Applycapplycphone',
+				id : 'Cms_applycapplycphone',
 				name : 'applycphone',
 				maxLength : 100
 			} ]
@@ -91,7 +91,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '现住址',
-				id : 'Applycapplycaddress',
+				id : 'Cms_applycapplycaddress',
 				name : 'applycaddress',
 				maxLength : 100
 			} ]
@@ -102,7 +102,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '自我描述',
-				id : 'Applycapplycdetail',
+				id : 'Cms_applycapplycdetail',
 				name : 'applycdetail',
 				maxLength : 100
 			} ]
@@ -113,7 +113,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '意向职位',
-				id : 'Applycapplycjob',
+				id : 'Cms_applycapplycjob',
 				name : 'applycjob',
 				maxLength : 100
 			} ]
@@ -121,13 +121,13 @@ Ext.onReady(function() {
 		]
 	});
 	
-	//var Applycbbar = pagesizebar(Applycstore);//定义分页
-	var Applycgrid =  Ext.create('Ext.grid.Panel', {
+	//var Cms_applycbbar = pagesizebar(Cms_applycstore);//定义分页
+	var Cms_applycgrid =  Ext.create('Ext.grid.Panel', {
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
-		//title : Applyctitle,
-		store : Applycstore,
-		//bbar : Applycbbar,
+		//title : Cms_applyctitle,
+		store : Cms_applycstore,
+		//bbar : Cms_applycbbar,
 	    selModel: {
 	        type: 'checkboxmodel'
 	    },
@@ -214,35 +214,35 @@ Ext.onReady(function() {
 				text : Ext.os.deviceType === 'Phone' ? null : "新增",
 				iconCls : 'add',
 				handler : function() {
-					ApplycdataForm.form.reset();
-					Ext.getCmp("Applycapplycid").setEditable (true);
-					createTextWindow(basePath + Applycaction + "?method=insAll", "新增", ApplycdataForm, Applycstore);
+					Cms_applycdataForm.form.reset();
+					Ext.getCmp("Cms_applycapplycid").setEditable (true);
+					createTextWindow(basePath + Cms_applycaction + "?method=insAll", "新增", Cms_applycdataForm, Cms_applycstore);
 				}
 			},'-',{
 				text : Ext.os.deviceType === 'Phone' ? null : "保存",
 				iconCls : 'ok',
 				handler : function() {
-					var selections = Applycgrid.getSelection();
+					var selections = Cms_applycgrid.getSelection();
 					if (Ext.isEmpty(selections)) {
 						Ext.Msg.alert('提示', '请至少选择一条数据！');
 						return;
 					}
-					commonSave(basePath + Applycaction + "?method=updAll",selections);
+					commonSave(basePath + Cms_applycaction + "?method=updAll",selections);
 				}
 			},'-',{
 				text : Ext.os.deviceType === 'Phone' ? null : "修改",
 				iconCls : 'edit',
 				handler : function() {
-					var selections = Applycgrid.getSelection();
+					var selections = Cms_applycgrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条数据！', function() {
 						});
 						return;
 					}
-					ApplycdataForm.form.reset();
-					Ext.getCmp("Applycapplycid").setEditable (false);
-					createTextWindow(basePath + Applycaction + "?method=updAll", "修改", ApplycdataForm, Applycstore);
-					ApplycdataForm.form.loadRecord(selections[0]);
+					Cms_applycdataForm.form.reset();
+					Ext.getCmp("Cms_applycapplycid").setEditable (false);
+					createTextWindow(basePath + Cms_applycaction + "?method=updAll", "修改", Cms_applycdataForm, Cms_applycstore);
+					Cms_applycdataForm.form.loadRecord(selections[0]);
 				}
 			},'-',{
 	            text: '操作',
@@ -255,18 +255,18 @@ Ext.onReady(function() {
 	                    	text : "删除",
 	        				iconCls : 'delete',
 	        				handler : function() {
-	        					var selections = Applycgrid.getSelection();
+	        					var selections = Cms_applycgrid.getSelection();
 	        					if (Ext.isEmpty(selections)) {
 	        						Ext.Msg.alert('提示', '请至少选择一条数据！');
 	        						return;
 	        					}
-	        					commonDelete(basePath + Applycaction + "?method=delAll",selections,Applycstore,Applyckeycolumn);
+	        					commonDelete(basePath + Cms_applycaction + "?method=delAll",selections,Cms_applycstore,Cms_applyckeycolumn);
 	        				}
 	                    },{
 	                    	text : "导入",
 	        				iconCls : 'imp',
 	        				handler : function() {
-	        					commonImp(basePath + Applycaction + "?method=impAll","导入",Applycstore);
+	        					commonImp(basePath + Cms_applycaction + "?method=impAll","导入",Cms_applycstore);
 	        				}
 	                    },{
 	                    	text : "导出",
@@ -274,7 +274,7 @@ Ext.onReady(function() {
 	        				handler : function() {
 	        					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
 	        						if (btn == 'yes') {
-	        							window.location.href = basePath + Applycaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("queryApplycaction").getValue(); 
+	        							window.location.href = basePath + Cms_applycaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("queryCms_applycaction").getValue(); 
 	        						}
 	        					});
 	        				}
@@ -282,31 +282,31 @@ Ext.onReady(function() {
 	                    	text : "附件",
 	        				iconCls : 'attach',
 	        				handler : function() {
-	        					var selections = Applycgrid.getSelection();
+	        					var selections = Cms_applycgrid.getSelection();
 	        					if (selections.length != 1) {
 	        						Ext.Msg.alert('提示', '请选择一条数据！', function() {
 	        						});
 	        						return;
 	        					}
 	        					var fid = '';
-	        					for (var i=0;i<Applyckeycolumn.length;i++){
-	        						fid += selections[0].data[Applyckeycolumn[i]] + ","
+	        					for (var i=0;i<Cms_applyckeycolumn.length;i++){
+	        						fid += selections[0].data[Cms_applyckeycolumn[i]] + ","
 	        					}
-	        					commonAttach(fid, Applycclassify);
+	        					commonAttach(fid, Cms_applycclassify);
 	        				}
 	                    },{
 	        				text : "筛选",
     						iconCls : 'select',
     						handler : function() {
-    							Ext.getCmp("Applycapplycid").setEditable (true);
-    							createQueryWindow("筛选", ApplycdataForm, Applycstore,Ext.getCmp("queryApplycaction").getValue());
+    							Ext.getCmp("Cms_applycapplycid").setEditable (true);
+    							createQueryWindow("筛选", Cms_applycdataForm, Cms_applycstore,Ext.getCmp("queryCms_applycaction").getValue());
     						}
     					}]
 	                }
 	            }
 			},'->',{
 				xtype : 'textfield',
-				id : 'queryApplycaction',
+				id : 'queryCms_applycaction',
 				name : 'query',
 				emptyText : '模糊匹配',
 				width : 100,
@@ -314,17 +314,17 @@ Ext.onReady(function() {
 				listeners : {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
-							if ("" == Ext.getCmp("queryApplycaction").getValue()) {
-								Applycstore.load({
+							if ("" == Ext.getCmp("queryCms_applycaction").getValue()) {
+								Cms_applycstore.load({
 									params : {
 										json : queryjson
 									}
 								});
 							} else {
-								Applycstore.load({
+								Cms_applycstore.load({
 									params : {
 										json : queryjson,
-										query : Ext.getCmp("queryApplycaction").getValue()
+										query : Ext.getCmp("queryCms_applycaction").getValue()
 									}
 								});
 							}
@@ -334,12 +334,12 @@ Ext.onReady(function() {
 			}
 		]
 	});
-	Applycgrid.region = 'center';
-	Applycstore.load();//加载数据
+	Cms_applycgrid.region = 'center';
+	Cms_applycstore.load();//加载数据
 	var win = new Ext.Viewport({//只能有一个viewport
 		resizable : true,
 		layout : 'border',
 		bodyStyle : 'padding:0px;',
-		items : [ Applycgrid ]
+		items : [ Cms_applycgrid ]
 	});
 })

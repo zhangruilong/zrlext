@@ -410,7 +410,7 @@ public class BaseDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			connectionMan.freeConnection(mDSNAME, conn, pstmt);
+			connectionMan.freeConnection(mDSNAME, conn, pstmt, null);
 			return result;
 		}
 	}
@@ -444,7 +444,7 @@ public class BaseDao {
 			conn.setAutoCommit(true);// 恢复默认
 			e.printStackTrace();
         } finally {
-			connectionMan.freeConnection(DSNAME, conn, pstmt);
+			connectionMan.freeConnection(DSNAME, conn, pstmt, null);
 			return result;
 		}
 	}
@@ -473,7 +473,7 @@ public class BaseDao {
 			conn.setAutoCommit(true);// 恢复默认
 			e.printStackTrace();
         } finally {
-			connectionMan.freeConnection(mDSNAME, conn, pstmt);
+			connectionMan.freeConnection(mDSNAME, conn, pstmt, null);
 			return result;
 		}
 	}

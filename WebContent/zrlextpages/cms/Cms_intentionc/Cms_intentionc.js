@@ -1,18 +1,18 @@
 Ext.onReady(function() {
-	var Intentioncclassify = "意向客户";
-	var Intentionctitle = "当前位置:业务管理》" + Intentioncclassify;
-	var Intentioncaction = "IntentioncAction.do";
-	var Intentioncfields = ['intentioncid'
+	var Cms_intentioncclassify = "cms_intentionc";
+	var Cms_intentionctitle = "当前位置:业务管理》" + Cms_intentioncclassify;
+	var Cms_intentioncaction = "Cms_intentioncAction.do";
+	var Cms_intentioncfields = ['intentioncid'
 	        			    ,'intentioncname' 
 	        			    ,'intentioncphone' 
 	        			    ,'intentionccompany' 
 	        			    ,'intentioncbusiness' 
 	        			    ,'intentioncaddress' 
 	        			      ];// 全部字段
-	var Intentionckeycolumn = [ 'intentioncid' ];// 主键
-	var Intentioncstore = dataStore(Intentioncfields, basePath + Intentioncaction + "?method=selAll");// 定义Intentioncstore
-	var IntentioncdataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
-		id:'IntentioncdataForm',
+	var Cms_intentionckeycolumn = [ 'intentioncid' ];// 主键
+	var Cms_intentioncstore = dataStore(Cms_intentioncfields, basePath + Cms_intentioncaction + "?method=selAll");// 定义Cms_intentioncstore
+	var Cms_intentioncdataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
+		id:'Cms_intentioncdataForm',
 		labelAlign : 'right',
 		frame : true,
 		layout : 'column',
@@ -22,7 +22,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : 'ID',
-				id : 'Intentioncintentioncid',
+				id : 'Cms_intentioncintentioncid',
 				name : 'intentioncid',
 				maxLength : 100
 			} ]
@@ -33,7 +33,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '申请人',
-				id : 'Intentioncintentioncname',
+				id : 'Cms_intentioncintentioncname',
 				name : 'intentioncname',
 				maxLength : 100
 			} ]
@@ -44,7 +44,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '联系电话',
-				id : 'Intentioncintentioncphone',
+				id : 'Cms_intentioncintentioncphone',
 				name : 'intentioncphone',
 				maxLength : 100
 			} ]
@@ -55,7 +55,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '单位名称',
-				id : 'Intentioncintentionccompany',
+				id : 'Cms_intentioncintentionccompany',
 				name : 'intentionccompany',
 				maxLength : 100
 			} ]
@@ -66,7 +66,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '经营品类',
-				id : 'Intentioncintentioncbusiness',
+				id : 'Cms_intentioncintentioncbusiness',
 				name : 'intentioncbusiness',
 				maxLength : 100
 			} ]
@@ -77,7 +77,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '单位地址',
-				id : 'Intentioncintentioncaddress',
+				id : 'Cms_intentioncintentioncaddress',
 				name : 'intentioncaddress',
 				maxLength : 100
 			} ]
@@ -85,13 +85,13 @@ Ext.onReady(function() {
 		]
 	});
 	
-	//var Intentioncbbar = pagesizebar(Intentioncstore);//定义分页
-	var Intentioncgrid =  Ext.create('Ext.grid.Panel', {
+	//var Cms_intentioncbbar = pagesizebar(Cms_intentioncstore);//定义分页
+	var Cms_intentioncgrid =  Ext.create('Ext.grid.Panel', {
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
-		//title : Intentionctitle,
-		store : Intentioncstore,
-		//bbar : Intentioncbbar,
+		//title : Cms_intentionctitle,
+		store : Cms_intentioncstore,
+		//bbar : Cms_intentioncbbar,
 	    selModel: {
 	        type: 'checkboxmodel'
 	    },
@@ -154,35 +154,35 @@ Ext.onReady(function() {
 				text : Ext.os.deviceType === 'Phone' ? null : "新增",
 				iconCls : 'add',
 				handler : function() {
-					IntentioncdataForm.form.reset();
-					Ext.getCmp("Intentioncintentioncid").setEditable (true);
-					createTextWindow(basePath + Intentioncaction + "?method=insAll", "新增", IntentioncdataForm, Intentioncstore);
+					Cms_intentioncdataForm.form.reset();
+					Ext.getCmp("Cms_intentioncintentioncid").setEditable (true);
+					createTextWindow(basePath + Cms_intentioncaction + "?method=insAll", "新增", Cms_intentioncdataForm, Cms_intentioncstore);
 				}
 			},'-',{
 				text : Ext.os.deviceType === 'Phone' ? null : "保存",
 				iconCls : 'ok',
 				handler : function() {
-					var selections = Intentioncgrid.getSelection();
+					var selections = Cms_intentioncgrid.getSelection();
 					if (Ext.isEmpty(selections)) {
 						Ext.Msg.alert('提示', '请至少选择一条数据！');
 						return;
 					}
-					commonSave(basePath + Intentioncaction + "?method=updAll",selections);
+					commonSave(basePath + Cms_intentioncaction + "?method=updAll",selections);
 				}
 			},'-',{
 				text : Ext.os.deviceType === 'Phone' ? null : "修改",
 				iconCls : 'edit',
 				handler : function() {
-					var selections = Intentioncgrid.getSelection();
+					var selections = Cms_intentioncgrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条数据！', function() {
 						});
 						return;
 					}
-					IntentioncdataForm.form.reset();
-					Ext.getCmp("Intentioncintentioncid").setEditable (false);
-					createTextWindow(basePath + Intentioncaction + "?method=updAll", "修改", IntentioncdataForm, Intentioncstore);
-					IntentioncdataForm.form.loadRecord(selections[0]);
+					Cms_intentioncdataForm.form.reset();
+					Ext.getCmp("Cms_intentioncintentioncid").setEditable (false);
+					createTextWindow(basePath + Cms_intentioncaction + "?method=updAll", "修改", Cms_intentioncdataForm, Cms_intentioncstore);
+					Cms_intentioncdataForm.form.loadRecord(selections[0]);
 				}
 			},'-',{
 	            text: '操作',
@@ -195,18 +195,18 @@ Ext.onReady(function() {
 	                    	text : "删除",
 	        				iconCls : 'delete',
 	        				handler : function() {
-	        					var selections = Intentioncgrid.getSelection();
+	        					var selections = Cms_intentioncgrid.getSelection();
 	        					if (Ext.isEmpty(selections)) {
 	        						Ext.Msg.alert('提示', '请至少选择一条数据！');
 	        						return;
 	        					}
-	        					commonDelete(basePath + Intentioncaction + "?method=delAll",selections,Intentioncstore,Intentionckeycolumn);
+	        					commonDelete(basePath + Cms_intentioncaction + "?method=delAll",selections,Cms_intentioncstore,Cms_intentionckeycolumn);
 	        				}
 	                    },{
 	                    	text : "导入",
 	        				iconCls : 'imp',
 	        				handler : function() {
-	        					commonImp(basePath + Intentioncaction + "?method=impAll","导入",Intentioncstore);
+	        					commonImp(basePath + Cms_intentioncaction + "?method=impAll","导入",Cms_intentioncstore);
 	        				}
 	                    },{
 	                    	text : "导出",
@@ -214,7 +214,7 @@ Ext.onReady(function() {
 	        				handler : function() {
 	        					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
 	        						if (btn == 'yes') {
-	        							window.location.href = basePath + Intentioncaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("queryIntentioncaction").getValue(); 
+	        							window.location.href = basePath + Cms_intentioncaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("queryCms_intentioncaction").getValue(); 
 	        						}
 	        					});
 	        				}
@@ -222,31 +222,31 @@ Ext.onReady(function() {
 	                    	text : "附件",
 	        				iconCls : 'attach',
 	        				handler : function() {
-	        					var selections = Intentioncgrid.getSelection();
+	        					var selections = Cms_intentioncgrid.getSelection();
 	        					if (selections.length != 1) {
 	        						Ext.Msg.alert('提示', '请选择一条数据！', function() {
 	        						});
 	        						return;
 	        					}
 	        					var fid = '';
-	        					for (var i=0;i<Intentionckeycolumn.length;i++){
-	        						fid += selections[0].data[Intentionckeycolumn[i]] + ","
+	        					for (var i=0;i<Cms_intentionckeycolumn.length;i++){
+	        						fid += selections[0].data[Cms_intentionckeycolumn[i]] + ","
 	        					}
-	        					commonAttach(fid, Intentioncclassify);
+	        					commonAttach(fid, Cms_intentioncclassify);
 	        				}
 	                    },{
 	        				text : "筛选",
     						iconCls : 'select',
     						handler : function() {
-    							Ext.getCmp("Intentioncintentioncid").setEditable (true);
-    							createQueryWindow("筛选", IntentioncdataForm, Intentioncstore,Ext.getCmp("queryIntentioncaction").getValue());
+    							Ext.getCmp("Cms_intentioncintentioncid").setEditable (true);
+    							createQueryWindow("筛选", Cms_intentioncdataForm, Cms_intentioncstore,Ext.getCmp("queryCms_intentioncaction").getValue());
     						}
     					}]
 	                }
 	            }
 			},'->',{
 				xtype : 'textfield',
-				id : 'queryIntentioncaction',
+				id : 'queryCms_intentioncaction',
 				name : 'query',
 				emptyText : '模糊匹配',
 				width : 100,
@@ -254,17 +254,17 @@ Ext.onReady(function() {
 				listeners : {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
-							if ("" == Ext.getCmp("queryIntentioncaction").getValue()) {
-								Intentioncstore.load({
+							if ("" == Ext.getCmp("queryCms_intentioncaction").getValue()) {
+								Cms_intentioncstore.load({
 									params : {
 										json : queryjson
 									}
 								});
 							} else {
-								Intentioncstore.load({
+								Cms_intentioncstore.load({
 									params : {
 										json : queryjson,
-										query : Ext.getCmp("queryIntentioncaction").getValue()
+										query : Ext.getCmp("queryCms_intentioncaction").getValue()
 									}
 								});
 							}
@@ -274,12 +274,12 @@ Ext.onReady(function() {
 			}
 		]
 	});
-	Intentioncgrid.region = 'center';
-	Intentioncstore.load();//加载数据
+	Cms_intentioncgrid.region = 'center';
+	Cms_intentioncstore.load();//加载数据
 	var win = new Ext.Viewport({//只能有一个viewport
 		resizable : true,
 		layout : 'border',
 		bodyStyle : 'padding:0px;',
-		items : [ Intentioncgrid ]
+		items : [ Cms_intentioncgrid ]
 	});
 })

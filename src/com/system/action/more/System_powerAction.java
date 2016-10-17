@@ -228,8 +228,8 @@ public class System_powerAction extends com.system.action.System_powerAction {
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 		} finally{
-				connectionMan.freeConnection(null,conn,stmt,rs);
-				return temps;
+			connectionMan.freeConnection(null,conn,stmt,rs);
+			return temps;
 		}
 	}
 }

@@ -2,6 +2,6 @@
 <html>
   <head>
 	<%@ include file="/zrlextpages/common/common.jsp" %>
-	<script type="text/javascript" src="Intentionc.js"></script>
+	<script type="text/javascript" src="Cms_jobpublish.js"></script>
   </head>
 </html>

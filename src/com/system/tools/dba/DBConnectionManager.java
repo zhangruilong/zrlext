@@ -53,8 +53,17 @@ public class DBConnectionManager {
 	 * @param con
 	 */
 	public void freeConnection(String name, Connection con, Statement st, ResultSet rs) {
-		if(null==name) name = getDsname();
-		DBConnectionPool pool = (DBConnectionPool) pools.get(name);// 根据关键名字得到连接池
+		Iterator<String> keys = pools.keySet().iterator();
+		String keyname = null;
+		while(keys.hasNext()){
+			keyname = keys.next();
+			if(null==name){
+				break;
+			}else if(name.equals(keyname)){
+				break;
+			}
+		}
+		DBConnectionPool pool = (DBConnectionPool) pools.get(keyname);// 根据关键名字得到连接池
 		if (pool != null) {
 			try {
 				if (rs != null) {
@@ -83,35 +92,6 @@ public class DBConnectionManager {
 				}
 			}
 
-		}
-	}
-	/**
-	 * 释放连接
-	 * 
-	 * @param name
-	 * @param con
-	 */
-	public void freeConnection(String name, Connection con, Statement st) {
-		if(null==name) name = getDsname();
-		DBConnectionPool pool = (DBConnectionPool) pools.get(name);// 根据关键名字得到连接池
-		if (pool != null) {
-			try {
-				if (st != null) {
-					st.close();
-					st = null;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (con != null) {
-						pool.freeConnection(con);// 释放连接
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-				}
-			}
 		}
 	}
 
@@ -122,8 +102,17 @@ public class DBConnectionManager {
 	 * @param con
 	 */
 	public void freeConnection(String name, Connection con, PreparedStatement st, ResultSet rs) {
-		if(null==name) name = getDsname();
-		DBConnectionPool pool = (DBConnectionPool) pools.get(name);// 根据关键名字得到连接池
+		Iterator<String> keys = pools.keySet().iterator();
+		String keyname = null;
+		while(keys.hasNext()){
+			keyname = keys.next();
+			if(null==name){
+				break;
+			}else if(name.equals(keyname)){
+				break;
+			}
+		}
+		DBConnectionPool pool = (DBConnectionPool) pools.get(keyname);// 根据关键名字得到连接池
 		if (pool != null) {
 			try {
 				if (rs != null) {
@@ -155,35 +144,6 @@ public class DBConnectionManager {
 	}
 
 	/**
-	 * 释放连接
-	 * 
-	 * @param name
-	 * @param con
-	 */
-	public void freeConnection(String name, Connection con, PreparedStatement st) {
-		if(null==name) name = getDsname();
-		DBConnectionPool pool = (DBConnectionPool) pools.get(name);// 根据关键名字得到连接池
-		if (pool != null) {
-			try {
-				if (st != null) {
-					st.close();
-					st = null;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (con != null) {
-						pool.freeConnection(con);// 释放连接
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-				}
-			}
-		}
-	}
-	/**
 	 * 根据连接池的名字name得到一个连接
 	 * 
 	 * @param name
@@ -193,7 +153,7 @@ public class DBConnectionManager {
 		DBConnectionPool pool = null;
 		Connection con = null;
 		Iterator<String> keys = pools.keySet().iterator();
-		String keyname = "default";
+		String keyname = null;
 		while(keys.hasNext()){
 			keyname = keys.next();
 			if(null==name){
@@ -205,7 +165,7 @@ public class DBConnectionManager {
 		pool = (DBConnectionPool) pools.get(keyname);// 从名字中获取连接池
 		con = pool.getConnection();// 从选定的连接池中获得连接
 		if (con != null)
-			System.out.println("得"+keyname+"到连接。。。");
+			System.out.println("得"+keyname+"连接。。。");
 		return con;
 	}
 
@@ -216,7 +176,7 @@ public class DBConnectionManager {
 	 */
 	public String getDsname() {
 		Iterator<String> keys = pools.keySet().iterator();
-		String keyname = "default";
+		String keyname = null;
 		while(keys.hasNext()){
 			keyname = keys.next();
 			break;

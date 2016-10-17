@@ -1,8 +1,8 @@
 Ext.onReady(function() {
-	var Contentclassify = "图文";
-	var Contenttitle = "当前位置:业务管理》" + Contentclassify;
-	var Contentaction = "ContentAction.do";
-	var Contentfields = ['contentid'
+	var Cms_contentclassify = "cms_content";
+	var Cms_contenttitle = "当前位置:业务管理》" + Cms_contentclassify;
+	var Cms_contentaction = "Cms_contentAction.do";
+	var Cms_contentfields = ['contentid'
 	        			    ,'contentcode' 
 	        			    ,'contentname' 
 	        			    ,'contentdetail' 
@@ -10,10 +10,10 @@ Ext.onReady(function() {
 	        			    ,'contentparent' 
 	        			    ,'contentmodel' 
 	        			      ];// 全部字段
-	var Contentkeycolumn = [ 'contentid' ];// 主键
-	var Contentstore = dataStore(Contentfields, basePath + Contentaction + "?method=selAll");// 定义Contentstore
-	var ContentdataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
-		id:'ContentdataForm',
+	var Cms_contentkeycolumn = [ 'contentid' ];// 主键
+	var Cms_contentstore = dataStore(Cms_contentfields, basePath + Cms_contentaction + "?method=selAll");// 定义Cms_contentstore
+	var Cms_contentdataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
+		id:'Cms_contentdataForm',
 		labelAlign : 'right',
 		frame : true,
 		layout : 'column',
@@ -23,7 +23,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : 'ID',
-				id : 'Contentcontentid',
+				id : 'Cms_contentcontentid',
 				name : 'contentid',
 				maxLength : 100
 			} ]
@@ -34,7 +34,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '编码',
-				id : 'Contentcontentcode',
+				id : 'Cms_contentcontentcode',
 				name : 'contentcode',
 				maxLength : 100
 			} ]
@@ -45,7 +45,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '名称',
-				id : 'Contentcontentname',
+				id : 'Cms_contentcontentname',
 				name : 'contentname',
 				maxLength : 100
 			} ]
@@ -56,9 +56,9 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'htmleditor',
 				fieldLabel : '详细',
-				id : 'Contentcontentdetail',
+				id : 'Cms_contentcontentdetail',
 				name : 'contentdetail',
-				height : 200
+				maxLength : 100
 			} ]
 		}
 		, {
@@ -67,7 +67,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '背景',
-				id : 'Contentcontentback',
+				id : 'Cms_contentcontentback',
 				name : 'contentback',
 				maxLength : 100
 			} ]
@@ -78,7 +78,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '父节点',
-				id : 'Contentcontentparent',
+				id : 'Cms_contentcontentparent',
 				name : 'contentparent',
 				maxLength : 100
 			} ]
@@ -89,7 +89,7 @@ Ext.onReady(function() {
 			items : [ {
 				xtype : 'textfield',
 				fieldLabel : '模板',
-				id : 'Contentcontentmodel',
+				id : 'Cms_contentcontentmodel',
 				name : 'contentmodel',
 				maxLength : 100
 			} ]
@@ -97,13 +97,13 @@ Ext.onReady(function() {
 		]
 	});
 	
-	//var Contentbbar = pagesizebar(Contentstore);//定义分页
-	var Contentgrid =  Ext.create('Ext.grid.Panel', {
+	//var Cms_contentbbar = pagesizebar(Cms_contentstore);//定义分页
+	var Cms_contentgrid =  Ext.create('Ext.grid.Panel', {
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
-		//title : Contenttitle,
-		store : Contentstore,
-		//bbar : Contentbbar,
+		//title : Cms_contenttitle,
+		store : Cms_contentstore,
+		//bbar : Cms_contentbbar,
 	    selModel: {
 	        type: 'checkboxmodel'
 	    },
@@ -137,14 +137,14 @@ Ext.onReady(function() {
                 xtype: 'textfield'
             }
 		}
-		, {
-			header : '详细',
-			dataIndex : 'contentdetail',
-			hidden : true,  
-			editor: {
-                xtype: 'textfield'
-            }
-		}
+//		, {
+//			header : '详细',
+//			dataIndex : 'contentdetail',
+//			sortable : true,  
+//			editor: {
+//                xtype: 'textfield'
+//            }
+//		}
 		, {
 			header : '背景',
 			dataIndex : 'contentback',
@@ -174,35 +174,35 @@ Ext.onReady(function() {
 				text : Ext.os.deviceType === 'Phone' ? null : "新增",
 				iconCls : 'add',
 				handler : function() {
-					ContentdataForm.form.reset();
-					Ext.getCmp("Contentcontentid").setEditable (true);
-					createTextWindow(basePath + Contentaction + "?method=insAll", "新增", ContentdataForm, Contentstore);
+					Cms_contentdataForm.form.reset();
+					Ext.getCmp("Cms_contentcontentid").setEditable (true);
+					createTextWindow(basePath + Cms_contentaction + "?method=insAll", "新增", Cms_contentdataForm, Cms_contentstore);
 				}
 			},'-',{
 				text : Ext.os.deviceType === 'Phone' ? null : "保存",
 				iconCls : 'ok',
 				handler : function() {
-					var selections = Contentgrid.getSelection();
+					var selections = Cms_contentgrid.getSelection();
 					if (Ext.isEmpty(selections)) {
 						Ext.Msg.alert('提示', '请至少选择一条数据！');
 						return;
 					}
-					commonSave(basePath + Contentaction + "?method=updAll",selections);
+					commonSave(basePath + Cms_contentaction + "?method=updAll",selections);
 				}
 			},'-',{
 				text : Ext.os.deviceType === 'Phone' ? null : "修改",
 				iconCls : 'edit',
 				handler : function() {
-					var selections = Contentgrid.getSelection();
+					var selections = Cms_contentgrid.getSelection();
 					if (selections.length != 1) {
 						Ext.Msg.alert('提示', '请选择一条数据！', function() {
 						});
 						return;
 					}
-					ContentdataForm.form.reset();
-					Ext.getCmp("Contentcontentid").setEditable (false);
-					createTextWindow(basePath + Contentaction + "?method=updAll", "修改", ContentdataForm, Contentstore);
-					ContentdataForm.form.loadRecord(selections[0]);
+					Cms_contentdataForm.form.reset();
+					Ext.getCmp("Cms_contentcontentid").setEditable (false);
+					createTextWindow(basePath + Cms_contentaction + "?method=updAll", "修改", Cms_contentdataForm, Cms_contentstore);
+					Cms_contentdataForm.form.loadRecord(selections[0]);
 				}
 			},'-',{
 	            text: '操作',
@@ -215,18 +215,18 @@ Ext.onReady(function() {
 	                    	text : "删除",
 	        				iconCls : 'delete',
 	        				handler : function() {
-	        					var selections = Contentgrid.getSelection();
+	        					var selections = Cms_contentgrid.getSelection();
 	        					if (Ext.isEmpty(selections)) {
 	        						Ext.Msg.alert('提示', '请至少选择一条数据！');
 	        						return;
 	        					}
-	        					commonDelete(basePath + Contentaction + "?method=delAll",selections,Contentstore,Contentkeycolumn);
+	        					commonDelete(basePath + Cms_contentaction + "?method=delAll",selections,Cms_contentstore,Cms_contentkeycolumn);
 	        				}
 	                    },{
 	                    	text : "导入",
 	        				iconCls : 'imp',
 	        				handler : function() {
-	        					commonImp(basePath + Contentaction + "?method=impAll","导入",Contentstore);
+	        					commonImp(basePath + Cms_contentaction + "?method=impAll","导入",Cms_contentstore);
 	        				}
 	                    },{
 	                    	text : "导出",
@@ -234,7 +234,7 @@ Ext.onReady(function() {
 	        				handler : function() {
 	        					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
 	        						if (btn == 'yes') {
-	        							window.location.href = basePath + Contentaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("queryContentaction").getValue(); 
+	        							window.location.href = basePath + Cms_contentaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("queryCms_contentaction").getValue(); 
 	        						}
 	        					});
 	        				}
@@ -242,31 +242,31 @@ Ext.onReady(function() {
 	                    	text : "附件",
 	        				iconCls : 'attach',
 	        				handler : function() {
-	        					var selections = Contentgrid.getSelection();
+	        					var selections = Cms_contentgrid.getSelection();
 	        					if (selections.length != 1) {
 	        						Ext.Msg.alert('提示', '请选择一条数据！', function() {
 	        						});
 	        						return;
 	        					}
 	        					var fid = '';
-	        					for (var i=0;i<Contentkeycolumn.length;i++){
-	        						fid += selections[0].data[Contentkeycolumn[i]] + ","
+	        					for (var i=0;i<Cms_contentkeycolumn.length;i++){
+	        						fid += selections[0].data[Cms_contentkeycolumn[i]] + ","
 	        					}
-	        					commonAttach(fid, Contentclassify);
+	        					commonAttach(fid, Cms_contentclassify);
 	        				}
 	                    },{
 	        				text : "筛选",
     						iconCls : 'select',
     						handler : function() {
-    							Ext.getCmp("Contentcontentid").setEditable (true);
-    							createQueryWindow("筛选", ContentdataForm, Contentstore,Ext.getCmp("queryContentaction").getValue());
+    							Ext.getCmp("Cms_contentcontentid").setEditable (true);
+    							createQueryWindow("筛选", Cms_contentdataForm, Cms_contentstore,Ext.getCmp("queryCms_contentaction").getValue());
     						}
     					}]
 	                }
 	            }
 			},'->',{
 				xtype : 'textfield',
-				id : 'queryContentaction',
+				id : 'queryCms_contentaction',
 				name : 'query',
 				emptyText : '模糊匹配',
 				width : 100,
@@ -274,17 +274,17 @@ Ext.onReady(function() {
 				listeners : {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
-							if ("" == Ext.getCmp("queryContentaction").getValue()) {
-								Contentstore.load({
+							if ("" == Ext.getCmp("queryCms_contentaction").getValue()) {
+								Cms_contentstore.load({
 									params : {
 										json : queryjson
 									}
 								});
 							} else {
-								Contentstore.load({
+								Cms_contentstore.load({
 									params : {
 										json : queryjson,
-										query : Ext.getCmp("queryContentaction").getValue()
+										query : Ext.getCmp("queryCms_contentaction").getValue()
 									}
 								});
 							}
@@ -294,12 +294,12 @@ Ext.onReady(function() {
 			}
 		]
 	});
-	Contentgrid.region = 'center';
-	Contentstore.load();//加载数据
+	Cms_contentgrid.region = 'center';
+	Cms_contentstore.load();//加载数据
 	var win = new Ext.Viewport({//只能有一个viewport
 		resizable : true,
 		layout : 'border',
 		bodyStyle : 'padding:0px;',
-		items : [ Contentgrid ]
+		items : [ Cms_contentgrid ]
 	});
 })

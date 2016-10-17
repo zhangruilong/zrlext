@@ -37,7 +37,7 @@ public class Om_dutyDao extends BaseDao {
 		String sql = null;
 		Treeinfo temp = null;
 		ArrayList<Treeinfo> temps = new ArrayList<Treeinfo>();
-		Connection  conn=connectionMan.getConnection(CommonConst.DSNAME); 
+		Connection  conn=connectionMan.getConnection(null); 
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -56,7 +56,7 @@ public class Om_dutyDao extends BaseDao {
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 		} finally{
-			connectionMan.freeConnection(CommonConst.DSNAME,conn,stmt,rs);
+			connectionMan.freeConnection(null,conn,stmt,rs);
 			return temps;
 		}
 	}	

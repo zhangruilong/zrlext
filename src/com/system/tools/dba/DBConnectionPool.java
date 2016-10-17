@@ -104,6 +104,8 @@ public class DBConnectionPool implements TimerListener {
   if(this.maxConn==0||this.maxConn<this.inUsed)
   {
    con=null;//等待 超过最大连接时
+   System.out.println("等待！超过最大连接时！");
+   release();
   }
   if(con!=null)
   {
@@ -132,6 +134,7 @@ public class DBConnectionPool implements TimerListener {
    }
    
   }
+  System.out.println("释放全部连接！");
   this.freeConnections.clear();
    
  }
