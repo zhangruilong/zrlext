@@ -21,7 +21,7 @@ Ext.onReady(function() {
 	        			    ,'detail' 
 	        			      ];// 全部字段
 	var System_temprulekeycolumn = [ 'id' ];// 主键
-	var System_temprulestore = dataStore(System_temprulefields, basePath + System_tempruleaction + "?method=selQuery");// 定义System_temprulestore
+	var System_temprulestore = dataStore(System_temprulefields, basePath + System_tempruleaction + "?method=selAll");// 定义System_temprulestore
 	var System_tempruledataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
 		id:'System_tempruledataForm',
 		labelAlign : 'right',
@@ -217,13 +217,13 @@ Ext.onReady(function() {
 		]
 	});
 	
-	var System_temprulebbar = pagesizebar(System_temprulestore);//定义分页
+	//var System_temprulebbar = pagesizebar(System_temprulestore);//定义分页
 	var System_temprulegrid =  Ext.create('Ext.grid.Panel', {
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
-		title : System_tempruletitle,
+		//title : System_tempruletitle,
 		store : System_temprulestore,
-		bbar : System_temprulebbar,
+		//bbar : System_temprulebbar,
 	    selModel: {
 	        type: 'checkboxmodel'
 	    },
@@ -231,7 +231,7 @@ Ext.onReady(function() {
 	         ptype: 'cellediting',
 	         clicksToEdit: 1
 	    },
-		columns : [{xtype: 'rownumberer',width:36}, 
+		columns : [{xtype: 'rownumberer',width:50}, 
 		{// 改
 			header : 'ID',
 			dataIndex : 'id',
@@ -429,20 +429,14 @@ Ext.onReady(function() {
 	        					commonImp(basePath + System_tempruleaction + "?method=impAll","导入",System_temprulestore);
 	        				}
 	                    },{
-	                    	text : "后台导出",
+	                    	text : "导出",
 	        				iconCls : 'exp',
 	        				handler : function() {
 	        					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
 	        						if (btn == 'yes') {
-	        							window.location.href = basePath + System_tempruleaction + "?method=expAll"; 
+	        							window.location.href = basePath + System_tempruleaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("querySystem_tempruleaction").getValue(); 
 	        						}
 	        					});
-	        				}
-	                    },{
-	                    	text : "前台导出",
-	        				iconCls : 'exp',
-	        				handler : function() {
-	        					commonExp(System_temprulegrid);
 	        				}
 	                    },{
 	                    	text : "附件",
@@ -465,7 +459,7 @@ Ext.onReady(function() {
     						iconCls : 'select',
     						handler : function() {
     							Ext.getCmp("System_tempruleid").setEditable (true);
-    							createQueryWindow("筛选", System_tempruledataForm, System_temprulestore);
+    							createQueryWindow("筛选", System_tempruledataForm, System_temprulestore,Ext.getCmp("querySystem_tempruleaction").getValue());
     						}
     					}]
 	                }
@@ -481,10 +475,15 @@ Ext.onReady(function() {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
 							if ("" == Ext.getCmp("querySystem_tempruleaction").getValue()) {
-								System_temprulestore.load();
+								System_temprulestore.load({
+									params : {
+										json : queryjson
+									}
+								});
 							} else {
 								System_temprulestore.load({
 									params : {
+										json : queryjson,
 										query : Ext.getCmp("querySystem_tempruleaction").getValue()
 									}
 								});
@@ -496,11 +495,6 @@ Ext.onReady(function() {
 		]
 	});
 	System_temprulegrid.region = 'center';
-	System_temprulestore.on("beforeload",function(){ 
-		System_temprulestore.baseParams = {
-				query : Ext.getCmp("querySystem_tempruleaction").getValue()
-		}; 
-	});
 	System_temprulestore.load();//加载数据
 	var win = new Ext.Viewport({//只能有一个viewport
 		resizable : true,
