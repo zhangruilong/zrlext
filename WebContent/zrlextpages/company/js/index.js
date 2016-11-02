@@ -4,7 +4,6 @@ $(function(){
 		url:"ContentAction.do?method=homePageInfo",
 		type:"post",
 		data:{
-			wheresql:"contentparent='1'"
 		},
 		success : function(resp){
 			var data = eval('('+resp+')');
