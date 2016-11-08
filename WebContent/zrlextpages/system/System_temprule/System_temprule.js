@@ -211,7 +211,7 @@ Ext.onReady(function() {
 				fieldLabel : '备注',
 				id : 'System_tempruledetail',
 				name : 'detail',
-				maxLength : 100
+				maxLength : 1000
 			} ]
 		}
 		]
