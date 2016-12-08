@@ -270,11 +270,11 @@ function createQueryWindow(title,_form,store) {
 					text : '提交',
 					iconCls : 'ok',
 					handler : function() {
-						var json = "[" + Ext.encode(_form.form.getValues(false)) + "]";
+						queryjson = "[" + Ext.encode(_form.form.getValues(false)) + "]";
 //						json = json.replace(/""/g,null);
 						store.load({
 							params : {
-								json : json
+								json : queryjson
 							}
 						});
 						dataWindow.hide();
