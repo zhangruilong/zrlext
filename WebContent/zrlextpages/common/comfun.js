@@ -248,6 +248,8 @@ function createTextWindow(url,title,_form,store) {
 					}
 				}]
 	});
+	dataWindow.removeAll(false);
+	dataWindow.items.add(_form);
 	dataWindow.show();
 }
 function createQueryWindow(title,_form,store) {

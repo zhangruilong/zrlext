@@ -118,21 +118,14 @@ public class System_userAction extends com.system.action.System_userAction {
 			}else{
 				System_user temp = cuss.get(0);
 				String userid = temp.getId();
-				//if(userid.equals("1")) userid = null;
 				ArrayList<Treeinfo> buttonpower = new System_powerAction().selMenu("按钮权限",null,userid);
 				ArrayList<Treeinfo> datapower = new System_powerAction().selMenu("数据权限",null,userid);
-//				Queryinfo quickviewqueryinfo = new Queryinfo();
-//				quickviewqueryinfo.setType(System_power_quickview.class);
-//				quickviewqueryinfo.setWheresql("userid='" + temp.getId() + "'");
-//				quickviewqueryinfo.setOrder(System_power_quickviewPoco.ORDER);
-//				ArrayList<System_power_quickview> quickmenu = (ArrayList<System_power_quickview>) selAll(quickviewqueryinfo);
 				HttpSession session = request.getSession();
 				session.setAttribute("buttonpower", buttonpower); //存
 				session.setAttribute("datapower", datapower); //存
 				session.setAttribute("user", temp); //存
 				session.setAttribute("userid", temp.getId()); //存
 				session.setAttribute("username", temp.getUsername()); //存
-//				session.setAttribute("quickmenu", quickmenu); //存
 				responsePW(response, CommonConst.SUCCESS);
 			}
 	}

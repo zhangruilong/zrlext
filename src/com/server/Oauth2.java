@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.system.tools.CommonConst;
 import com.system.tools.util.CommonUtil;
+import com.system.tools.util.HttpRequest;
 
 public class Oauth2 extends HttpServlet {
 
