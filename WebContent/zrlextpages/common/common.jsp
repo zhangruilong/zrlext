@@ -14,6 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>zrlextpages/common/sencha/ext-bootstrap.js"></script>
 <script type="text/javascript" src="<%=basePath%>zrlextpages/common/sencha/build/ext-all.js"></script>  
 <script type="text/javascript" src="<%=basePath%>zrlextpages/common/sencha/build/classic/locale/locale-zh_CN.js"></script>  
+<script type="text/javascript" src="<%=basePath%>zrlextpages/common/commonunits.js"></script>
 <script type="text/javascript" src="<%=basePath%>zrlextpages/common/comfun.js"></script>
 <script type="text/javascript" src="<%=basePath%>zrlextpages/common/common.js"></script>
 <script>
