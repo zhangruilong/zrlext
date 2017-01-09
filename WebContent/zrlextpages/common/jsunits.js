@@ -10,6 +10,17 @@ function getRandomNum(Min,Max)
 	var Rand = Math.random();   
 	return(Min + Math.round(Rand * Range));   
 }
+//将单元格内容加上超链接
+function domUrl(value) {
+	return "<a href='" + basePath + value + "' target='_blank'>" + value
+			+ "</a>";
+}
+//让单元格内容自动换行
+function wrapCell(value, meta, record) {
+	meta.attr = 'style="white-space:normal;word-wrap:break-word;"';
+	return value;
+}
+
 /**
  * 方法作用：【格式化时间】
  * 使用方法
