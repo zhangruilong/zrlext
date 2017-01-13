@@ -372,7 +372,7 @@ public class BaseDao {
 					where += " and " + primaryKeys[j] + "='" + beanToArray.getValues().get(i) + "'";
 					break;
 				} else if (j == (primaryKeys.length - 1)) {
-					set += beanToArray.getBeanNames().get(i) + "='" + beanToArray.getValues().get(i) + "', ";
+					set += beanToArray.getBeanNames().get(i) + "='" + beanToArray.getValues().get(i) + "' ,";
 				}
 			}
 		}
