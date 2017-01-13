@@ -22,7 +22,7 @@ public class System_temprule
    /**
     * 页签序号
     */
-   private int sheetno;   
+   private Integer sheetno;   
    /**
     * 页签名称
     */
@@ -34,7 +34,7 @@ public class System_temprule
    /**
     * 表头序号
     */
-   private int headno;   
+   private Integer headno;   
    /**
     * 表头代码
     */
@@ -54,23 +54,23 @@ public class System_temprule
    /**
     * 表头级次
     */
-   private int headlevel;   
+   private Integer headlevel;   
    /**
     * 表头开始行
     */
-   private int startrow;   
+   private Integer startrow;   
    /**
     * 表头结束行
     */
-   private int endrow;   
+   private Integer endrow;   
    /**
     * 表头开始列
     */
-   private int startcol;   
+   private Integer startcol;   
    /**
     * 表头结束列
     */
-   private int endcol;   
+   private Integer endcol;   
    /**
     * 备注
     */
@@ -131,7 +131,7 @@ public class System_temprule
 	 *设置"页签序号"属性
 	 *@param sheetno 实体的Sheetno属性
 	 */
-	public void setSheetno(int sheetno)
+	public void setSheetno(Integer sheetno)
 	{
 		this.sheetno = sheetno;
 	}
@@ -139,7 +139,7 @@ public class System_temprule
 	/**
 	 *获取"页签序号"属性
 	 */
-	public int getSheetno()
+	public Integer getSheetno()
 	{
 		return this.sheetno;
 	}	   
@@ -182,7 +182,7 @@ public class System_temprule
 	 *设置"表头序号"属性
 	 *@param headno 实体的Headno属性
 	 */
-	public void setHeadno(int headno)
+	public void setHeadno(Integer headno)
 	{
 		this.headno = headno;
 	}
@@ -190,7 +190,7 @@ public class System_temprule
 	/**
 	 *获取"表头序号"属性
 	 */
-	public int getHeadno()
+	public Integer getHeadno()
 	{
 		return this.headno;
 	}	   
@@ -267,7 +267,7 @@ public class System_temprule
 	 *设置"表头级次"属性
 	 *@param headlevel 实体的Headlevel属性
 	 */
-	public void setHeadlevel(int headlevel)
+	public void setHeadlevel(Integer headlevel)
 	{
 		this.headlevel = headlevel;
 	}
@@ -275,7 +275,7 @@ public class System_temprule
 	/**
 	 *获取"表头级次"属性
 	 */
-	public int getHeadlevel()
+	public Integer getHeadlevel()
 	{
 		return this.headlevel;
 	}	   
@@ -284,7 +284,7 @@ public class System_temprule
 	 *设置"表头开始行"属性
 	 *@param startrow 实体的Startrow属性
 	 */
-	public void setStartrow(int startrow)
+	public void setStartrow(Integer startrow)
 	{
 		this.startrow = startrow;
 	}
@@ -292,7 +292,7 @@ public class System_temprule
 	/**
 	 *获取"表头开始行"属性
 	 */
-	public int getStartrow()
+	public Integer getStartrow()
 	{
 		return this.startrow;
 	}	   
@@ -301,7 +301,7 @@ public class System_temprule
 	 *设置"表头结束行"属性
 	 *@param endrow 实体的Endrow属性
 	 */
-	public void setEndrow(int endrow)
+	public void setEndrow(Integer endrow)
 	{
 		this.endrow = endrow;
 	}
@@ -309,7 +309,7 @@ public class System_temprule
 	/**
 	 *获取"表头结束行"属性
 	 */
-	public int getEndrow()
+	public Integer getEndrow()
 	{
 		return this.endrow;
 	}	   
@@ -318,7 +318,7 @@ public class System_temprule
 	 *设置"表头开始列"属性
 	 *@param startcol 实体的Startcol属性
 	 */
-	public void setStartcol(int startcol)
+	public void setStartcol(Integer startcol)
 	{
 		this.startcol = startcol;
 	}
@@ -326,7 +326,7 @@ public class System_temprule
 	/**
 	 *获取"表头开始列"属性
 	 */
-	public int getStartcol()
+	public Integer getStartcol()
 	{
 		return this.startcol;
 	}	   
@@ -335,7 +335,7 @@ public class System_temprule
 	 *设置"表头结束列"属性
 	 *@param endcol 实体的Endcol属性
 	 */
-	public void setEndcol(int endcol)
+	public void setEndcol(Integer endcol)
 	{
 		this.endcol = endcol;
 	}
@@ -343,7 +343,7 @@ public class System_temprule
 	/**
 	 *获取"表头结束列"属性
 	 */
-	public int getEndcol()
+	public Integer getEndcol()
 	{
 		return this.endcol;
 	}	   
@@ -372,19 +372,19 @@ public class System_temprule
 		String id
 	 	,String tempcode
 	 	,String tempname
-	 	,int sheetno
+	 	,Integer sheetno
 	 	,String sheetname
 	 	,String tablecode
-	 	,int headno
+	 	,Integer headno
 	 	,String headcode
 	 	,String headname
 	 	,String headnameas
 	 	,String fieldname
-	 	,int headlevel
-	 	,int startrow
-	 	,int endrow
-	 	,int startcol
-	 	,int endcol
+	 	,Integer headlevel
+	 	,Integer startrow
+	 	,Integer endrow
+	 	,Integer startcol
+	 	,Integer endcol
 	 	,String detail
 		 ){
 		super();

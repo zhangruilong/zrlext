@@ -107,6 +107,7 @@ function selectSystem_power() {
 							}
 							Ext.getCmp('System_powerparentname').setValue(selectRows[0].get("name"));
 							Ext.getCmp('System_powerparentid').setValue(selectRows[0].get("id"));
+							alert(Ext.getCmp('System_powermenulevel'));
 							selectgridWindow.close();
 						}
 					}, '-', {
