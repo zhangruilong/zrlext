@@ -89,27 +89,43 @@ $(function(){
         }
     }
 
-   checkLockStatus('0');
+   checkLockStatus(window.localStorage.getItem("locked"));
    // 锁定屏幕
    function lockSystem(){
-   		
    	   var url = '';
    	   $.post(
    	   	   url,
    	   	   function(data){
-   	   	   if(data=='1'){
-   	   	   	  checkLockStatus(1);
-   	   	   }else{
-              layer.alert('锁屏失败，请稍后再试！');
-   	   	   }
+   	   		   window.localStorage.setItem("locked",1);
+   	   		   checkLockStatus(1);
    	   });
    	   startTimer();
    }
    //解锁屏幕
    function unlockSystem(){
         // 与后台交互代码已移除，根据需求定义或删除此功能
-        
-   	    checkLockStatus(0);
+	   $.ajax({
+			url: "System_userAction.do?method=unlock",
+			type: "post",
+			data: {
+				password : $('#lock_password').val()
+				},
+			success: function(r) {
+				var respText = eval('('+r+')'); 
+				if(respText.code != 202) {
+					layer.tips(respText.msg, '#lock_password', {
+						  tips: [1, 'red'],
+						  time: 4000
+						});
+				} else {
+					window.localStorage.setItem("locked",0);
+					checkLockStatus(0);
+				}
+			},
+			error:function(r) {
+				alert(respText.msg);
+			}
+		});
     }
    // 点击锁屏
    $('#lock').click(function(){

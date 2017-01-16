@@ -21,10 +21,10 @@
 		 <em>Management System</em>
 	</h1>
 	<div class="layui-user-icon larry-login">
-		 <input type="text" placeholder="账号" class="login_txtbx"/>
+		 <input id="username" type="text" placeholder="账号" class="login_txtbx"/>
 	</div>
 	<div class="layui-pwd-icon larry-login">
-		 <input type="password" placeholder="密码" class="login_txtbx"/>
+		 <input id="password" type="password" placeholder="密码" class="login_txtbx"/>
 	</div>
     <div class="layui-val-icon larry-login">
     	<div class="layui-code-box">
@@ -50,9 +50,51 @@ $(function(){
 	});
 	//登录链接测试，使用时可删除
 	$(".submit_btn").click(function(){
-	  location.href="index.html";
+		submitdata();
 	});
 });
+if (top != window) top.location.href = window.location.href;
+function submitdata() {
+	var username = $('#username').val();
+	if(!username){
+		layer.tips('账号不能为空！', '#username', {
+			  tips: [1, 'red'],
+			  time: 4000
+			});
+		return;
+	}
+	var password = $('#password').val();
+	if(!password){
+		layer.tips('密码不能为空！', '#password', {
+			  tips: [1, 'red'],
+			  time: 4000
+			});
+		return;
+	}
+	$.ajax({
+		url: "System_userAction.do?method=login",
+		type: "post",
+		data: {
+			username : username,
+			password : password
+			},
+		success: function(r) {
+			var respText = eval('('+r+')'); 
+			if(respText.code != 202) {
+				layer.tips(respText.msg, '#password', {
+					  tips: [1, 'red'],
+					  time: 4000
+					});
+			} else {
+				window.localStorage.setItem("locked",0);
+				window.location.href = "index.html";
+			}
+		},
+		error:function(r) {
+			alert(respText.msg);
+		}
+	});
+};
 </script>
 </body>
 </html>

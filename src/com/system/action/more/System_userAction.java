@@ -150,4 +150,23 @@ public class System_userAction extends com.system.action.System_userAction {
 			mresponsePW(request, response, result);
 		}
 	}
+	//验证密码
+	public void unlock(HttpServletRequest request, HttpServletResponse response){
+		response.setContentType("text/html;charset=utf-8");
+		response.setHeader("Cache-Control", "no-cache");
+		System_user user = getCurrentUser(request);
+		if(CommonUtil.isNotEmpty(user)){
+			//查询验证用户
+			String password = request.getParameter("password");
+			String  pwd = CipherUtil.generatePassword(password);
+			if(user.getPassword().equals(pwd)){
+				responsePW(response, CommonConst.SUCCESS);
+			}else{
+				responsePW(response, CommonConst.PASSWORDERRO);
+			}
+		}else{
+			String basepath = request.getContextPath();
+			nextpage(response, basepath+"/zrlextpages/admin/login.html");
+		}
+	}
 }

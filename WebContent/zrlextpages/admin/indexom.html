@@ -29,13 +29,13 @@
             <!-- 顶级菜单区域 -->
             <div class="layui-larry-menu">
                  <ul class="layui-nav clearfix">
-                       <li class="layui-nav-item layui-this">
-                 	   	   <a href="javascirpt:;"><i class="iconfont icon-wangzhanguanli"></i>业务管理</a>
+                       <li class="layui-nav-item">
+                 	   	   <a href="index.html"><i class="iconfont icon-wangzhanguanli"></i>业务管理</a>
                  	   </li>
                  	   <li class="layui-nav-item">
                  	   	   <a href="indexcms.html"><i class="iconfont icon-shengchengbaogao"></i>网站维护</a>
                  	   </li>
-                 	   <li class="layui-nav-item">
+                 	   <li class="layui-nav-item layui-this">
                  	   	   <a href="javascirpt:;"><i class="iconfont icon-jiaoseguanli2"></i>组织机构</a>
                  	   </li>
                  	   <li class="layui-nav-item">
@@ -58,7 +58,6 @@
 							<dd>
 								<a href="../charisma/index.html">手机版</a>
 							</dd>
-							
 						</dl>
 					</li>
 					<li class="layui-nav-item">
@@ -138,7 +137,7 @@
 <script type="text/javascript">
 $(function(){
 	$.ajax({
-		url: "System_powerAction.do?method=selMenuChildren&node=4",
+		url: "System_powerAction.do?method=selMenuChildren&node=2",
 		success: function(r) {
 			initmenu(r);
 		},
@@ -152,7 +151,7 @@ function initmenu(data){
 	$.each(respText, function(i, item) {
 		$("#leftmenu").append('<li class="layui-nav-item">'+
 				'<a href="javascript:;" data-url="../'+item.href+'">'+
-				   '<i class="iconfont '+item.icon+'"  data-icon="'+item.icon+'"></i>'+
+				'<i class="iconfont '+item.icon+'"  data-icon="'+item.icon+'"></i>'+
 				   '<span>'+item.text+'</span>'+
 				'</a>'+
 			'</li>');

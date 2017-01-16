@@ -29,17 +29,17 @@
             <!-- 顶级菜单区域 -->
             <div class="layui-larry-menu">
                  <ul class="layui-nav clearfix">
-                       <li class="layui-nav-item layui-this">
-                 	   	   <a href="javascirpt:;"><i class="iconfont icon-wangzhanguanli"></i>业务管理</a>
+                       <li class="layui-nav-item">
+                 	   	   <a href="index.html"><i class="iconfont icon-wangzhanguanli"></i>业务管理</a>
                  	   </li>
                  	   <li class="layui-nav-item">
                  	   	   <a href="indexcms.html"><i class="iconfont icon-shengchengbaogao"></i>网站维护</a>
                  	   </li>
                  	   <li class="layui-nav-item">
-                 	   	   <a href="javascirpt:;"><i class="iconfont icon-jiaoseguanli2"></i>组织机构</a>
+                 	   	   <a href="indexom.html"><i class="iconfont icon-jiaoseguanli2"></i>组织机构</a>
                  	   </li>
-                 	   <li class="layui-nav-item">
-                 	   	   <a href="indexsys.html"><i class="iconfont icon-xitong"></i>系统管理</a>
+                 	   <li class="layui-nav-item layui-this">
+                 	   	   <a href="javascirpt:;"><i class="iconfont icon-xitong"></i>系统管理</a>
                  	   </li>
                  </ul>
             </div>
@@ -58,7 +58,6 @@
 							<dd>
 								<a href="../charisma/index.html">手机版</a>
 							</dd>
-							
 						</dl>
 					</li>
 					<li class="layui-nav-item">
@@ -88,6 +87,12 @@
 				<a href="javascript:;" data-url="main.html">
 				    <i class="iconfont icon-home1" data-icon='icon-home1'></i>
 					<span>后台首页</span>
+				</a>
+			</li>
+			<li class="layui-nav-item">
+				<a href="javascript:;" data-url="../system/System_password/System_password.jsp">
+				    <i class="iconfont icon-iconfuzhi01" data-icon='icon-iconfuzhi01'></i>
+					<span>修改密码</span>
 				</a>
 			</li>
 		</ul>
@@ -138,7 +143,7 @@
 <script type="text/javascript">
 $(function(){
 	$.ajax({
-		url: "System_powerAction.do?method=selMenuChildren&node=4",
+		url: "System_powerAction.do?method=selMenuChildren&node=1",
 		success: function(r) {
 			initmenu(r);
 		},
@@ -152,7 +157,7 @@ function initmenu(data){
 	$.each(respText, function(i, item) {
 		$("#leftmenu").append('<li class="layui-nav-item">'+
 				'<a href="javascript:;" data-url="../'+item.href+'">'+
-				   '<i class="iconfont '+item.icon+'"  data-icon="'+item.icon+'"></i>'+
+				'<i class="iconfont '+item.icon+'"  data-icon="'+item.icon+'"></i>'+
 				   '<span>'+item.text+'</span>'+
 				'</a>'+
 			'</li>');

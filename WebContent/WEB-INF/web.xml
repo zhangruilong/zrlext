@@ -12,8 +12,8 @@
      <filter-name>login</filter-name>
      <url-pattern>/pages/*</url-pattern>
      <url-pattern>/zrlextpages/charisma/index.html</url-pattern>
+     <url-pattern>/zrlextpages/admin/index.html</url-pattern>
      <url-pattern>/</url-pattern>
-     <url-pattern>/login.jsp</url-pattern>
  </filter-mapping>
  <servlet>
   <servlet-name>BaseServlet</servlet-name>

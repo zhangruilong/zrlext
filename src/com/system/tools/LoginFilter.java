@@ -55,7 +55,14 @@ public class LoginFilter implements Filter {
         	}
             return;
         }
-
+        if(path.indexOf("/zrlextpages/admin/login.html") > -1) {
+        	if(username == null || "".equals(username)) {
+        		chain.doFilter(servletRequest, servletResponse);
+        	}else{
+                servletResponse.sendRedirect(basepath+"/zrlextpages/admin/index.html");
+        	}
+            return;
+        }
         // 判断如果没有取到员工信息,就跳转到登陆页面
         if (username == null || "".equals(username)) {
             // 跳转到登陆页面
