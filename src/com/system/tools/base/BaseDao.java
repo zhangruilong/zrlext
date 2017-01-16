@@ -25,6 +25,8 @@ public class BaseDao {
 	@SuppressWarnings("finally")
 	public int getTotal(Queryinfo queryinfo) {
 		String mDSNAME = queryinfo.getDsname();
+		if(CommonUtil.isNull(mDSNAME))
+			mDSNAME = connectionMan.getDsname();
 		Connection conn = connectionMan.getConnection(mDSNAME);
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -48,10 +50,33 @@ public class BaseDao {
 			return total;
 		}
 	}
-	
+	@SuppressWarnings("finally")
+	public int getTotal(String sql, String... DSNAME) {
+		String mDSNAME = null;
+		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
+		if(CommonUtil.isNull(mDSNAME))
+			mDSNAME = connectionMan.getDsname();
+		Connection conn = connectionMan.getConnection(mDSNAME);
+		Statement stmt = null;
+		ResultSet rs = null;
+		int total = 0;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			rs.next();
+			total = rs.getInt(1);
+		} catch (Exception e) {
+			System.out.println("Exception:" + e.getMessage());
+		} finally {
+			connectionMan.freeConnection(mDSNAME, conn, stmt, rs);
+			return total;
+		}
+	}
 	@SuppressWarnings("finally")
 	public List selQuery(Queryinfo queryinfo) {
 		String mDSNAME = queryinfo.getDsname();
+		if(CommonUtil.isNull(mDSNAME))
+			mDSNAME = connectionMan.getDsname();
 		Connection  conn=connectionMan.getConnection(mDSNAME); 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -103,6 +128,8 @@ public class BaseDao {
 	@SuppressWarnings("finally")
 	public List selQuery(String selectsql,Queryinfo queryinfo) {
 		String mDSNAME = queryinfo.getDsname();
+		if(CommonUtil.isNull(mDSNAME)) 
+			mDSNAME = connectionMan.getDsname();
 		Connection  conn=connectionMan.getConnection(mDSNAME); 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -140,6 +167,8 @@ public class BaseDao {
 	@SuppressWarnings("finally")
 	public List selAll(Queryinfo queryinfo) {
 		String mDSNAME = queryinfo.getDsname();
+		if(CommonUtil.isNull(mDSNAME))
+			mDSNAME = connectionMan.getDsname();
 		Connection  conn=connectionMan.getConnection(mDSNAME); 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -180,6 +209,8 @@ public class BaseDao {
 	public List selAll(Class type, String selectsql, String... DSNAME) {
 		String mDSNAME = null;
 		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
+		if(CommonUtil.isNull(mDSNAME))
+			mDSNAME = connectionMan.getDsname();
 		Connection  conn=connectionMan.getConnection(mDSNAME); 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -392,6 +423,8 @@ public class BaseDao {
 		String result = CommonConst.FAILURE;
 		String mDSNAME = null;
 		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
+		if(CommonUtil.isNull(mDSNAME))
+			mDSNAME = connectionMan.getDsname();
 		Connection conn = connectionMan.getConnection(mDSNAME);
 		PreparedStatement pstmt = null;
 		try {
@@ -423,7 +456,9 @@ public class BaseDao {
 	@SuppressWarnings("finally")
 	public String doAll(String DSNAME, String... sql) {
 		String result = CommonConst.FAILURE;
-		if(CommonUtil.isNull(DSNAME)) DSNAME = null;
+		//if(CommonUtil.isNull(DSNAME)) DSNAME = null;
+		if(CommonUtil.isNull(DSNAME))
+			DSNAME = connectionMan.getDsname();
 		Connection conn = connectionMan.getConnection(DSNAME);
 		PreparedStatement pstmt = null;
 		try {
@@ -453,6 +488,8 @@ public class BaseDao {
 		String result = CommonConst.FAILURE;
 		String mDSNAME = null;
 		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
+		if(CommonUtil.isNull(mDSNAME))
+			mDSNAME = connectionMan.getDsname();
 		Connection conn = connectionMan.getConnection(mDSNAME);
 		PreparedStatement pstmt = null;
 		try {
