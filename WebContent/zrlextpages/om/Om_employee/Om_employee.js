@@ -40,254 +40,8 @@ Ext.onReady(function() {
 	        			    ,'remark' 
 	        			      ];// 全部字段
 	var Om_employeekeycolumn = [ 'empid' ];// 主键
-	var Om_employeestore = dataStore(Om_employeefields, basePath + Om_employeeaction + "?method=selQuery");// 定义Om_employeestore
-	var Om_employeesm = new Ext.grid.CheckboxSelectionModel();// grid复选框模式
-	var Om_employeecm = new Ext.grid.ColumnModel({// 定义columnModel
-		columns : [ new Ext.grid.RowNumberer(), Om_employeesm, {// 改
-			header : '人员编号',
-			dataIndex : 'empid',
-			hidden : true
-		}
-		, {
-			header : '人员代码',
-			dataIndex : 'empcode',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '操作员登录号',
-			dataIndex : 'loginname',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '人员姓名',
-			dataIndex : 'empname',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '人员全名',
-			dataIndex : 'realname',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '性别',
-			dataIndex : 'gender',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '出生日期',
-			dataIndex : 'birthdate',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '基本岗位',
-			dataIndex : 'position',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '状态',
-			dataIndex : 'empstatus',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '证件类型',
-			dataIndex : 'cardtype',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '证件号码',
-			dataIndex : 'cardno',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '入职日期',
-			dataIndex : 'indate',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '离职日期',
-			dataIndex : 'outdate',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '办公电话',
-			dataIndex : 'otel',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '办公地址',
-			dataIndex : 'oaddress',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '办公邮编',
-			dataIndex : 'ozipcode',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '办公邮件',
-			dataIndex : 'oemail',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '传真号码',
-			dataIndex : 'faxno',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '手机号码',
-			dataIndex : 'mobileno',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : 'MSN号码',
-			dataIndex : 'msn',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '家庭电话',
-			dataIndex : 'htel',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '家庭地址',
-			dataIndex : 'haddress',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '家庭邮编',
-			dataIndex : 'hzipcode',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '私人电子邮箱',
-			dataIndex : 'pemail',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '政治面貌',
-			dataIndex : 'party',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '职级',
-			dataIndex : 'degree',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '直接主管',
-			dataIndex : 'major',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '可授权角色',
-			dataIndex : 'specialty',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '工作描述',
-			dataIndex : 'workexp',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '注册日期',
-			dataIndex : 'regdate',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '创建时间',
-			dataIndex : 'createtime',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '最新更新时间',
-			dataIndex : 'lastmodytime',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '可管理机构',
-			dataIndex : 'orgidlist',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '主机构编号',
-			dataIndex : 'orgid',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		, {
-			header : '备注',
-			dataIndex : 'remark',
-			align : 'center',
-			width : 80,
-			sortable : true
-		}
-		]
-	});
+	var Om_employeestore = dataStore(Om_employeefields, basePath + Om_employeeaction + "?method=selAll");// 定义Om_employeestore
+	
 	var empstatusStore = new Ext.data.ArrayStore({//
     	fields:["empstatus"],
     	data:[["在岗"],["离职"],["待岗"],["退休"]]
@@ -304,7 +58,7 @@ Ext.onReady(function() {
     	fields:["party"],
     	data:[["团员"],["党员"],["群众"]]
     });
-	var Om_employeedataForm = new Ext.form.FormPanel({// 定义新增和修改的FormPanel
+	var Om_employeedataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
 		id:'Om_employeedataForm',
 		labelAlign : 'right',
 		frame : true,
@@ -731,92 +485,408 @@ Ext.onReady(function() {
 		]
 	});
 	
-	var Om_employeebbar = pagesizebar(Om_employeestore);//定义分页
-	var Om_employeegrid = new Ext.grid.GridPanel({
+	//var Om_employeebbar = pagesizebar(Om_employeestore);//定义分页
+	var Om_employeegrid =  Ext.create('Ext.grid.Panel', {
 		height : document.documentElement.clientHeight - 4,
 		width : '100%',
-		title : Om_employeetitle,
+		//title : Om_employeetitle,
 		store : Om_employeestore,
-		stripeRows : true,
-		frame : true,
-		loadMask : {
-			msg : '正在加载表格数据,请稍等...'
-		},
-		cm : Om_employeecm,
-		sm : Om_employeesm,
-		bbar : Om_employeebbar,
+		//bbar : Om_employeebbar,
+	    selModel: {
+	        type: 'checkboxmodel'
+	    },
+	    plugins: {
+	         ptype: 'cellediting',
+	         clicksToEdit: 1
+	    },
+		columns : [{xtype: 'rownumberer',width:50}, 
+		{// 改
+			header : '人员编号',
+			dataIndex : 'empid',
+			sortable : true, 
+			editor: {
+                xtype: 'textfield',
+                editable: false
+            }
+		}
+		, {
+			header : '人员代码',
+			dataIndex : 'empcode',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '操作员编号',
+			dataIndex : 'operatorid',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '操作员登录号',
+			dataIndex : 'loginname',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '人员姓名',
+			dataIndex : 'empname',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '人员全名',
+			dataIndex : 'realname',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '性别',
+			dataIndex : 'gender',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '出生日期',
+			dataIndex : 'birthdate',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '基本岗位',
+			dataIndex : 'position',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '状态',
+			dataIndex : 'empstatus',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '证件类型',
+			dataIndex : 'cardtype',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '证件号码',
+			dataIndex : 'cardno',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '入职日期',
+			dataIndex : 'indate',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '离职日期',
+			dataIndex : 'outdate',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '办公电话',
+			dataIndex : 'otel',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '办公地址',
+			dataIndex : 'oaddress',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '办公邮编',
+			dataIndex : 'ozipcode',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '办公邮件',
+			dataIndex : 'oemail',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '传真号码',
+			dataIndex : 'faxno',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '手机号码',
+			dataIndex : 'mobileno',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : 'MSN号码',
+			dataIndex : 'msn',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '家庭电话',
+			dataIndex : 'htel',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '家庭地址',
+			dataIndex : 'haddress',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '家庭邮编',
+			dataIndex : 'hzipcode',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '私人电子邮箱',
+			dataIndex : 'pemail',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '政治面貌',
+			dataIndex : 'party',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '职级',
+			dataIndex : 'degree',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '直接主管',
+			dataIndex : 'major',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '可授权角色',
+			dataIndex : 'specialty',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '工作描述',
+			dataIndex : 'workexp',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '注册日期',
+			dataIndex : 'regdate',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '创建时间',
+			dataIndex : 'createtime',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '最新更新时间',
+			dataIndex : 'lastmodytime',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '可管理机构',
+			dataIndex : 'orgidlist',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '主机构编号',
+			dataIndex : 'orgid',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		, {
+			header : '备注',
+			dataIndex : 'remark',
+			sortable : true,  
+			editor: {
+                xtype: 'textfield'
+            }
+		}
+		],
 		tbar : [{
-				text : "新增",
+				text : Ext.os.deviceType === 'Phone' ? null : "新增",
 				iconCls : 'add',
 				handler : function() {
 					Om_employeedataForm.form.reset();
-					createWindow(basePath + Om_employeeaction + "?method=insAll", "新增", Om_employeedataForm, Om_employeestore);
+					Ext.getCmp("Om_employeeempid").setEditable (true);
+					createTextWindow(basePath + Om_employeeaction + "?method=insAll", "新增", Om_employeedataForm, Om_employeestore);
 				}
 			},'-',{
-				text : "修改",
+				text : Ext.os.deviceType === 'Phone' ? null : "保存",
+				iconCls : 'ok',
+				handler : function() {
+					var selections = Om_employeegrid.getSelection();
+					if (Ext.isEmpty(selections)) {
+						Ext.Msg.alert('提示', '请至少选择一条数据！');
+						return;
+					}
+					commonSave(basePath + Om_employeeaction + "?method=updAll",selections);
+				}
+			},'-',{
+				text : Ext.os.deviceType === 'Phone' ? null : "修改",
 				iconCls : 'edit',
 				handler : function() {
-					var selections = Om_employeegrid.getSelectionModel().getSelections();
+					var selections = Om_employeegrid.getSelection();
 					if (selections.length != 1) {
-						Ext.Msg.alert('提示', '请选择一条要修改的记录！', function() {
+						Ext.Msg.alert('提示', '请选择一条数据！', function() {
 						});
 						return;
 					}
+					Om_employeedataForm.form.reset();
+					Ext.getCmp("Om_employeeempid").setEditable (false);
+					createTextWindow(basePath + Om_employeeaction + "?method=updAll", "修改", Om_employeedataForm, Om_employeestore);
 					Om_employeedataForm.form.loadRecord(selections[0]);
-					createWindow(basePath + Om_employeeaction + "?method=updAll", "修改", Om_employeedataForm, Om_employeestore);
 				}
 			},'-',{
-				text : "删除",
-				iconCls : 'delete',
-				handler : function() {
-					var selections = Om_employeegrid.getSelectionModel().getSelections();
-					if (Ext.isEmpty(selections)) {
-						Ext.Msg.alert('提示', '请选择您要删除的数据！');
-						return;
-					}
-					commonDelete(basePath + Om_employeeaction + "?method=delAll",selections,Om_employeestore,Om_employeekeycolumn);
-				}
-			},'-',{
-				text : "导入",
-				iconCls : 'imp',
-				handler : function() {
-					commonImp(basePath + Om_employeeaction + "?method=impAll","导入",Om_employeestore);
-				}
-			},'-',{
-				text : "后台导出",
-				iconCls : 'exp',
-				handler : function() {
-					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
-						if (btn == 'yes') {
-							window.location.href = basePath + Om_employeeaction + "?method=expAll"; 
-						}
-					});
-				}
-			},'-',{
-				text : "前台导出",
-				iconCls : 'exp',
-				handler : function() {
-					commonExp(Om_employeegrid);
-				}
-			},'-',{
-				text : "附件",
-				iconCls : 'attach',
-				handler : function() {
-					var selections = Om_employeegrid.getSelectionModel().getSelections();
-					if (selections.length != 1) {
-						Ext.Msg.alert('提示', '请选择一条您要上传附件的数据！', function() {
-						});
-						return;
-					}
-					var fid = '';
-					for (var i=0;i<Om_employeekeycolumn.length;i++){
-						fid += selections[0].data[Om_employeekeycolumn[i]] + ","
-					}
-					commonAttach(fid, Om_employeeclassify);
-				}
+	            text: '操作',
+	            menu: {
+	                xtype: 'menu',
+	                items: {
+	                    xtype: 'buttongroup',
+	                    columns: 3,
+	                    items: [{
+	                    	text : "删除",
+	        				iconCls : 'delete',
+	        				handler : function() {
+	        					var selections = Om_employeegrid.getSelection();
+	        					if (Ext.isEmpty(selections)) {
+	        						Ext.Msg.alert('提示', '请至少选择一条数据！');
+	        						return;
+	        					}
+	        					commonDelete(basePath + Om_employeeaction + "?method=delAll",selections,Om_employeestore,Om_employeekeycolumn);
+	        				}
+	                    },{
+	                    	text : "导入",
+	        				iconCls : 'imp',
+	        				handler : function() {
+	        					commonImp(basePath + Om_employeeaction + "?method=impAll","导入",Om_employeestore);
+	        				}
+	                    },{
+	                    	text : "导出",
+	        				iconCls : 'exp',
+	        				handler : function() {
+	        					Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要导出当前数据？', function(btn, text) {
+	        						if (btn == 'yes') {
+	        							window.location.href = basePath + Om_employeeaction + "?method=expAll&json="+queryjson+"&query="+Ext.getCmp("queryOm_employeeaction").getValue(); 
+	        						}
+	        					});
+	        				}
+	                    },{
+	                    	text : "附件",
+	        				iconCls : 'attach',
+	        				handler : function() {
+	        					var selections = Om_employeegrid.getSelection();
+	        					if (selections.length != 1) {
+	        						Ext.Msg.alert('提示', '请选择一条数据！', function() {
+	        						});
+	        						return;
+	        					}
+	        					var fid = '';
+	        					for (var i=0;i<Om_employeekeycolumn.length;i++){
+	        						fid += selections[0].data[Om_employeekeycolumn[i]] + ","
+	        					}
+	        					commonAttach(fid, Om_employeeclassify);
+	        				}
+	                    },{
+	        				text : "筛选",
+    						iconCls : 'select',
+    						handler : function() {
+    							Ext.getCmp("Om_employeeempid").setEditable (true);
+    							createQueryWindow("筛选", Om_employeedataForm, Om_employeestore,Ext.getCmp("queryOm_employeeaction").getValue());
+    						}
+    					}]
+	                }
+	            }
 			},'->',{
 				xtype : 'textfield',
-				id : 'query'+Om_employeeaction,
+				id : 'queryOm_employeeaction',
 				name : 'query',
 				emptyText : '模糊匹配',
 				width : 100,
@@ -824,12 +894,17 @@ Ext.onReady(function() {
 				listeners : {
 					specialkey : function(field, e) {
 						if (e.getKey() == Ext.EventObject.ENTER) {
-							if ("" == Ext.getCmp("query"+Om_employeeaction).getValue()) {
-								Om_employeestore.load();
+							if ("" == Ext.getCmp("queryOm_employeeaction").getValue()) {
+								Om_employeestore.load({
+									params : {
+										json : queryjson
+									}
+								});
 							} else {
 								Om_employeestore.load({
 									params : {
-										query : Ext.getCmp("query"+Om_employeeaction).getValue()
+										json : queryjson,
+										query : Ext.getCmp("queryOm_employeeaction").getValue()
 									}
 								});
 							}
@@ -841,11 +916,6 @@ Ext.onReady(function() {
 	});
 	Om_employeegrid.region = 'center';
 	Om_employeestore.load();//加载数据
-	Om_employeestore.on("beforeload",function(){ 
-		Om_employeestore.baseParams = {
-				query : Ext.getCmp("query"+Om_employeeaction).getValue()
-		}; 
-	});
 	var win = new Ext.Viewport({//只能有一个viewport
 		resizable : true,
 		layout : 'border',
@@ -853,3 +923,4 @@ Ext.onReady(function() {
 		items : [ Om_employeegrid ]
 	});
 })
+
