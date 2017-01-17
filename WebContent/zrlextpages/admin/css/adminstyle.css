@@ -55,7 +55,7 @@
 	position: absolute; 
 	cursor: pointer;
     z-index: 19940201;
-    left: 200px;
+    /* left: 200px; */
     color: white;
     text-align: center;
     width: 30px;
