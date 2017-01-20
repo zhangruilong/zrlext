@@ -45,7 +45,8 @@ public class Om_employeeAction extends BaseAction {
 //			result = new Om_emporgDao().insSingle(emporg);
 		Om_empposition empposition = new Om_empposition(empid,employee.getPosition(), empid, "是");
 		String emppositionsql = DAO.getInsSingleSql(empposition);
-		result = DAO.doAll(employeesql,emppositionsql);
+		String[] sqls = {employeesql,emppositionsql};
+		result = DAO.doAll(sqls);
 //		if(CommonUtil.isNotEmpty(employee.getLoginname())&&result.equals(CommonConst.SUCCESS)){
 //			String pwd = CipherUtil.generatePassword("1");
 //			System_user user = new System_user(empid, employee.getLoginname(), pwd, employee.getEmpname(), "启用");

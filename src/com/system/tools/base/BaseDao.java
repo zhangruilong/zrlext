@@ -454,37 +454,7 @@ public class BaseDao {
 	 * @return 成功CommonConst.SUCCESS,失败CommonConst.FAILURE
 	 */
 	@SuppressWarnings("finally")
-	public String doAll(String DSNAME, String... sql) {
-		String result = CommonConst.FAILURE;
-		//if(CommonUtil.isNull(DSNAME)) DSNAME = null;
-		if(CommonUtil.isNull(DSNAME))
-			DSNAME = connectionMan.getDsname();
-		Connection conn = connectionMan.getConnection(DSNAME);
-		PreparedStatement pstmt = null;
-		try {
-			conn.setAutoCommit(false);
-			if (sql != null) {
-				for (int i=0; i<sql.length; i++) {
-					System.out.println(sql[i]);
-					pstmt = conn.prepareStatement(sql[i]);
-					int num = pstmt.executeUpdate();
-					System.out.println("executeUpdate: " + num + " records！");
-				}
-			}
-			conn.commit();
-			conn.setAutoCommit(true);// 恢复默认
-			result = CommonConst.SUCCESS;
-		} catch (Exception e) {
-			conn.rollback();//回滚   
-			conn.setAutoCommit(true);// 恢复默认
-			e.printStackTrace();
-        } finally {
-			connectionMan.freeConnection(DSNAME, conn, pstmt, null);
-			return result;
-		}
-	}
-	@SuppressWarnings("finally")
-	public String doAll(ArrayList<String> sqls, String... DSNAME) {
+	public String doAll(String[] sqls, String... DSNAME) {
 		String result = CommonConst.FAILURE;
 		String mDSNAME = null;
 		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
@@ -495,9 +465,9 @@ public class BaseDao {
 		try {
 			conn.setAutoCommit(false);
 			if (sqls != null) {
-				for (int i=0; i<sqls.size(); i++) {
-					System.out.println(sqls.get(i));
-					pstmt = conn.prepareStatement(sqls.get(i));
+				for (int i=0; i<sqls.length; i++) {
+					System.out.println(sqls[i]);
+					pstmt = conn.prepareStatement(sqls[i]);
 					int num = pstmt.executeUpdate();
 					System.out.println("executeUpdate: " + num + " records！");
 				}
