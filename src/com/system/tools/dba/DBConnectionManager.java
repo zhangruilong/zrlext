@@ -175,10 +175,10 @@ public class DBConnectionManager {
 	 * @return
 	 */
 	public String getDsname() {
-		Iterator<String> keys = pools.keySet().iterator();
+		Iterator alldriver = drivers.iterator();
 		String keyname = null;
-		while(keys.hasNext()){
-			keyname = keys.next();
+		while(alldriver.hasNext()){
+			keyname = ((DSConfigBean) alldriver.next()).getName();
 			break;
 		}
 		return keyname;
