@@ -1,5 +1,4 @@
 $(function(){
-	$(".admin-logo-box").css("color","red");
 	$.ajax({
 		url: "System_powerAction.do?method=selMenuChildren&node=root",
 		success: function(r) {
