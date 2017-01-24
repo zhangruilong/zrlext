@@ -37,32 +37,33 @@ function desktop() {
         },
         loginout: function(a) {
             p.hidemenu();
-            layer.alert("注销登录")
-        },
-        technicalsupport: function(a) {
-            p.hidemenu();
-            layer.alert("加QQ群啊（601178086），有源码，有萌妹子", {
-                icon: 1,
-                title: "技术支持"
+            layer.alert("现在注销？", {
+                icon: 0,
+                btn: ['确定', '取消'],
+                zIndex: parseInt(layer.zIndex + 1),
+                yes: function(a, b) {
+                	window.location.href = "../charisma/login.html";
+                },
+                end: function() {}
             })
         },
-        lockscreen: function(b) {
-            layer.open({
-                type: 1,
-                title: false,
-                closeBtn: false,
-                area: '300px;',
-                shade: .8,
-                id: 'LAY_layuipro',
-                resize: false,
-                btn: ['解锁'],
-                btnAlign: 'c',
-                moveType: 1,
-                content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">好了，封印解除</div>',
-                success: function(a) {}
-            });
-            p.hidemenu()
-        },
+//        lockscreen: function(b) {
+//            layer.open({
+//                type: 1,
+//                title: false,
+//                closeBtn: false,
+//                area: '300px;',
+//                shade: .8,
+//                id: 'LAY_layuipro',
+//                resize: false,
+//                btn: ['解锁'],
+//                btnAlign: 'c',
+//                moveType: 1,
+//                content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">好了，封印解除</div>',
+//                success: function(a) {}
+//            });
+//            p.hidemenu()
+//        },
         closeall: function(c) {
             var d = $(".taskbar-app").length;
             p.hidemenu();
@@ -304,7 +305,7 @@ function desktop() {
                 offset: 'rt',
                 anim: 6,
                 shade: false,
-                content: '<textarea class="layui-textarea notepaper">QQ群：601178086(有源码);2016-12-27:重写了js;2016-12-30:修复了右下角时间显示，layim起始位置修复在窗体内；——BY SMALL</textarea>',
+                content: '<textarea class="layui-textarea notepaper">欢迎登入桌面版！</textarea>',
                 success: function(a, b) {
                     $(a).find(".notepaper").on("change",
                     function() {

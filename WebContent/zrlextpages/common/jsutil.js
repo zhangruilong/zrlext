@@ -148,8 +148,8 @@ var strUtil = {
      * @param str 传入的字符串
      * @returns {}
      */
-    isEmpty:function(str){
-        if(str != null && str.length > 0){
+    isNull:function(str){
+        if(!str && str != null && str.length > 0 && 'null' != str && 'undefined' != str){
             return true;
         }else{
             return false;

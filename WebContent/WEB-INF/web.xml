@@ -13,6 +13,7 @@
      <url-pattern>/pages/*</url-pattern>
      <url-pattern>/zrlextpages/charisma/index.html</url-pattern>
      <url-pattern>/zrlextpages/admin/index.html</url-pattern>
+     <url-pattern>/zrlextpages/window/index.html</url-pattern>
      <url-pattern>/</url-pattern>
  </filter-mapping>
  <servlet>
