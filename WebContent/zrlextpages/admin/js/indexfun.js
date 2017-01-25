@@ -21,6 +21,14 @@ function initmenu(node){
 					'<span>后台首页</span>'+
 				'</a>'+
 			'</li>');
+			if(4==node){
+				$("#leftmenu").append('<li class="layui-nav-item">'+
+						'<a href="javascript:;" data-url="../system/System_password/System_password.jsp">'+
+					    '<i class="iconfont icon-iconfuzhi01" data-icon="icon-iconfuzhi01"></i>'+
+						'<span>修改密码</span>'+
+					'</a>'+
+				'</li>');
+			}
 			$.each(respText, function(i, item) {
 				$("#leftmenu").append('<li class="layui-nav-item">'+
 						'<a href="javascript:;" data-url="../'+item.href+'">'+
