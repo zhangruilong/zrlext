@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html >
+<html>
+<head>
+<title>mac</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<link href="css/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css" />
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<link href="css/themesetting.css" rel="stylesheet"  type="text/css" >
+<link href="css/black.css" rel="stylesheet" />
+<link href="css/powerFloat.css" rel="stylesheet" type="text/css"/>
+<link href="css/smartMenu.css" rel="stylesheet"  type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-powerFloat-min.js"></script>
+<script type="text/javascript" src="js/jquery-smartMenu-min.js"></script>
+<script type="text/javascript" src="js/jquery-class.js"></script>
+<script type="text/javascript" src="js/artDialog.js"></script>
+<script type="text/javascript" src="js/iframeTools.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.24.custom.min.js"></script>
+<script type="text/javascript" src="js/interface.js"></script>
+<script type="text/javascript" src="js/data.js"></script>
+<script type="text/javascript" src="js/bsv1.3-core.js"></script>
+<!--<script type="text/javascript" src="js/move.js"></script>-->
+</head>
+<body>
+<div id="themeSetting_wrap" style="display:none;">
+  <div id="themeSetting_head" class="themeSetting_head">
+    <div id="themeSetting_tabTheme" class="themeSetting_tab current" style="display: block;">系统主题</div>
+  </div>
+  <div id="themeSetting_body" class="themeSetting_body">
+    <div id="themeSetting_area"  class="themeSetting_area" style="display: block;"> 
+      <a href="###" themeid="theme_Abstractline" class="themeSetting_settingButton" id="themeSetting_theme_blue">
+      <div style="background: url(images/bg/theme_Abstractline.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">抽象曲线</div></a>
+      <a href="###" themeid="theme_chouxiangfenshu" class="themeSetting_settingButton" id="themeSetting_theme_pinky_night">
+      <div style="background: url(images/bg/theme_chouxiangfenshu.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">虚幻分数</div></a> 
+      <a href="###" themeid="theme_coder" class="themeSetting_settingButton" id="themeSetting_theme_green">
+      <div style="background: url(images/bg/theme_coder.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">hello world</div></a> 
+      <a href="###" themeid="theme_computer_pcother" class="themeSetting_settingButton" id="themeSetting_theme_wood1">
+      <div style="background: url(images/bg/theme_computer_pcother.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">点点滴滴</div></a> 
+      <a href="###" themeid="theme_guangxuanwin7" class="themeSetting_settingButton" id="themeSetting_theme_wood2">
+      <div style="background: url(images/bg/theme_guangxuanwin7.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">光炫win7</div></a> 
+      <a href="###" themeid="theme_guangyingbianhuan" class="themeSetting_settingButton" id="themeSetting_theme_universe">
+      <div style="background: url(images/bg/theme_guangyingbianhuan.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">光影变幻</div></a> 
+      <a href="###" themeid="theme_jingxuanyitu" class="themeSetting_settingButton" id="themeSetting_theme_metal">
+      <div style="background: url(images/bg/theme_jingxuanyitu.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">近炫意图</div></a> 
+      <a href="###" themeid="theme_kongfupande" class="themeSetting_settingButton" id="themeSetting_theme_pinky_light">
+      <div style="background: url(images/bg/theme_kongfupande.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">功夫熊猫</div></a>
+      <a href="###" themeid="theme_nature_amazing" class="themeSetting_settingButton" id="themeSetting_theme_christmas">
+      <div style="background: url(images/bg/theme_nature_amazing.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">亲近自然</div></a> 
+      <a href="###" themeid="theme_shaonvshidai" class="themeSetting_settingButton" id="themeSetting_theme_2011">
+      <div style="background: url(images/bg/theme_shaonvshidai.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">少女时代</div></a> 
+      <a href="###" themeid="theme_shuilei" class="themeSetting_settingButton" id="themeSetting_theme_blue1">
+      <div style="background: url(images/bg/theme_shuilei.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">雨泪连连</div></a> 
+      <a href="###" themeid="theme_shuizhu" class="themeSetting_settingButton" id="themeSetting_theme_spring_festival">
+      <div style="background: url(images/bg/theme_shuizhu.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">不熄水烛</div></a> 
+      <a href="###" themeid="theme_star_starjp" class="themeSetting_settingButton themeSetting_selected" id="themeSetting_theme_blue_glow">
+      <div style="background: url(images/bg/theme_star_starjp.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">美眉豪车</div></a> 
+      <a href="###" themeid="theme_suoni" class="themeSetting_settingButton" id="themeSetting_theme_green_glow">
+      <div style="background: url(images/bg/theme_suoni.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">索尼印象</div></a> 
+      <a href="###" themeid="theme_topshow" class="themeSetting_settingButton" id="themeSetting_theme_orange_glow">
+      <div style="background: url(images/bg/theme_topshow.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">真人秀</div></a> 
+      <a href="###" themeid="theme_win7" class="themeSetting_settingButton" id="themeSetting_theme_valentinesDay">
+      <div style="background: url(images/bg/theme_win7.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">不变win7</div></a> 
+      <a href="###" themeid="theme_xinxinxiangyin" class="themeSetting_settingButton" id="themeSetting_theme_cloud">
+      <div style="background: url(images/bg/theme_xinxinxiangyin.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">心心相依</div></a> 
+      <a href="###" themeid="theme_pugongying" class="themeSetting_settingButton" id="themeSetting_theme_gravity">
+      <div style="background: url(images/bg/theme_pugongying.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">蒲公英</div></a> 
+      <a href="###" themeid="theme_yuanxinxian" class="themeSetting_settingButton" id="themeSetting_theme_7_7">
+      <div style="background: url(images/bg/theme_yuanxinxian.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">圆星线</div></a> 
+      <a href="###" themeid="theme_ali" class="themeSetting_settingButton" id="themeSetting_theme_teachersDay">
+      <div style="background: url(images/bg/theme_ali.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">阿狸</div></a> 
+      <a href="###" themeid="theme_yun" class="themeSetting_settingButton" id="themeSetting_theme_midAutumn">
+      <div style="background: url(images/bg/theme_yun.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">云</div></a> 
+      <a href="###" themeid="theme_ziran" class="themeSetting_settingButton" id="themeSetting_theme_lookUpSky">
+      <div style="background: url(images/bg/theme_ziran.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">雪山脚下</div></a> 
+      <a href="###" themeid="theme_yangwang" class="themeSetting_settingButton" id="themeSetting_theme_grass">
+      <div style="background: url(images/bg/theme_yangwang.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">仰望苍穹</div></a> 
+      <a href="###" themeid="theme_gudanfengzheng" class="themeSetting_settingButton" id="themeSetting_theme_childhood">
+      <div style="background: url(images/bg/theme_gudanfengzheng.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">孤单风筝</div></a> 
+      <a href="###" themeid="theme_xinxiangyin" class="themeSetting_settingButton" id="themeSetting_theme_skyBlue">
+      <div style="background: url(images/bg/theme_xinxiangyin.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">心心相印</div></a> 
+      <a href="###" themeid="theme_kexiaohe" class="themeSetting_settingButton" id="themeSetting_theme_dandelionDream">
+      <div style="background: url(images/bg/theme_kexiaohe.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">柯小盒</div></a> 
+      <a href="###" themeid="theme_zuzhichi" class="themeSetting_settingButton" id="themeSetting_theme_paintingTime">
+      <div style="background: url(images/bg/theme_zuzhichi.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">竹之词</div></a> 
+      <a href="###" themeid="theme_meinvxiezhen" class="themeSetting_settingButton" id="themeSetting_theme_dreamSky">
+      <div style="background: url(images/bg/theme_meinvxiezhen.jpg) no-repeat;" class="themeSetting_settingButton_icon"></div>
+      <div class="themeSetting_settingButton_text">美女写真</div></a> 
+      </div>
+    <div id="themeSetting_wallpaper" class="themeSetting_wallpaper" style="display: none;"></div>
+  </div>
+</div>
+
+<div id="zoomWallpaperGrid" class="zoomWallpaperGrid" style="position: absolute; z-index: -10; left: 0pt; top: 0pt; overflow: hidden; height: 381px; width: 1440px;"> <img id="zoomWallpaper" class="zoomWallpaper" style="position: absolute; top: 0pt; left: 0pt; height: 381px; width: 1440px;" src="images/bg/theme_coder.jpg"> 
+</div>
+
+<div class="taskbar_start_menu_container" id="startMenuContainer" _olddisplay="block" style="display: none;">
+  <div class="startMenuImg taskbar_start_menu_body" id="taskbar_start_menu_body">
+    <div uin="0" class="taskbar_start_menu_selfinfo" id="startMenuSelfInfo">
+      <div class="taskbar_start_menu_nick" id="startMenuSelfNick"><a href="#">请登录</a></div>
+    </div>
+    <ul class="taskbar_start_menu">
+      <li cmd="favorite"> <a title="添加到收藏夹" href="###">添加到收藏夹</a> </li>
+      <li cmd="shortcut"> <a title="保存桌面快捷方式" href="###">保存桌面快捷方式</a></li>
+      <li cmd="download"> <a title="社团我的家" href="###">社团我的家</a></li>
+      <li title="关于学院" cmd="about" id="taskbar_helpButton"> <a href="###">关于学院</a> </li>
+      <li cmd="helper"> <a title="新手指导" href="###">新手指导</a> </li>
+    </ul>
+    <a class="startMenuImg logout_botton" title="注销当前用户" cmd="logout" href="###"></a> 
+  </div>
+</div>
+</body>
+</html>
