@@ -36,4 +36,6 @@ public class CommonConst {
 	public static final String USERLOCK = "{success:false,code:201,msg:'账号已禁用,请联系客服人员'}";
 	//INPUTEERRO
 	public static final String INPUTEERRO = "{success:false,code:400,msg:'验证码错误'}";
+	//LIMIT
+	public static final String LIMIT = "1000";
 }

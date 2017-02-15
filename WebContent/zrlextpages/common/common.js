@@ -5,7 +5,6 @@ var statueStore = new Ext.data.ArrayStore({//状态下拉
 //定义store
 function dataStore(fields,url) {
 	var store = Ext.create('Ext.data.Store', {
-		 pageSize : 20,
 		 fields: fields,
 	     proxy: {
 	         type: 'ajax',

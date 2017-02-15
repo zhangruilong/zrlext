@@ -315,7 +315,7 @@ public class BaseActionDao extends BaseDao {
 		String start = request.getParameter("start");
 		if(CommonUtil.isEmpty(start)) start = "0";
 		String limit = request.getParameter("limit");
-		if(CommonUtil.isEmpty(limit)) limit = "20";
+		if(CommonUtil.isEmpty(limit)) limit = CommonConst.LIMIT;
 		int endtemp = TypeUtil.stringToInt(start) + TypeUtil.stringToInt(limit);
 		String end = TypeUtil.intToString(endtemp);
 		String wheresql = request.getParameter("wheresql");
@@ -334,11 +334,12 @@ public class BaseActionDao extends BaseDao {
 	 * @return
 	 */
 	public static Queryinfo getQueryinfo(HttpServletRequest request, Class type, 
-			String[] queryfieldname, String pocoorder, Type TYPE) {
+			String[] queryfieldname, String pocoorder, Type TYPE, String... LIMIT) {
 		String start = request.getParameter("start");
 		if(CommonUtil.isEmpty(start)) start = "0";
 		String limit = request.getParameter("limit");
-		if(CommonUtil.isEmpty(limit)) limit = "20";
+		if(null!=LIMIT&&LIMIT.length>0) limit = LIMIT[0];
+		if(CommonUtil.isNull(limit)) limit = CommonConst.LIMIT;
 		int endtemp = TypeUtil.stringToInt(start) + TypeUtil.stringToInt(limit);
 		String end = TypeUtil.intToString(endtemp);
 		String wheresql = request.getParameter("wheresql");
@@ -359,12 +360,12 @@ public class BaseActionDao extends BaseDao {
 		return queryinfo;
 	}
 	/**
-	 * 设置了默认值的Queryinfo，start = 0,end = 20
+	 * 设置了默认值的Queryinfo，start = 0,end = CommonConst.LIMIT
 	 * @param request
 	 * @return
 	 */
 	public static Queryinfo getQueryinfo(Class type, String wheresql, String querysql, String order) {
-		Queryinfo queryinfo = new Queryinfo(type, "0", "20", "20", wheresql, querysql, order,null);
+		Queryinfo queryinfo = new Queryinfo(type, "0", CommonConst.LIMIT, CommonConst.LIMIT, wheresql, querysql, order,null);
 		return queryinfo;
 	}
 	/**
