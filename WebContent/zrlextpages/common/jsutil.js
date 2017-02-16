@@ -149,7 +149,7 @@ var strUtil = {
      * @returns {}
      */
     isNull:function(str){
-        if(!str && str != null && str.length > 0 && 'null' != str && 'undefined' != str){
+        if(!!str && str != null && str.length > 0 && 'null' != str && 'undefined' != str){
             return true;
         }else{
             return false;

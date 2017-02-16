@@ -185,8 +185,12 @@ function initmenu(data){
 		$.each(item.children, function(y, ytem) {			
 			menuchild += '<li><a class="ajax-link" href="../'+ytem.href+'">'+ytem.text+'</a></li>';
 	    });
+		var mhref = "";
+		if(!!item.href && item.href != null && item.href.length > 0 && 'null' != item.href && 'undefined' != item.href){
+            mhref = "../" + item.href;
+        }
 		$("#leftmenu").append('<li class="accordion">'+
-                '<a class="ajax-link" href="../'+item.href+'"><i class="glyphicon glyphicon-align-justify"></i><span> '+item.text+'</span></a>'+
+                '<a class="ajax-link" href="'+mhref+'"><i class="glyphicon glyphicon-align-justify"></i><span> '+item.text+'</span></a>'+
                 '<ul class="nav nav-pills nav-stacked">'+menuchild+
                 '</ul></li>');
     });
