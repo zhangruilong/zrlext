@@ -21,7 +21,6 @@ import com.system.tools.pojo.Pageinfo;
  *@author ZhangRuiLong
  */
 public class System_attachAction extends BaseActionDao {
-	public String result = CommonConst.FAILURE;
 	public ArrayList<System_attach> cuss = null;
 	public Type TYPE = new TypeToken<ArrayList<System_attach>>() {}.getType();
 

@@ -16,7 +16,8 @@ import com.system.tools.util.CommonUtil;
 import com.system.tools.util.TypeUtil;
 
 public class BaseActionDao extends BaseDao {
-
+	public String result = CommonConst.FAILURE;
+	
 	/**
     * 模糊查询语句
     * @param query

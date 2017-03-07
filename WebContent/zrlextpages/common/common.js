@@ -241,7 +241,7 @@ function createTextWindow(url,title,_form,store) {
 	dataWindow.items.add(_form);
 	dataWindow.show();
 }
-function createQueryWindow(title,_form,store) {
+function createQueryWindow(title,_form,store,queryvalue) {
 	var dataWindow = new Ext.Window({
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
@@ -263,11 +263,20 @@ function createQueryWindow(title,_form,store) {
 					handler : function() {
 						queryjson = "[" + Ext.encode(_form.form.getValues(false)) + "]";
 //						json = json.replace(/""/g,null);
-						store.load({
-							params : {
-								json : queryjson
-							}
-						});
+						if ("" == queryvalue){
+							store.load({
+								params : {
+									json : queryjson
+								}
+							});
+						}else{
+							store.load({
+								params : {
+									json : queryjson,
+									query : queryvalue
+								}
+							});
+						}
 						dataWindow.hide();
 					}
 				}, {
