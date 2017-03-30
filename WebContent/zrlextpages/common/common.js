@@ -1,3 +1,4 @@
+var PAGESIZE = 20;
 var statueStore = new Ext.data.ArrayStore({//状态下拉
     	fields:["name"],
     	data:[["启用"],["禁用"]]
@@ -5,7 +6,7 @@ var statueStore = new Ext.data.ArrayStore({//状态下拉
 //定义store
 function dataStore(fields,url) {
 	var store = Ext.create('Ext.data.Store', {
-		pageSize : 20,
+		pageSize : PAGESIZE,
 		 fields: fields,
 	     proxy: {
 	         type: 'ajax',
@@ -188,6 +189,7 @@ function createWindow(url,title,_form,store) {
 	dataWindow.show();
 }
 function createTextWindow(url,title,_form,store) {
+	_form.form.isValid();
 	var dataWindow = new Ext.Window({
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
@@ -404,7 +406,8 @@ function commonDelete(url, selections, store, keycolumn) {
 				success : function(response) {
 					var resp = Ext.decode(response.responseText); 
 					Ext.Msg.alert('提示', resp.msg, function(){
-						store.reload();
+//						store.reload();
+						store.remove(selections);
 					});
 				},
 				failure : function(response) {
