@@ -150,9 +150,9 @@ var strUtil = {
      */
     isNull:function(str){
         if(!!str && str != null && str.length > 0 && 'null' != str && 'undefined' != str){
-            return true;
-        }else{
             return false;
+        }else{
+            return true;
         }
     },
     /*

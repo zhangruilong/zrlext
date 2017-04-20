@@ -17,9 +17,10 @@ import java.util.Map;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.system.tools.pojo.BeanToArray;
+import com.system.tools.pojo.Queryinfo;
 
 public class TypeUtil {
-
+	
 	/**
 	 * 
 	 * @param type 实体类，字段可以多

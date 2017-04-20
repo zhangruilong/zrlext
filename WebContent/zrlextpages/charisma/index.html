@@ -94,7 +94,9 @@
                         <li class="divider"></li>
                         <li><a href="#">手机版</a></li>
                         <li class="divider"></li>
-                        <li><a href="../window/index.html">桌面版</a></li>
+                        <li><a href="../window/index.html">window版</a></li>
+                        <li class="divider"></li>
+                        <li><a href="../mac/index.html">mac版</a></li>
                     </ul>
                 </li>
                 <li>
@@ -183,14 +185,14 @@ function initmenu(data){
 	$.each(respText, function(i, item) {
 		var menuchild = "";
 		$.each(item.children, function(y, ytem) {			
-			menuchild += '<li><a class="ajax-link" href="../'+ytem.href+'">'+ytem.text+'</a></li>';
+			menuchild += '<li><a class="ajax-link" href="../../'+ytem.href+'">'+ytem.text+'</a></li>';
 	    });
 		var mhref = "";
 		if(!!item.href && item.href != null && item.href.length > 0 && 'null' != item.href && 'undefined' != item.href){
-            mhref = "../" + item.href;
+            mhref = "../../" + item.href;
         }
 		$("#leftmenu").append('<li class="accordion">'+
-                '<a class="ajax-link" href="'+mhref+'"><i class="glyphicon glyphicon-align-justify"></i><span> '+item.text+'</span></a>'+
+                '<a><i class="glyphicon glyphicon-align-justify"></i><span> '+item.text+'</span></a>'+
                 '<ul class="nav nav-pills nav-stacked">'+menuchild+
                 '</ul></li>');
     });

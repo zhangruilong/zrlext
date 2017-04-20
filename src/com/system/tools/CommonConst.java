@@ -38,4 +38,9 @@ public class CommonConst {
 	public static final String INPUTEERRO = "{success:false,code:400,msg:'验证码错误'}";
 	//LIMIT
 	public static final String LIMIT = "1000";
+	//SOLR_URL
+	public static final String SOLR_URL = "http://localhost:8983/solr/";  
+	//REDIS_URL
+	public static final String REDIS_IP = "127.0.0.1"; 
+	public static final int REDIS_PORT = 6379; 
 }

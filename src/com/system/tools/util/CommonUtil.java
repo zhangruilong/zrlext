@@ -33,7 +33,7 @@ public class CommonUtil {
 	}
 
 	public static Boolean isNull(String str) {
-		if(null == str || str.length() <= 0 || "null".equals(str.toLowerCase()))
+		if(null == str || str.length() <= 0 || "null".equals(str.toLowerCase()) || "undefined".equals(str.toLowerCase()))
 			return true;
 		return false;
 	}

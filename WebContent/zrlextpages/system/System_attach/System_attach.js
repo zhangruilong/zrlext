@@ -39,6 +39,7 @@ Ext.onReady(function() {
 				fieldLabel : '编码',
 				id : 'System_attachcode',
 				name : 'code',
+				allowBlank : false,
 				maxLength : 100
 			} ]
 		}

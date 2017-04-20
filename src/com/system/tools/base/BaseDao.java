@@ -1,5 +1,6 @@
 package com.system.tools.base;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -11,7 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.poi.ss.formula.functions.T;
+//import org.apache.solr.client.solrj.SolrClient;
+//import org.apache.solr.client.solrj.SolrQuery;
+//import org.apache.solr.client.solrj.SolrServerException;
+//import org.apache.solr.client.solrj.impl.HttpSolrClient;
+//import org.apache.solr.client.solrj.response.QueryResponse;
+//import org.apache.solr.common.SolrDocument;
+//import org.apache.solr.common.SolrDocumentList;
+//import org.apache.solr.common.SolrInputDocument;
 
+import com.system.poco.System_attachPoco;
+import com.system.pojo.System_attach;
 import com.system.tools.CommonConst;
 import com.system.tools.dba.DBConnectionManager;
 import com.system.tools.pojo.BeanToArray;
@@ -250,12 +261,13 @@ public class BaseDao {
 		String names = "";
 		String values = "";
 		for (int i = 0; i < beanToArray.getBeanNames().size(); i++) {
-			names = names + beanToArray.getBeanNames().get(i) + ",";
-			values = values + "?,";
+			names += beanToArray.getBeanNames().get(i) + ",";
+			values += "?,";
 		}
 		sql = sql + names.substring(0, names.length() - 1) + ") values ("
 				+ values.substring(0, values.length() - 1) + ")";
-		return doSingle(sql, beanToArray.getValues(), DSNAME);
+		String result = doSingle(sql, beanToArray.getValues(), DSNAME);
+		return result;
 	}
 
 	/**
@@ -490,4 +502,125 @@ public class BaseDao {
 			return result;
 		}
 	}
+	/**
+	 * 执行多条语句
+	 * @param sql sql语句集合 异常时事物回滚
+	 * @return 成功CommonConst.SUCCESS,失败CommonConst.FAILURE
+	 */
+	@SuppressWarnings("finally")
+	public String doAll(List sqls, String... DSNAME) {
+		String result = CommonConst.FAILURE;
+		String mDSNAME = null;
+		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
+		if(CommonUtil.isNull(mDSNAME))
+			mDSNAME = connectionMan.getDsname();
+		Connection conn = connectionMan.getConnection(mDSNAME);
+		PreparedStatement pstmt = null;
+		try {
+			conn.setAutoCommit(false);
+			if (sqls != null) {
+				for (int i=0; i<sqls.size(); i++) {
+					System.out.println(sqls.get(i));
+					pstmt = conn.prepareStatement((String) sqls.get(i));
+					int num = pstmt.executeUpdate();
+					System.out.println("executeUpdate: " + num + " records！");
+				}
+			}
+			conn.commit();
+			conn.setAutoCommit(true);// 恢复默认
+			result = CommonConst.SUCCESS;
+		} catch (Exception e) {
+			conn.rollback();//回滚   
+			conn.setAutoCommit(true);// 恢复默认
+			e.printStackTrace();
+        } finally {
+			connectionMan.freeConnection(mDSNAME, conn, pstmt, null);
+			return result;
+		}
+	}
+//	public String updSolr(Object dataobj, String... DSNAME){
+//		try {
+//			String mDSNAME = null;
+//			if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
+//			else mDSNAME = dataobj.getClass().getSimpleName();
+//			BeanToArray beanToArray = TypeUtil.beanToList(dataobj);
+//	        SolrClient solr = new HttpSolrClient.Builder(CommonConst.SOLR_URL+mDSNAME).build();
+//	        //构造一篇solr文档  
+//	      	SolrInputDocument document = new SolrInputDocument(); 
+//			for (int i = 0; i < beanToArray.getBeanNames().size(); i++) {
+//				//往doc中添加字段,在客户端这边添加的字段必须在服务端中有过定义  
+//				document.addField(beanToArray.getBeanNames().get(i).toString(), beanToArray.getValues().get(i));  
+//			}
+//			System.out.println("solr.add(document): " + mDSNAME);
+//			solr.add(document);
+//			solr.commit();
+//	        solr.close();
+//		} catch (SolrServerException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return CommonConst.FAILURE;
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return CommonConst.FAILURE;
+//		}  
+//		return CommonConst.SUCCESS;
+//	}
+//	public String delSolr(Object whereobj, String[] primaryKeys, String... DSNAME){  
+//        try {
+//        	String mDSNAME = null;
+//			if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
+//			else mDSNAME = whereobj.getClass().getSimpleName();
+//	        SolrClient solr = new HttpSolrClient.Builder(CommonConst.SOLR_URL+mDSNAME).build();
+//	        BeanToArray wherebeanToArray = TypeUtil.beanToList(whereobj);
+//	        String where = "";
+//	        if(null!=primaryKeys&&primaryKeys.length>0){
+//	        	for (int i = 0; i < wherebeanToArray.getBeanNames().size(); i++) {
+//					String beanName = (String) wherebeanToArray.getBeanNames().get(i);
+//					for (int j = 0; j < primaryKeys.length; j++) {
+//						if (primaryKeys[j].equals(beanName)) {
+//							where += "," + wherebeanToArray.getValues().get(i);
+//							break;
+//						}
+//					}
+//				}
+//	        	where = where.substring(1);
+//	        }else{
+//	        	where = wherebeanToArray.getValues().get(0).toString();
+//	        }
+//	        System.out.println("solr.deleteById(where): " + where);
+//        	//删除所有的索引
+//            //solr.deleteByQuery("*:*");
+//			solr.deleteById(where);
+//			solr.commit();  
+//		    solr.close();
+//		} catch (SolrServerException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return CommonConst.FAILURE;
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return CommonConst.FAILURE;
+//		}  
+//        return CommonConst.SUCCESS;
+//    }
+//	
+//	@SuppressWarnings("finally")
+//	public SolrDocumentList selSolr(Queryinfo queryinfo){  
+//		SolrDocumentList solrDocumentList = new SolrDocumentList();
+//        try {
+//	        SolrClient solr = new HttpSolrClient.Builder(CommonConst.SOLR_URL+queryinfo.getDsname()).build();
+//			QueryResponse mQueryResponse = solr.query(queryinfo.getSolrquery());
+//	        solrDocumentList = mQueryResponse.getResults(); 
+//		} catch (SolrServerException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} finally {
+//			return solrDocumentList;
+//		}
+//    }
 }

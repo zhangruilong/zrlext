@@ -1,6 +1,7 @@
 package com.system.tools.base;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
@@ -23,68 +24,44 @@ public class BaseServlet extends HttpServlet implements WebApplicationContextAwa
 	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
-		
 		this.mWebApplicationContext = initWebApplicationContext();
 	}
-	
+	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-	 response.setContentType("text/html; charset=UTF-8");
-	 request.setCharacterEncoding("UTF-8"); 
-	 //获取类的全路径以及名称 
-	 String classname = "";
-	 try {
-		 classname = getClassname(request);
-	} catch (Exception e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	 
-	 //获取方法名 
-	 String methodname = request.getParameter("method"); 
-	 System.out.println(classname + " : " + methodname);
-		 //获取class文件 
-		 Class<?> currentclass = null;
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("UTF-8"); 
+		
 		try {
-			currentclass = Class.forName(classname);
+			 String classname = getClassname(request);
+			 String methodname = request.getParameter("method"); 
+			 System.out.println(classname + " : " + methodname);
+			 Class<?> currentclass = Class.forName(classname);
+			 Method method = currentclass.getMethod(methodname, HttpServletRequest.class, HttpServletResponse.class);
+			 method.invoke(currentclass.newInstance(), request, response);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				new HandlerFor404().handleRequest(request, response);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} 
-		 //获取该类所需求的方法 
-		 Method method = null;
-		try {
-			method = currentclass.getMethod(methodname, HttpServletRequest.class, HttpServletResponse.class);
-		} catch (Exception e) {
+		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				new HandlerFor404().handleRequest(request, response);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-		 //方法的实现 
-		 try {
-			method.invoke(currentclass.newInstance(), request, response);
-		} catch (Exception e) {
+		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				new HandlerFor404().handleRequest(request, response);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
-	
+	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
@@ -95,7 +72,7 @@ public class BaseServlet extends HttpServlet implements WebApplicationContextAwa
 		this.mWebApplicationContext = wac;				
 	}
 
-	public String getClassname(HttpServletRequest request) throws Exception {
+	public String getClassname(HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		if(initialize.compareAndSet(false, true)){
 			handlerMap = mWebApplicationContext.beansOfClassname();

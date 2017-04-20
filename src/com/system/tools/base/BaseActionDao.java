@@ -8,8 +8,12 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+//import org.apache.solr.client.solrj.SolrQuery;
+
 import com.system.pojo.System_user;
 import com.system.tools.CommonConst;
+import com.system.tools.pojo.BeanToArray;
 import com.system.tools.pojo.Queryinfo;
 import com.system.tools.pojo.Treeinfo;
 import com.system.tools.util.CommonUtil;
@@ -349,6 +353,7 @@ public class BaseActionDao extends BaseDao {
 		if(CommonUtil.isNull(order)) order = pocoorder;
 		Queryinfo queryinfo = new Queryinfo(type, start, limit, end, wheresql, 
 				getQuerysql(query,queryfieldname), order, null);
+		queryinfo.setDsname(type.getSimpleName());
 		String json = request.getParameter("json");
 		if(CommonUtil.isNotEmpty(json)){
 			System.out.println("json : " + json);
@@ -403,5 +408,76 @@ public class BaseActionDao extends BaseDao {
 //		}
 //		Queryinfo queryinfo = new Queryinfo(null, start, end, wheresql, query, null);
 //		return queryinfo;
+//	}
+	/**
+	 * 将queryinfo转为solrquery
+	 * @param queryinfo
+	 * @return
+	 */
+//	public static Queryinfo getSolrquery(HttpServletRequest request, Class type, 
+//			String[] queryfieldname, String pocoorder, Type TYPE, String... LIMIT) {
+//		SolrQuery mSolrQuery = new SolrQuery();
+//		String start = request.getParameter("start");
+//		if(CommonUtil.isNull(start)) mSolrQuery.setStart(0);
+//		else mSolrQuery.setStart(TypeUtil.stringToInt(start));
+//		String limit = request.getParameter("limit");
+//		if(null!=LIMIT&&LIMIT.length>0) limit = LIMIT[0];
+//		if(CommonUtil.isNull(limit)) mSolrQuery.setRows(TypeUtil.stringToInt(CommonConst.LIMIT));
+//		else mSolrQuery.setRows(TypeUtil.stringToInt(limit));
+//		String wheresql = request.getParameter("wheresql");
+//		String query = request.getParameter("query");
+//		String order = request.getParameter("order");
+//		if(CommonUtil.isNull(order)) order = pocoorder;
+//		//参数sort,设置返回结果的排序规则  
+//		String [] orderbys = order.toLowerCase().split(",");
+//		for(String morderby : orderbys){
+//			if(morderby.indexOf("desc")>0){
+//				morderby = morderby.replaceFirst("desc", "");
+//				mSolrQuery.setSort(morderby,SolrQuery.ORDER.desc);
+//			}else if(morderby.indexOf("desc")>0){
+//				morderby = morderby.replaceFirst("asc", "");
+//				mSolrQuery.setSort(morderby,SolrQuery.ORDER.asc);
+//			}else mSolrQuery.setSort(morderby,SolrQuery.ORDER.asc);
+//		}
+//		String json = request.getParameter("json");
+//		String wherejson = "";
+//		if(!CommonUtil.isEmpty(json)){
+//			System.out.println("json : " + json);
+//			json = json.replace("\"\"", "null");
+//			if(!CommonUtil.isEmpty(json)) {
+//				ArrayList<Object> cuss = CommonConst.GSON.fromJson(json, TYPE);
+//				BeanToArray beanToArray = TypeUtil.beanToList(cuss.get(0));
+//				for (int i = 0; i < beanToArray.getBeanNames().size(); i++) {
+//					wherejson += " AND " + beanToArray.getBeanNames().get(i) + ":*" + beanToArray.getValues().get(i) + "*";
+//				}
+//			}
+//		}
+//		if(CommonUtil.isNull(query)) {
+//			mSolrQuery.set("q", "*:*");
+//		} else {
+//			String querysql = "";
+//	    	for(int i=0;i<queryfieldname.length;i++){
+//	    		querysql += " OR " + queryfieldname[i] + ":*" + query + "*";
+//	    	}
+//	    	//querysql += ";" + order;
+//			mSolrQuery.set("q", querysql.substring(4));
+//		}
+//		if(!CommonUtil.isNull(wheresql)) {
+//			mSolrQuery.addFilterQuery(wheresql);
+//		}
+//		if(!CommonUtil.isNull(wherejson)) {
+//			mSolrQuery.addFilterQuery(wherejson.substring(5));
+//		}
+//         //参数hl,设置高亮  
+//		mSolrQuery.setHighlight(true);  
+//         //设置高亮的字段  
+////         query.addHighlightField("name");  
+//         //设置高亮的样式  
+//		mSolrQuery.setHighlightSimplePre("<font color='red'>");  
+//		mSolrQuery.setHighlightSimplePost("</font>"); 
+//		Queryinfo queryinfo = new Queryinfo();
+//		queryinfo.setDsname(type.getSimpleName());
+//		queryinfo.setSolrquery(mSolrQuery);
+//        return queryinfo;
 //	}
 }

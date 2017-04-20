@@ -1,20 +1,22 @@
 package com.system.action;
 
 import java.lang.reflect.Type;
-import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.system.pojo.System_attach;
+import com.google.gson.reflect.TypeToken;
 import com.system.poco.System_attachPoco;
+import com.system.pojo.System_attach;
 import com.system.tools.CommonConst;
 import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
+import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
 import com.system.tools.util.CommonUtil;
 import com.system.tools.util.FileUtil;
-import com.system.tools.pojo.Pageinfo;
+import com.system.tools.util.TypeUtil;
 
 /**
  * 附件 逻辑层
@@ -23,7 +25,6 @@ import com.system.tools.pojo.Pageinfo;
 public class System_attachAction extends BaseActionDao {
 	public ArrayList<System_attach> cuss = null;
 	public Type TYPE = new TypeToken<ArrayList<System_attach>>() {}.getType();
-
 	//新增
 	public void insAll(HttpServletRequest request, HttpServletResponse response){
 		String json = request.getParameter("json");
@@ -34,6 +35,7 @@ public class System_attachAction extends BaseActionDao {
 			if(CommonUtil.isNull(temp.getId()))
 				temp.setId(CommonUtil.getNewId());
 			result = insSingle(temp);
+//			if(CommonConst.SUCCESS.equals(result)) updSolr(temp);
 		}
 		responsePW(response, result);
 	}
@@ -44,6 +46,7 @@ public class System_attachAction extends BaseActionDao {
 		if(CommonUtil.isNotEmpty(json)) cuss = CommonConst.GSON.fromJson(json, TYPE);
 		for(System_attach temp:cuss){
 			result = delSingle(temp,System_attachPoco.KEYCOLUMN);
+//			if(CommonConst.SUCCESS.equals(result)) delSolr(temp,System_attachPoco.KEYCOLUMN);
 		}
 		responsePW(response, result);
 	}
@@ -53,7 +56,11 @@ public class System_attachAction extends BaseActionDao {
 		System.out.println("json : " + json);
 		if(CommonUtil.isNotEmpty(json)) cuss = CommonConst.GSON.fromJson(json, TYPE);
 		for(System_attach temp:cuss){
-			result = updSingle(temp,System_attachPoco.KEYCOLUMN);
+			if(CommonUtil.isNull(temp.getId())){
+				temp.setId(CommonUtil.getNewId());
+				result = insSingle(temp);
+			}else result = updSingle(temp,System_attachPoco.KEYCOLUMN);
+//			if(CommonConst.SUCCESS.equals(result)) updSolr(temp);
 		}
 		responsePW(response, result);
 	}
@@ -89,4 +96,12 @@ public class System_attachAction extends BaseActionDao {
 		result = CommonConst.GSON.toJson(pageinfo);
 		responsePW(response, result);
 	}
+	//solr查询
+//	public void selSolr(HttpServletRequest request, HttpServletResponse response){
+//		Queryinfo queryinfo = getSolrquery(request, System_attach.class, System_attachPoco.QUERYFIELDNAME, System_attachPoco.ORDER, TYPE);
+//		SolrDocumentList solrDocumentList = selSolr(queryinfo);
+//		Pageinfo pageinfo = new Pageinfo(TypeUtil.stringToInt(""+solrDocumentList.getNumFound()), solrDocumentList);
+//		result = CommonConst.GSON.toJson(pageinfo);
+//        responsePW(response, result);
+//    } 
 }

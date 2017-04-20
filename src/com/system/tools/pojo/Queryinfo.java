@@ -1,5 +1,6 @@
 package com.system.tools.pojo;
 
+//import org.apache.solr.client.solrj.SolrQuery;
 
 public class Queryinfo {
 	 private Class type;
@@ -11,6 +12,7 @@ public class Queryinfo {
 	 private String order;
 	 private Object json;
 	 private String dsname;
+//	 private SolrQuery solrquery;
 	 
 	 public Queryinfo() {
 		super();
@@ -92,6 +94,12 @@ public class Queryinfo {
 	public void setDsname(String dsname) {
 		this.dsname = dsname;
 	}
+//	public SolrQuery getSolrquery() {
+//		return solrquery;
+//	}
+//	public void setSolrquery(SolrQuery solrquery) {
+//		this.solrquery = solrquery;
+//	}
 
 
 }
