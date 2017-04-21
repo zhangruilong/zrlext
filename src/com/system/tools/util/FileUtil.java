@@ -75,7 +75,7 @@ public class FileUtil {
 				cell = row.createCell(iRow);
 				cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 				Object cellvalue = field.get(obj);
-				if (CommonUtil.isNotEmpty(cellvalue)) {
+				if (!CommonUtil.isNull(cellvalue)) {
 					cell.setCellValue(String.valueOf(cellvalue));
 				}
 				iRow++;
@@ -111,7 +111,7 @@ public class FileUtil {
 				cell = row.createCell(iRow);
 				cell.setCellType(XSSFCell.CELL_TYPE_STRING);
 				Object cellvalue = field.get(obj);
-				if (CommonUtil.isNotEmpty(cellvalue)) {
+				if (!CommonUtil.isNull(cellvalue)) {
 					cell.setCellValue(String.valueOf(cellvalue));
 				}
 				iRow++;
@@ -168,7 +168,7 @@ public class FileUtil {
 				Field field = fields[j];
 				field.setAccessible(true);// 忽略访问权限，私有的也可以访问
 				boolean discardflag = true;
-				if(CommonUtil.isNotEmpty(discard)){
+				if(!CommonUtil.isNull(discard)){
 					for (int p = 0; p < discard.length; p++) {
 						if (field.getName().equals(discard[p])) {
 							discardflag = false;
@@ -432,7 +432,7 @@ public class FileUtil {
             // 得到去除路径的文件名  
             String t_name = path.substring(path.lastIndexOf("\\") + 1);  
             // 得到文件的扩展名(无扩展名时将得到全名)  
-            if(CommonUtil.isNotEmpty(name)){
+            if(!CommonUtil.isNull(name)){
     			name = name + t_name.substring(0,t_name.lastIndexOf(".")) + CommonUtil.getNewId();  
     		}else{
     			name = t_name.substring(0,t_name.lastIndexOf(".")) + CommonUtil.getNewId();  
@@ -521,7 +521,7 @@ public class FileUtil {
 						//************避开不读取的列结束************
 						//读取单元格值
 						String cellValue = getCellValue(row.getCell(p));
-						if(CommonUtil.isNotEmpty(cellValue))
+						if(!CommonUtil.isNull(cellValue))
 							json += "'" + fieldname + "':'" + cellValue + "',";
 					}
 					json = json.substring(0,json.length()-1) + "},";
@@ -569,7 +569,7 @@ public class FileUtil {
 						//************避开不读取的列结束************
 						//读取单元格值
 						String cellValue = getCellValue(row.getCell(p));
-						if(CommonUtil.isNotEmpty(cellValue))
+						if(!CommonUtil.isNull(cellValue))
 							json += "'" + fieldname + "':'" + cellValue + "',";
 					}
 					json = json.substring(0,json.length()-1) + "},";
@@ -613,7 +613,7 @@ public class FileUtil {
 					json = json + "{";
 					for (int p = 0; p < heads.length; p++) {
 						String cellValue = getCellValue(row.getCell(p));
-						if(CommonUtil.isNotEmpty(cellValue))
+						if(!CommonUtil.isNull(cellValue))
 							json += "'" + heads[p] + "':'" + cellValue + "',";
 					}
 					json = json.substring(0, json.length() - 1) + "},";
@@ -644,7 +644,7 @@ public class FileUtil {
 					json = json + "{";
 					for (int p = 0; p < heads.length; p++) {
 						String cellValue = getCellValue(row.getCell(p));
-						if(CommonUtil.isNotEmpty(cellValue))
+						if(!CommonUtil.isNull(cellValue))
 							json += "'" + heads[p] + "':'" + cellValue + "',";
 					}
 					json = json.substring(0, json.length() - 1) + "},";

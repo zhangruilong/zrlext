@@ -1,3 +1,15 @@
+function getdatetime(){
+	return new Date().dateFormat("yyyy-MM-dd hh:mm:ss");
+}
+function getstringdate(){
+	return new Date().dateFormat("yyyy-MM-dd");
+}
+function getnewid(){
+	return getNewId();
+}
+function isnull(str){
+	return strUtil.isNull(str);
+}
 function getNewId(){
 	var date = new Date().getTime();
 	var num =  getRandomNum(1000,9999);
@@ -10,6 +22,7 @@ function getRandomNum(Min,Max)
 	var Rand = Math.random();   
 	return(Min + Math.round(Rand * Range));   
 }
+
 //将单元格内容加上超链接
 function domUrl(value) {
 	return "<a href='" + basePath + value + "' target='_blank'>" + value

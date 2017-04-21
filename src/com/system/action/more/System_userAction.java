@@ -57,7 +57,7 @@ public class System_userAction extends com.system.action.System_userAction {
 	//用户自己修改密码
 	public void setpassword(HttpServletRequest request, HttpServletResponse response){
 		System_user user = getCurrentUser(request);
-		if(CommonUtil.isNotEmpty(user)){
+		if(!CommonUtil.isNull(user)){
 			String password = request.getParameter("password"); 
 			String oldpassword = request.getParameter("oldpassword");
 			String userid = user.getId();
@@ -155,7 +155,7 @@ public class System_userAction extends com.system.action.System_userAction {
 		response.setContentType("text/html;charset=utf-8");
 		response.setHeader("Cache-Control", "no-cache");
 		System_user user = getCurrentUser(request);
-		if(CommonUtil.isNotEmpty(user)){
+		if(!CommonUtil.isNull(user)){
 			//查询验证用户
 			String password = request.getParameter("password");
 			String  pwd = CipherUtil.generatePassword(password);

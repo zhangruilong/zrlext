@@ -44,7 +44,7 @@ public class System_attachAction extends com.system.action.System_attachAction {
 	//上传文件
 	public void upload(HttpServletRequest request, HttpServletResponse response) {
 		System_user user = getCurrentUser(request);
-		if(CommonUtil.isNotEmpty(user)){
+		if(!CommonUtil.isNull(user)){
 			String json = request.getParameter("json");
 			System.out.println("json : " + json);
 			if(CommonUtil.isNotEmpty(json)) {

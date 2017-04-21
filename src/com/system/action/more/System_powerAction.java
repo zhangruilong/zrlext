@@ -60,7 +60,7 @@ public class System_powerAction extends com.system.action.System_powerAction {
 			parentTreeinfo.get(i).setChecked(havepower);
 			String powerwheresql = " parentid='" + powerid + "'";
 			ArrayList<Treeinfo> childTreeinfo = selPowertree(powerwheresql);
-			if(CommonUtil.isNotEmpty(childTreeinfo)){
+			if(!CommonUtil.isNull(childTreeinfo)){
 				childTreeinfo = addchild(childTreeinfo,roleidcuss);
 			}
 			parentTreeinfo.get(i).setChildren(childTreeinfo);
@@ -114,7 +114,7 @@ public class System_powerAction extends com.system.action.System_powerAction {
 	//查询菜单
 	public void selMenuChildren(HttpServletRequest request, HttpServletResponse response){
 		System_user user = getCurrentUser(request);
-		if(CommonUtil.isNotEmpty(user)){
+		if(!CommonUtil.isNull(user)){
 			String node = request.getParameter("node");
 //				String json = request.getParameter("json");
 //				if(null != json && !json.equals("")){
@@ -132,7 +132,7 @@ public class System_powerAction extends com.system.action.System_powerAction {
 	//查询菜单
 	public void selAllMenu(HttpServletRequest request, HttpServletResponse response){
 		System_user user = getCurrentUser(request);
-		if(CommonUtil.isNotEmpty(user)){
+		if(!CommonUtil.isNull(user)){
 			String userid = user.getId();
 			ArrayList<Treeinfo> menus = selMenu("顶级菜单",null,userid);
 			for(int i=0;i<menus.size();i++){
@@ -147,7 +147,7 @@ public class System_powerAction extends com.system.action.System_powerAction {
 	//未被设为快捷菜单的菜单
 	public void selMenuRemoveQuick(HttpServletRequest request, HttpServletResponse response){
 		System_user user = getCurrentUser(request);
-		if(CommonUtil.isNotEmpty(user)){
+		if(!CommonUtil.isNull(user)){
 			String userid = user.getId();
 			String query = request.getParameter("query");
 			result = CommonConst.GSON.toJson(selMenuRemoveQuick(query, userid));

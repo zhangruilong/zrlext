@@ -123,7 +123,7 @@ public class BaseActionDao extends BaseDao {
 		String powername = request.getParameter("powername");
 		String menuname = request.getParameter("menuname");
 		Object buttonpowerSession = request.getSession().getAttribute("buttonpower");
-		if(CommonUtil.isNotEmpty(buttonpowerSession)){
+		if(!CommonUtil.isNull(buttonpowerSession)){
 			ArrayList<Treeinfo> buttonpower = (ArrayList<Treeinfo>) (buttonpowerSession);
 			for(Treeinfo temp:buttonpower){
 				if(temp.getParent().equals(menuname)&&temp.getText().equals(powername)){
@@ -142,7 +142,7 @@ public class BaseActionDao extends BaseDao {
 	 */
 	public static Boolean checkButtonPower(HttpServletRequest request,String menuname,String powername) {
 		Object buttonpowerSession = request.getSession().getAttribute("buttonpower");
-		if(CommonUtil.isNotEmpty(buttonpowerSession)){
+		if(!CommonUtil.isNull(buttonpowerSession)){
 			ArrayList<Treeinfo> buttonpower = (ArrayList<Treeinfo>) (buttonpowerSession);
 			for(Treeinfo temp:buttonpower){
 				if(temp.getParent().equals(menuname)&&temp.getText().equals(powername)){
@@ -160,7 +160,7 @@ public class BaseActionDao extends BaseDao {
 	public static ArrayList<Treeinfo> getDataPower(HttpServletRequest request) {
 		ArrayList<Treeinfo> buttonpower = null;
 		Object datapowerSession = request.getSession().getAttribute("datapower");
-		if(CommonUtil.isNotEmpty(datapowerSession)){
+		if(!CommonUtil.isNull(datapowerSession)){
 			buttonpower = (ArrayList<Treeinfo>) (datapowerSession);
 		}
 		return buttonpower;
@@ -174,7 +174,7 @@ public class BaseActionDao extends BaseDao {
 		String sql = "";
 		ArrayList<Treeinfo> datapower = null;
 		Object datapowerSession = request.getSession().getAttribute("datapower");
-		if(CommonUtil.isNotEmpty(datapowerSession)){
+		if(!CommonUtil.isNull(datapowerSession)){
 			datapower = (ArrayList<Treeinfo>) (datapowerSession);
 			if(datapower != null&&datapower.size()!=0){
 				for(Treeinfo power:datapower){
@@ -200,7 +200,7 @@ public class BaseActionDao extends BaseDao {
 		}
 		ArrayList<Treeinfo> datapower = null;
 		Object datapowerSession = request.getSession().getAttribute("datapower");
-		if(CommonUtil.isNotEmpty(datapowerSession)){
+		if(!CommonUtil.isNull(datapowerSession)){
 			datapower = (ArrayList<Treeinfo>) (datapowerSession);
 			if(datapower != null&&datapower.size()!=0){
 				for(Treeinfo power:datapower){
@@ -223,7 +223,7 @@ public class BaseActionDao extends BaseDao {
 		String sql = " (1=1 ";
 		ArrayList<Treeinfo> datapower = null;
 		Object datapowerSession = request.getSession().getAttribute("datapower");
-		if(CommonUtil.isNotEmpty(datapowerSession)){
+		if(!CommonUtil.isNull(datapowerSession)){
 			datapower = (ArrayList<Treeinfo>) (datapowerSession);
 			if(datapower != null&&datapower.size()!=0){
 				for(Treeinfo power:datapower){
@@ -355,10 +355,10 @@ public class BaseActionDao extends BaseDao {
 				getQuerysql(query,queryfieldname), order, null);
 		queryinfo.setDsname(type.getSimpleName());
 		String json = request.getParameter("json");
-		if(CommonUtil.isNotEmpty(json)){
+		if(!CommonUtil.isNull(json)){
 			System.out.println("json : " + json);
 			json = json.replace("\"\"", "null");
-			if(CommonUtil.isNotEmpty(json)) {
+			if(!CommonUtil.isNull(json)) {
 				ArrayList<Object> cuss = CommonConst.GSON.fromJson(json, TYPE);
 				queryinfo.setJson(cuss.get(0));
 			}
@@ -389,7 +389,7 @@ public class BaseActionDao extends BaseDao {
 //		int endtemp = TypeUtil.stringToInt(start) + TypeUtil.stringToInt(limit);
 //		String end = TypeUtil.intToString(endtemp);
 //		String wheresql = request.getParameter("wheresql");
-//		if(CommonUtil.isNotEmpty(wheresql)){
+//		if(!CommonUtil.isNull(wheresql)){
 //			try {
 //				wheresql = new String(wheresql.getBytes("iso8859-1"),"utf-8");
 //			} catch (UnsupportedEncodingException e) {
@@ -398,7 +398,7 @@ public class BaseActionDao extends BaseDao {
 //			}
 //		}
 //		String query = request.getParameter("query");
-//		if(CommonUtil.isNotEmpty(query)){
+//		if(!CommonUtil.isNull(query)){
 //			try {
 //				query = new String(query.getBytes("iso8859-1"),"utf-8");
 //			} catch (UnsupportedEncodingException e) {

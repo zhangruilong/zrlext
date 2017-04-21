@@ -44,15 +44,15 @@ public class BaseDao {
 		int total = 0;
 		try {
 			String sql = "SELECT count(*) AS rowcount FROM " + queryinfo.getType().getSimpleName() + " where 1=1 ";
-			if(CommonUtil.isNotEmpty(queryinfo.getJson())){
+			if(!CommonUtil.isNull(queryinfo.getJson())){
 				String jsonsql = TypeUtil.beanToSql(queryinfo.getJson());
-				if(CommonUtil.isNotNull(jsonsql))
+				if(!CommonUtil.isNull(jsonsql))
 				sql += " and (" + TypeUtil.beanToSql(queryinfo.getJson()) + ") ";
 			}
-			if(CommonUtil.isNotEmpty(queryinfo.getWheresql())){
+			if(!CommonUtil.isNull(queryinfo.getWheresql())){
 				sql += " and (" + queryinfo.getWheresql() + ") ";
 			}
-			if(CommonUtil.isNotEmpty(queryinfo.getQuery())){
+			if(!CommonUtil.isNull(queryinfo.getQuery())){
 				sql += " and (" + queryinfo.getQuery() + ") ";
 			}
 			stmt = conn.createStatement();
@@ -104,18 +104,18 @@ public class BaseDao {
 				sql += "select * from (select A.*, ROWNUM RN from (";
 			}
 			sql += "select * from " + queryinfo.getType().getSimpleName() + " where 1=1 ";
-			if(CommonUtil.isNotEmpty(queryinfo.getJson())){
+			if(!CommonUtil.isNull(queryinfo.getJson())){
 				String jsonsql = TypeUtil.beanToSql(queryinfo.getJson());
-				if(CommonUtil.isNotNull(jsonsql))
+				if(!CommonUtil.isNull(jsonsql))
 				sql += " and (" + TypeUtil.beanToSql(queryinfo.getJson()) + ") ";
 			}
-			if(CommonUtil.isNotEmpty(queryinfo.getWheresql())){
+			if(!CommonUtil.isNull(queryinfo.getWheresql())){
 				sql += " and (" + queryinfo.getWheresql() + ") ";
 			}
-			if(CommonUtil.isNotEmpty(queryinfo.getQuery())){
+			if(!CommonUtil.isNull(queryinfo.getQuery())){
 				sql += " and (" + queryinfo.getQuery() + ") ";
 			}
-			if(CommonUtil.isNotEmpty(queryinfo.getOrder())){
+			if(!CommonUtil.isNull(queryinfo.getOrder())){
 				sql += " order by " + queryinfo.getOrder();
 			}
 			if(mDSNAME.equals("oracle")){
@@ -192,18 +192,18 @@ public class BaseDao {
 		List objs = new ArrayList();
 		try {
 			String sql = "select * from " + queryinfo.getType().getSimpleName() + " where 1=1 ";
-			if(CommonUtil.isNotEmpty(queryinfo.getJson())){
+			if(!CommonUtil.isNull(queryinfo.getJson())){
 				String jsonsql = TypeUtil.beanToSql(queryinfo.getJson());
-				if(CommonUtil.isNotNull(jsonsql))
+				if(!CommonUtil.isNull(jsonsql))
 				sql += " and (" + TypeUtil.beanToSql(queryinfo.getJson()) + ") ";
 			}
-			if(CommonUtil.isNotEmpty(queryinfo.getWheresql())){
+			if(!CommonUtil.isNull(queryinfo.getWheresql())){
 				sql += " and (" + queryinfo.getWheresql() + ") ";
 			}
-			if(CommonUtil.isNotEmpty(queryinfo.getQuery())){
+			if(!CommonUtil.isNull(queryinfo.getQuery())){
 				sql += " and (" + queryinfo.getQuery() + ") ";
 			}
-			if(CommonUtil.isNotEmpty(queryinfo.getOrder())){
+			if(!CommonUtil.isNull(queryinfo.getOrder())){
 				sql += " order by " + queryinfo.getOrder();
 			}
 			stmt = conn.createStatement();
