@@ -34,7 +34,7 @@ public class BaseServlet extends HttpServlet implements WebApplicationContextAwa
 		try {
 			 String classname = getClassname(request);
 			 String methodname = request.getParameter("method"); 
-			 System.out.println(classname + " : " + methodname);
+			 System.out.println("进入method: " + methodname);
 			 Class<?> currentclass = Class.forName(classname);
 			 Method method = currentclass.getMethod(methodname, HttpServletRequest.class, HttpServletResponse.class);
 			 method.invoke(currentclass.newInstance(), request, response);
@@ -88,6 +88,7 @@ public class BaseServlet extends HttpServlet implements WebApplicationContextAwa
 		String path = request.getServletPath();
 		int index = path.lastIndexOf('/');
 		String handleName =	path.substring(index+1, path.length()-3);
+		System.out.println("进入handle: " + handleName);
 		return handleName;
 	}
 	
