@@ -10,7 +10,7 @@ import com.om.poco.Om_employeePoco;
 import com.om.pojo.Om_employee;
 import com.om.pojo.Om_empposition;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
+import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
@@ -21,7 +21,7 @@ import com.system.tools.util.FileUtil;
  * 人员 逻辑层
  *@author ZhangRuiLong
  */
-public class Om_employeeAction extends BaseAction {
+public class Om_employeeAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
 	public ArrayList<Om_employee> cuss = null;
 	public Om_employeeDao DAO = new Om_employeeDao();
@@ -45,7 +45,9 @@ public class Om_employeeAction extends BaseAction {
 //			result = new Om_emporgDao().insSingle(emporg);
 		Om_empposition empposition = new Om_empposition(empid,employee.getPosition(), empid, "是");
 		String emppositionsql = DAO.getInsSingleSql(empposition);
-		String[] sqls = {employeesql,emppositionsql};
+		ArrayList<String> sqls = new ArrayList<String>();
+		sqls.add(employeesql);
+		sqls.add(emppositionsql);
 		result = DAO.doAll(sqls);
 //		if(CommonUtil.isNotEmpty(employee.getLoginname())&&result.equals(CommonConst.SUCCESS)){
 //			String pwd = CipherUtil.generatePassword("1");

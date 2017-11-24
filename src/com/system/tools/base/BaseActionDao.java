@@ -70,7 +70,7 @@ public class BaseActionDao extends BaseDao {
 //	public static Customer getCurrentCustomer(HttpServletRequest request) {
 //		Customer user = null;
 //		Object userSession = request.getSession().getAttribute("user");
-//		if(!userSession.equals(null)){
+//		if(userSession!=null){
 //			user = (Customer) (userSession);
 //		}
 //		return user;
@@ -83,7 +83,7 @@ public class BaseActionDao extends BaseDao {
 	public static System_user getCurrentUser(HttpServletRequest request) {
 		System_user user = null;
 		Object userSession = request.getSession().getAttribute("user");
-		if(!userSession.equals(null)){
+		if(userSession!=null){
 			user = (System_user) (userSession);
 		}
 		return user;
@@ -95,9 +95,9 @@ public class BaseActionDao extends BaseDao {
 	 */
 	public static String getCurrentUserid(HttpServletRequest request) {
 		String userid = null;
-		Object useridSession = request.getSession().getAttribute("userid");
-		if(!useridSession.equals(null)){
-			userid = (String) (useridSession);
+		Object userSession = request.getSession().getAttribute("userid");
+		if(userSession!=null){
+			userid = (String) (userSession);
 		}
 		return userid;
 	}
@@ -108,9 +108,9 @@ public class BaseActionDao extends BaseDao {
 	 */
 	public static String getCurrentUsername(HttpServletRequest request) {
 		String username = null;
-		Object usernameSession = request.getSession().getAttribute("username");
-		if(!usernameSession.equals(null)){
-			username = (String) (usernameSession);
+		Object userSession = request.getSession().getAttribute("username");
+		if(!userSession.equals(null)){
+			username = (String) (userSession);
 		}
 		return username;
 	}
@@ -363,15 +363,6 @@ public class BaseActionDao extends BaseDao {
 				queryinfo.setJson(cuss.get(0));
 			}
 		}
-		return queryinfo;
-	}
-	/**
-	 * 设置了默认值的Queryinfo，start = 0,end = CommonConst.LIMIT
-	 * @param request
-	 * @return
-	 */
-	public static Queryinfo getQueryinfo(Class type, String wheresql, String querysql, String order) {
-		Queryinfo queryinfo = new Queryinfo(type, "0", CommonConst.LIMIT, CommonConst.LIMIT, wheresql, querysql, order,null);
 		return queryinfo;
 	}
 	/**

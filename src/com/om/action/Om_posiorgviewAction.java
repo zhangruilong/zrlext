@@ -9,7 +9,7 @@ import com.om.dao.Om_posiorgviewDao;
 import com.om.pojo.Om_posiorgview;
 import com.om.poco.Om_posiorgviewPoco;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
+import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
@@ -20,7 +20,7 @@ import com.system.tools.util.FileUtil;
  * om_posiorgview 逻辑层
  *@author ZhangRuiLong
  */
-public class Om_posiorgviewAction extends BaseAction {
+public class Om_posiorgviewAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
 	public ArrayList<Om_posiorgview> cuss = null;
 	public Om_posiorgviewDao DAO = new Om_posiorgviewDao();

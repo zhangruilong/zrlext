@@ -1,4 +1,5 @@
 Ext.onReady(function() {
+	Ext.tip.QuickTipManager.init();  // enable tooltips
 	var Cms_contentclassify = "cms_content";
 	var Cms_contenttitle = "当前位置:业务管理》" + Cms_contentclassify;
 	var Cms_contentaction = "Cms_contentAction.do";
@@ -12,90 +13,7 @@ Ext.onReady(function() {
 	        			      ];// 全部字段
 	var Cms_contentkeycolumn = [ 'contentid' ];// 主键
 	var Cms_contentstore = dataStore(Cms_contentfields, basePath + Cms_contentaction + "?method=selAll");// 定义Cms_contentstore
-	var Cms_contentdataForm = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
-		id:'Cms_contentdataForm',
-		labelAlign : 'right',
-		frame : true,
-		layout : 'column',
-		items : [ {
-			columnWidth : 1,
-			layout : 'form',
-			items : [ {
-				xtype : 'textfield',
-				fieldLabel : 'ID',
-				id : 'Cms_contentcontentid',
-				name : 'contentid',
-				maxLength : 100
-			} ]
-		}
-		, {
-			columnWidth : 1,
-			layout : 'form',
-			items : [ {
-				xtype : 'textfield',
-				fieldLabel : '编码',
-				id : 'Cms_contentcontentcode',
-				name : 'contentcode',
-				maxLength : 100
-			} ]
-		}
-		, {
-			columnWidth : 1,
-			layout : 'form',
-			items : [ {
-				xtype : 'textfield',
-				fieldLabel : '名称',
-				id : 'Cms_contentcontentname',
-				name : 'contentname',
-				maxLength : 100
-			} ]
-		}
-		, {
-			columnWidth : 1,
-			layout : 'form',
-			items : [ {
-				xtype : 'htmleditor',
-				fieldLabel : '详细',
-				id : 'Cms_contentcontentdetail',
-				name : 'contentdetail',
-				maxLength : 100
-			} ]
-		}
-		, {
-			columnWidth : 1,
-			layout : 'form',
-			items : [ {
-				xtype : 'textfield',
-				fieldLabel : '背景',
-				id : 'Cms_contentcontentback',
-				name : 'contentback',
-				maxLength : 100
-			} ]
-		}
-		, {
-			columnWidth : 1,
-			layout : 'form',
-			items : [ {
-				xtype : 'textfield',
-				fieldLabel : '父节点',
-				id : 'Cms_contentcontentparent',
-				name : 'contentparent',
-				maxLength : 100
-			} ]
-		}
-		, {
-			columnWidth : 1,
-			layout : 'form',
-			items : [ {
-				xtype : 'textfield',
-				fieldLabel : '模板',
-				id : 'Cms_contentcontentmodel',
-				name : 'contentmodel',
-				maxLength : 100
-			} ]
-		}
-		]
-	});
+	
 	
 	//var Cms_contentbbar = pagesizebar(Cms_contentstore);//定义分页
 	var Cms_contentgrid =  Ext.create('Ext.grid.Panel', {
@@ -174,9 +92,7 @@ Ext.onReady(function() {
 				text : Ext.os.deviceType === 'Phone' ? null : "新增",
 				iconCls : 'add',
 				handler : function() {
-					Cms_contentdataForm.form.reset();
-					Ext.getCmp("Cms_contentcontentid").setEditable (true);
-					createTextWindow(basePath + Cms_contentaction + "?method=insAll", "新增", Cms_contentdataForm, Cms_contentstore);
+					createTextWindow(basePath + Cms_contentaction + "?method=insAll", "新增", Cms_contentstore);
 				}
 			},'-',{
 				text : Ext.os.deviceType === 'Phone' ? null : "保存",
@@ -199,10 +115,7 @@ Ext.onReady(function() {
 						});
 						return;
 					}
-					Cms_contentdataForm.form.reset();
-					Ext.getCmp("Cms_contentcontentid").setEditable (false);
-					createTextWindow(basePath + Cms_contentaction + "?method=updAll", "修改", Cms_contentdataForm, Cms_contentstore);
-					Cms_contentdataForm.form.loadRecord(selections[0]);
+					createTextWindow(basePath + Cms_contentaction + "?method=updAll", "修改", Cms_contentstore, selections);
 				}
 			},'-',{
 	            text: '操作',
@@ -303,3 +216,147 @@ Ext.onReady(function() {
 		items : [ Cms_contentgrid ]
 	});
 })
+function createTextWindow(url,title,store,selections) {
+	var _form = Ext.create('Ext.form.Panel', {// 定义新增和修改的FormPanel
+		id:'Cms_contentdataForm',
+		labelAlign : 'right',
+		frame : true,
+		layout : 'column',
+		items : [ {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : 'ID',
+				id : 'Cms_contentcontentid',
+				name : 'contentid',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '编码',
+				id : 'Cms_contentcontentcode',
+				name : 'contentcode',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '名称',
+				id : 'Cms_contentcontentname',
+				name : 'contentname',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'htmleditor',
+				fieldLabel : '详细',
+				id : 'Cms_contentcontentdetail',
+				name : 'contentdetail',
+				plugins : [ 
+                    Ext.create('TKW.Editor.Plugin.Image', { url: basePath + "System_attachAction.do?other=getch&method=uploadCms" })  
+                ]
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '背景',
+				id : 'Cms_contentcontentback',
+				name : 'contentback',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '父节点',
+				id : 'Cms_contentcontentparent',
+				name : 'contentparent',
+				maxLength : 100
+			} ]
+		}
+		, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '模板',
+				id : 'Cms_contentcontentmodel',
+				name : 'contentmodel',
+				maxLength : 100
+			} ]
+		}
+		]
+	});
+	if("新增"==title) Ext.getCmp("Cms_contentcontentid").setEditable (true);
+	else {
+		Ext.getCmp("Cms_contentcontentid").setEditable (false);
+		_form.form.loadRecord(selections[0]);
+	}
+	_form.form.isValid();
+	var dataWindow = new Ext.Window({
+		title : title, // 窗口标题
+		layout : 'fit', // 设置窗口布局模式
+		width : Ext.os.deviceType === 'Phone' ? '100%' : 780, // 窗口宽度
+		modal : true,
+		closable : true, // 是否可关闭
+		collapsible : true, // 是否可收缩
+		maximizable : true, // 设置是否可以最大化
+		border : false, // 边框线设置
+		animateTarget : Ext.getBody(),
+		pageY : 0, // 页面定位Y坐标
+		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 720 / 2, // 页面定位X坐标
+		items : _form, // 嵌入的表单面板
+		buttons : [
+				{
+					text : '提交',
+					iconCls : 'ok',
+					handler : function() {
+						if (_form.form.isValid()) {
+							var json = "[" + Ext.encode(_form.form.getValues(false)) + "]";
+							_form.form.submit({
+								url : url,
+								waitTitle : '提示',
+								params : {//改
+									json : json
+								},
+								success : function(form, action) {
+									Ext.Msg.alert('提示', action.result.msg,function(){
+										dataWindow.close();
+										store.reload();
+									});
+								},
+								failure : function(form, action) {
+									Ext.Msg.alert('提示', '网络出现问题，请稍后再试');
+								},
+								waitMsg : '正在处理数据,请稍候...'
+							});
+						} else {
+					        Ext.Msg.alert('提示', '请正确填写表单!');
+					    }
+					}
+				}, {
+					text : '关闭',
+					iconCls : 'close',
+					handler : function() {
+						dataWindow.close();
+					}
+				}]
+	});
+	dataWindow.show();
+}

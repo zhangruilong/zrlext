@@ -1,8 +1,15 @@
-function getdatetime(){
-	return new Date().dateFormat("yyyy-MM-dd hh:mm:ss");
+function getnextdate(olddate,day){
+	var newdate = new Date();
+	newdate.setDate(olddate.getDate()+day);//获取AddDayCount天后的日期
+    return newdate.dateFormat("yyyy-MM-dd");
 }
-function getstringdate(){
-	return new Date().dateFormat("yyyy-MM-dd");
+function getdatetime(str){
+	if(!str) return new Date().dateFormat("yyyy-MM-dd hh:mm:ss");
+	else return str.dateFormat("yyyy-MM-dd hh:mm:ss");
+}
+function getstringdate(str){
+	if(!str) return new Date().dateFormat("yyyy-MM-dd");
+	else return str.dateFormat("yyyy-MM-dd");
 }
 function getnewid(){
 	return getNewId();
@@ -22,7 +29,6 @@ function getRandomNum(Min,Max)
 	var Rand = Math.random();   
 	return(Min + Math.round(Rand * Range));   
 }
-
 //将单元格内容加上超链接
 function domUrl(value) {
 	return "<a href='" + basePath + value + "' target='_blank'>" + value

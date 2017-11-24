@@ -2,6 +2,7 @@
 <html>
   <head>
 	<%@ include file="/zrlextpages/common/common.jsp" %>
+	<script type="text/javascript" src="../../common/htmleditorplugin.js"></script> 
 	<script type="text/javascript" src="Cms_content.js"></script>
   </head>
 </html>

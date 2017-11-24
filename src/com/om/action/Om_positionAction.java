@@ -9,7 +9,7 @@ import com.om.dao.Om_positionDao;
 import com.om.pojo.Om_position;
 import com.om.poco.Om_positionPoco;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
+import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
@@ -20,7 +20,7 @@ import com.system.tools.util.FileUtil;
  * 岗位/职位 逻辑层
  *@author ZhangRuiLong
  */
-public class Om_positionAction extends BaseAction {
+public class Om_positionAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
 	public ArrayList<Om_position> cuss = null;
 	public Om_positionDao DAO = new Om_positionDao();

@@ -49,10 +49,10 @@ Ext.onReady(function() {
 				text : '增加子节点',  
 				handler : function() {
 					System_powerdataForm.form.reset();
-					createWindow(basePath + System_poweraction + "?method=insAll", "新增", System_powerdataForm, treestore);
+					createTextWindow(basePath + System_poweraction + "?method=insAll", "新增", System_powerdataForm, treestore);
 					System_powerdataForm.getForm().setValues({System_powerparentid:record.data['id']
 						,System_powerparentname:record.data['text'],System_powercode:'Server_'
-						,System_powerentrance:'../pages//.jsp',System_powerhreftarget:'main'});
+						,System_powerentrance:'pages//.jsp',System_powerhreftarget:'main'});
 				}  
 			}, {  
 				text : '删除本节点',  

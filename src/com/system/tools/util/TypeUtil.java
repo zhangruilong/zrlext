@@ -121,6 +121,39 @@ public class TypeUtil {
 		}
 		return wheresql;
 	}
+	 /**
+     * 为空的字段不加入,得到name='value'的集合
+     * @param bean
+     * @return
+     */
+	public static BeanToArray beanToArray(Object bean) {
+		BeanToArray beanToArray=new BeanToArray();
+		  Field[] fields = bean.getClass().getDeclaredFields();
+		  List beanNames = new ArrayList();
+		  List values = new ArrayList();
+		  Field.setAccessible(fields, true);
+		  for (int i = 0; i < fields.length;i++) {
+		   Field field = fields[i];
+		   try {
+			   if(field.get(bean)==null)continue;
+			   beanNames.add(field.getName());
+			   String str = field.getName()+"=";
+			// 得到类型
+			   Class c = field.getType();
+			   if (c == Integer.class||c == Float.class||c == Double.class) {
+				   str += field.get(bean);
+			   }else{
+				   str += "'"+field.get(bean)+"'";
+			   }
+			   values.add(str);
+		   } catch (Exception e) {
+			   e.printStackTrace();
+		   }
+		  }
+		  beanToArray.setBeanNames(beanNames);
+		  beanToArray.setValues(values);
+		  return beanToArray;
+	 }
     /**
      * 为空的字段不加入
      * @param bean

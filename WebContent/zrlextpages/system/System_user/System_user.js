@@ -54,7 +54,15 @@ Ext.onReady(function() {
 			columnWidth : 1,
 			layout : 'form',
 			items : [ {
-				xtype : 'textfield',
+				xtype : 'combo',
+				emptyText : '请选择',
+				store : statueStore,
+				mode : 'local',
+				displayField : 'name',
+				valueField : 'name',
+				hiddenName : 'statue',
+				triggerAction : 'all',
+				editable: false,
 				fieldLabel : '状态',
 				id : 'System_userstatue',
 				name : 'statue',
@@ -100,7 +108,7 @@ Ext.onReady(function() {
 		, {
 			header : '密码',
 			dataIndex : 'password',
-			sortable : true,  
+			hidden : true,  
 			editor: {
                 xtype: 'textfield',
                 editable: false
@@ -124,7 +132,7 @@ Ext.onReady(function() {
 		}
 		],
 		tbar : [{
-			text : Ext.os.deviceType === 'Phone' ? null : "初始化密码",
+			text : Ext.os.deviceType === 'Phone' ? null : "初始化密码为1",
 			iconCls : 'reset',
 			handler : function() {
 				var selections = System_usergrid.getSelection();

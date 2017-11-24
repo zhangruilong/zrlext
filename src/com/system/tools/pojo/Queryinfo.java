@@ -78,16 +78,6 @@ public class Queryinfo {
 		this.order = order;
 		this.json = json;
 	}
-	public Queryinfo(Class type, String start, String end, String wheresql,
-			String query, String order) {
-		super();
-		this.type = type;
-		this.start = start;
-		this.end = end;
-		this.wheresql = wheresql;
-		this.query = query;
-		this.order = order;
-	}
 	public String getDsname() {
 		return dsname;
 	}

@@ -9,7 +9,7 @@ import com.om.dao.Om_busiorgDao;
 import com.om.pojo.Om_busiorg;
 import com.om.poco.Om_busiorgPoco;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
+import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
@@ -20,7 +20,7 @@ import com.system.tools.util.FileUtil;
  * 业务机构 逻辑层
  *@author ZhangRuiLong
  */
-public class Om_busiorgAction extends BaseAction {
+public class Om_busiorgAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
 	public ArrayList<Om_busiorg> cuss = null;
 	public Om_busiorgDao DAO = new Om_busiorgDao();

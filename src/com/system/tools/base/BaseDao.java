@@ -362,29 +362,20 @@ public class BaseDao {
 			String sql = "update " + table;
 			String set = " set ";
 			String where = " where 1=1 ";
-			BeanToArray beanToArray = TypeUtil.beanToList(obj);
-			List values = new ArrayList();
-			List wherevalues = new ArrayList();
-			List valuestemps = beanToArray.getValues();
+			BeanToArray beanToArray = TypeUtil.beanToArray(obj);
 			for (int i = 0; i < beanToArray.getBeanNames().size(); i++) {
 				String beanName = (String) beanToArray.getBeanNames().get(i);
 				for (int j = 0; j < primaryKeys.length; j++) {
 					if (primaryKeys[j].equals(beanName)) {
-						wherevalues.add(valuestemps.get(i));
-						where = where + " and " + primaryKeys[j] + "=? ";
+						where += " and " + beanToArray.getValues().get(i);
 						break;
 					} else if (j == (primaryKeys.length - 1)) {
-						values.add(valuestemps.get(i));
-						set = set + beanToArray.getBeanNames().get(i) + "=?,";
+						set += beanToArray.getValues().get(i) + ",";
 					}
 				}
 			}
-			// 拼接where到set后面
-			for (Object wherevaluestemp : wherevalues) {
-				values.add(wherevaluestemp);
-			}
-			sql = sql + set.substring(0, set.length() - 1) + where;
-			return doSingle(sql, values, DSNAME);
+			sql += set.substring(0, set.length() - 1) + where;
+			return doSingle(sql, null, DSNAME);
 		}else{
 			String table = obj.getClass().getSimpleName();
 			BeanToArray beanToArray = TypeUtil.beanToList(obj);
@@ -465,14 +456,14 @@ public class BaseDao {
 			return result;
 		}
 	}
-	
 	/**
-	 * 执行多条语句
-	 * @param sql sql语句集合 异常时事物回滚
+	 * 执行一条sql语句
+	 * @param DSNAME 数据源
+	 * @param sql sql语句
 	 * @return 成功CommonConst.SUCCESS,失败CommonConst.FAILURE
 	 */
 	@SuppressWarnings("finally")
-	public String doAll(String[] sqls, String... DSNAME) {
+	public String doSingle(String sql, String... DSNAME) {
 		String result = CommonConst.FAILURE;
 		String mDSNAME = null;
 		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];
@@ -481,23 +472,16 @@ public class BaseDao {
 		Connection conn = connectionMan.getConnection(mDSNAME);
 		PreparedStatement pstmt = null;
 		try {
-			conn.setAutoCommit(false);
-			if (sqls != null) {
-				for (int i=0; i<sqls.length; i++) {
-					System.out.println(sqls[i]);
-					pstmt = conn.prepareStatement(sqls[i]);
-					int num = pstmt.executeUpdate();
-					System.out.println("executeUpdate: " + num + " records！");
-				}
+			System.out.println(sql);
+			pstmt = conn.prepareStatement(sql);
+			int num = pstmt.executeUpdate();
+			System.out.println("executeUpdate: " + num + " records！");
+			if (num > 0) {
+				result = CommonConst.SUCCESS;
 			}
-			conn.commit();
-			conn.setAutoCommit(true);// 恢复默认
-			result = CommonConst.SUCCESS;
 		} catch (Exception e) {
-			conn.rollback();//回滚   
-			conn.setAutoCommit(true);// 恢复默认
 			e.printStackTrace();
-        } finally {
+		} finally {
 			connectionMan.freeConnection(mDSNAME, conn, pstmt, null);
 			return result;
 		}
@@ -508,7 +492,7 @@ public class BaseDao {
 	 * @return 成功CommonConst.SUCCESS,失败CommonConst.FAILURE
 	 */
 	@SuppressWarnings("finally")
-	public String doAll(List sqls, String... DSNAME) {
+	public String doAll(List<String> sqls, String... DSNAME) {
 		String result = CommonConst.FAILURE;
 		String mDSNAME = null;
 		if(null!=DSNAME&&DSNAME.length>0) mDSNAME = DSNAME[0];

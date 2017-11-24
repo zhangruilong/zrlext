@@ -9,18 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.system.poco.System_powerPoco;
-import com.system.pojo.System_power;
 import com.system.pojo.System_powerview;
 import com.system.pojo.System_rolepowerview;
 import com.system.pojo.System_user;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
-import com.system.tools.pojo.Fileinfo;
-import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
 import com.system.tools.pojo.Treeinfo;
 import com.system.tools.util.CommonUtil;
-import com.system.tools.util.FileUtil;
 
 /**
  * 快捷菜单 逻辑层
@@ -212,7 +207,7 @@ public class System_powerAction extends com.system.action.System_powerAction {
 			if(CommonUtil.isNotEmpty(userid)){
 				sql =sql+" and userid = '"+userid+"' ";
 			}
-			sql += " order by menuorder desc"; 
+			sql += " order by menuorder"; 
 			System.out.println(sql);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);

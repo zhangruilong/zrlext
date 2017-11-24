@@ -11,7 +11,7 @@ import com.om.poco.Om_empgroupPoco;
 import com.om.poco.Om_groupPoco;
 import com.om.pojo.Om_group;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
+import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
@@ -22,7 +22,7 @@ import com.system.tools.util.FileUtil;
  * 工作组 逻辑层
  *@author ZhangRuiLong
  */
-public class Om_groupAction extends BaseAction {
+public class Om_groupAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
 	public ArrayList<Om_group> cuss = null;
 	public Om_groupDao DAO = new Om_groupDao();

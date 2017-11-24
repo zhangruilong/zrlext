@@ -1,27 +1,20 @@
 package com.system.action.more;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.system.pojo.System_power_quickview;
-import com.system.poco.System_power_quickviewPoco;
 import com.system.poco.System_userPoco;
 import com.system.pojo.System_roleuserview;
 import com.system.pojo.System_user;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
-import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
 import com.system.tools.pojo.Treeinfo;
 import com.system.tools.util.CipherUtil;
 import com.system.tools.util.CommonUtil;
-import com.system.tools.util.FileUtil;
-import com.system.tools.util.TypeUtil;
 
 /**
  * 用户 逻辑层
@@ -78,9 +71,8 @@ public class System_userAction extends com.system.action.System_userAction {
 	public void selQueryRemoveRoleuser(HttpServletRequest request, HttpServletResponse response){
 		//查询所有改角色包含的用户
 		String roleid = request.getParameter("roleid");
-		Queryinfo roleusercussqueryinfo = getQueryinfo(System_roleuserview.class, 
-				" roleid='" + roleid + "'", null, null);
-		ArrayList<System_roleuserview> roleusercuss = (ArrayList<System_roleuserview>) selAll(roleusercussqueryinfo);
+		ArrayList<System_roleuserview> roleusercuss =  (ArrayList<System_roleuserview>) selAll(System_roleuserview.class, 
+				"select * from System_roleuserview where roleid='" + roleid + "'");
 		//查询用户表
 		Queryinfo usercussqueryinfo = getQueryinfo(request, System_user.class, System_userPoco.QUERYFIELDNAME, System_userPoco.ORDER, TYPE);
 		ArrayList<System_user> usercuss = (ArrayList<System_user>) selAll(usercussqueryinfo);
@@ -114,13 +106,16 @@ public class System_userAction extends com.system.action.System_userAction {
 			queryinfo.setWheresql(wheresql);
 			cuss = (ArrayList<System_user>) selAll(queryinfo);
 			if(cuss.size()==0){
-				responsePW(response, CommonConst.PASSWORDERRO);
+				responsePW(response, "{success:false,code:403,msg:'账号密码错误'}");
 			}else{
 				System_user temp = cuss.get(0);
 				String userid = temp.getId();
 				ArrayList<Treeinfo> buttonpower = new System_powerAction().selMenu("按钮权限",null,userid);
 				ArrayList<Treeinfo> datapower = new System_powerAction().selMenu("数据权限",null,userid);
+				ArrayList<System_roleuserview> roleusercuss =  (ArrayList<System_roleuserview>) selAll(System_roleuserview.class, 
+						"select * from System_roleuserview where userid='" + userid + "'");
 				HttpSession session = request.getSession();
+				session.setAttribute("roleusercuss", roleusercuss); //存
 				session.setAttribute("buttonpower", buttonpower); //存
 				session.setAttribute("datapower", datapower); //存
 				session.setAttribute("user", temp); //存
@@ -143,7 +138,7 @@ public class System_userAction extends com.system.action.System_userAction {
 		queryinfo.setWheresql(wheresql);
 		cuss = (ArrayList<System_user>) selAll(queryinfo);
 		if(cuss.size()==0){
-			mresponsePW(request, response, CommonConst.PASSWORDERRO);
+			mresponsePW(request, response, "{success:false,code:403,msg:'账号密码错误'}");
 		}else{
 			Pageinfo pageinfo = new Pageinfo(0,cuss);
 			result = CommonConst.GSON.toJson(pageinfo);
@@ -162,7 +157,7 @@ public class System_userAction extends com.system.action.System_userAction {
 			if(user.getPassword().equals(pwd)){
 				responsePW(response, CommonConst.SUCCESS);
 			}else{
-				responsePW(response, CommonConst.PASSWORDERRO);
+				responsePW(response, "{success:false,code:403,msg:'账号密码错误'}");
 			}
 		}else{
 			String basepath = request.getContextPath();

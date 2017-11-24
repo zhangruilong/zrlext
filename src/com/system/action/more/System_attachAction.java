@@ -1,10 +1,20 @@
 package com.system.action.more;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.system.pojo.System_attach;
 import com.system.pojo.System_user;
@@ -43,24 +53,38 @@ public class System_attachAction extends com.system.action.System_attachAction {
 	}
 	//上传文件
 	public void upload(HttpServletRequest request, HttpServletResponse response) {
-		System_user user = getCurrentUser(request);
-		if(!CommonUtil.isNull(user)){
-			String json = request.getParameter("json");
-			System.out.println("json : " + json);
-			if(CommonUtil.isNotEmpty(json)) {
-				cuss = CommonConst.GSON.fromJson(json, TYPE);
-			}
-			String creator = user.getUsername();
-			Fileinfo fileinfo = FileUtil.upload(request,0,null,null,"upload");
-			System_attach temp = cuss.get(0);
-			temp.setId(CommonUtil.getNewId());
-	        temp.setName(fileinfo.getFullname());
-	        temp.setAttachsize(String.valueOf(fileinfo.getSize()/1024)+"KB");
-	        temp.setType(fileinfo.getType());
-	        temp.setCreator(creator);
-	        temp.setCreatetime(DateUtils.getDateTime());
-			result = insSingle(temp);
+		String json = request.getParameter("json");
+		System.out.println("json : " + json);
+		if(CommonUtil.isNotEmpty(json)) {
+			cuss = CommonConst.GSON.fromJson(json, TYPE);
 		}
+		Fileinfo fileinfo = FileUtil.upload(request,0,null,null,"upload");
+		System_attach temp = cuss.get(0);
+		temp.setId(CommonUtil.getNewId());
+        temp.setName(fileinfo.getFullname());
+        temp.setAttachsize(String.valueOf(fileinfo.getSize()/1024)+"KB");
+        temp.setType(fileinfo.getType());
+        temp.setCreatetime(DateUtils.getDateTime());
+		result = insSingle(temp);
 		responsePW(response, result);
+	}
+	//上传照片
+	public void uploadimage(HttpServletRequest request, HttpServletResponse response) {
+		String json = request.getParameter("json");
+		System.out.println("json : " + json);
+		if(CommonUtil.isNotEmpty(json)) {
+			cuss = CommonConst.GSON.fromJson(json, TYPE);
+		}
+		Fileinfo fileinfo = FileUtil.upload(request,0,null,null,"upload");
+		System_attach temp = cuss.get(0);
+        String sql = "update "+temp.getClassify()+" set "+temp.getCode()+"='"+fileinfo.getFullname()
+        	+"' where "+temp.getDetail()+"='"+temp.getFid()+"'";
+		result = doSingle(sql);
+		responsePW(response, result);
+	}
+	//cms图文上传文件
+	public void uploadCms(HttpServletRequest request, HttpServletResponse response) {
+		Fileinfo fileinfo = FileUtil.upload(request,0,null,null,"upload");
+		responsePW(response, "{success:true,code:202,msg:'操作成功',aUrl:'"+fileinfo.getFullname()+"'}");
 	}
 }

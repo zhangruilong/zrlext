@@ -131,6 +131,8 @@ function createBigWindow(url,title,_form,store) {
 					}
 				}]
 	});
+	dataWindow.removeAll(false);
+	dataWindow.items.add(_form);
 	dataWindow.show();
 }
 function createWindow(url,title,_form,store) {
@@ -186,6 +188,8 @@ function createWindow(url,title,_form,store) {
 					}
 				}]
 	});
+	dataWindow.removeAll(false);
+	dataWindow.items.add(_form);
 	dataWindow.show();
 }
 function createTextWindow(url,title,_form,store) {
@@ -193,7 +197,7 @@ function createTextWindow(url,title,_form,store) {
 	var dataWindow = new Ext.Window({
 		title : title, // 窗口标题
 		layout : 'fit', // 设置窗口布局模式
-		width : Ext.os.deviceType === 'Phone' ? '100%' : 650, // 窗口宽度
+		width : Ext.os.deviceType === 'Phone' ? '100%' : 750, // 窗口宽度
 		modal : true,
 		closeAction: 'hide',
 		closable : true, // 是否可关闭
@@ -202,7 +206,7 @@ function createTextWindow(url,title,_form,store) {
 		border : false, // 边框线设置
 		animateTarget : Ext.getBody(),
 		pageY : 0, // 页面定位Y坐标
-		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 620 / 2, // 页面定位X坐标
+		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 720 / 2, // 页面定位X坐标
 		items : _form, // 嵌入的表单面板
 		buttons : [
 				{
@@ -265,7 +269,7 @@ function createQueryWindow(title,_form,store,queryvalue) {
 					iconCls : 'ok',
 					handler : function() {
 						queryjson = "[" + Ext.encode(_form.form.getValues(false)) + "]";
-//						json = json.replace(/""/g,null);
+						queryjson = queryjson.replace("'", "''");
 						if ("" == queryvalue){
 							store.load({
 								params : {
@@ -352,7 +356,7 @@ function selectWindow(title,selectgrid) {
  *            grid
  */
 function commonSave(url, selections) {
-	Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要保存当前选择的条目？', function(btn, text) {
+	Ext.Msg.confirm('请确认', '<b>提示:</b>请确认当前选择的条目？', function(btn, text) {
 		if (btn == 'yes') {
 			var json = '[';
 			for (var i = 0; i < selections.length; i++) {
@@ -377,6 +381,47 @@ function commonSave(url, selections) {
 	});
 }
 /**
+ * 公用批量选择
+ * 
+ * @param {}
+ *            url
+ * @param {}
+ *            grid
+ * @param {}
+ *            store
+ */
+function commonUpdAll(url, selections, store, keycolumn, params) {
+	Ext.Msg.confirm('请确认', '<b>提示:</b>请确认当前选择的条目？', function(btn, text) {
+		if (btn == 'yes') {
+			var ids = '[';
+			for (var i = 0; i < selections.length; i++) {
+				ids += "{";
+				for (var j = 0; j < keycolumn.length; j++){
+					ids += "'"+keycolumn[j]+"':'" + selections[i].data[keycolumn[j]] + "',"
+				}
+				ids = ids.substr(0, ids.length - 1) + "},";
+			};
+			Ext.Ajax.request({
+				url : url,
+				method : 'POST',
+				params : {
+					params : params,
+					json : ids.substr(0, ids.length - 1) + "]"
+				},
+				success : function(response) {
+					var resp = Ext.decode(response.responseText); 
+					Ext.Msg.alert('提示', resp.msg, function(){
+						store.reload();
+					});
+				},
+				failure : function(response) {
+					Ext.Msg.alert('提示', '网络出现问题，请稍后再试');
+				}
+			});
+		}
+	});
+}
+/**
  * 公用删除，联合主键
  * 
  * @param {}
@@ -387,7 +432,11 @@ function commonSave(url, selections) {
  *            store
  */
 function commonDelete(url, selections, store, keycolumn) {
-	Ext.Msg.confirm('请确认', '<b>提示:</b>请确认要删除当前选择的条目？', function(btn, text) {
+	if("system"!=currentuser.rolecode){
+		Ext.Msg.alert('提示', '不具备删除权限，请联系系统管理员。');
+		return;
+	}
+	Ext.Msg.confirm('请确认', '<b>提示:</b>请确认当前选择的条目？', function(btn, text) {
 		if (btn == 'yes') {
 			var ids = '[';
 			for (var i = 0; i < selections.length; i++) {
@@ -780,4 +829,124 @@ function commonAttachUpload(saveurl,fid, classify, store) {
 				} ]
 	});
 	commonAttachUploadWindow.show(); // 显示窗口
+}
+//上传照片
+function commonImageUpload(imagetable,imagecol,fidcol,fid) {
+	var saveurl = basePath + "System_attachAction.do?other=getch&method=uploadimage";
+	var commonImageUploadForm = new Ext.form.FormPanel({
+		id : 'commonImageUpload-form',
+		labelAlign : 'right', // 标签对齐方式
+		layout : 'column',
+		frame : true,
+		items : [ {
+			columnWidth : 1,
+			hidden : true,
+			layout : 'form',
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '表名',
+				id : 'classify',
+				name : 'classify',
+				value : imagetable,
+				maxLength : 100,
+				anchor : '95%'
+			} ]
+		}, {
+			columnWidth : 1,
+			layout : 'form',
+			hidden : true,
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '字段名',
+				id : 'code',
+				name : 'code',
+				value : imagecol,
+				maxLength : 100,
+				anchor : '95%'
+			} ]
+		}, {
+			columnWidth : 1,
+			layout : 'form',
+			hidden : true,
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '外健名',
+				id : 'detail',
+				name : 'detail',
+				value : fidcol,
+				maxLength : 100,
+				anchor : '95%'
+			} ]
+		}, {
+			columnWidth : 1,
+			layout : 'form',
+			hidden : true,
+			items : [ {
+				xtype : 'textfield',
+				fieldLabel : '外键',
+				id : 'fid',
+				name : 'fid',
+				maxLength : 100,
+				value : fid,
+				readOnly : true,
+				anchor : '95%'
+			} ]
+		}, {
+			columnWidth : 1,
+			layout : 'form',
+			items : [ {
+				xtype : 'filefield',
+				fieldLabel : '文件',
+				id : 'upload',
+				name : 'upload',
+				allowBlank : false,
+				anchor : '95%'
+			} ]
+		} ]
+	});
+	var commonImageUploadWindow = new Ext.Window({
+		title : '上传附件', // 窗口标题
+		layout : 'fit', // 设置窗口布局模式
+		width : Ext.os.deviceType === 'Phone' ? '100%' : 420, // 窗口宽度
+		modal : true,//背景失效
+		closable : true, // 是否可关闭
+		collapsible : true, // 是否可收缩
+		maximizable : true, // 设置是否可以最大化
+		border : false, // 边框线设置
+		pageY : 50, // 页面定位Y坐标
+		pageX : Ext.os.deviceType === 'Phone' ? 0 : document.body.clientWidth / 2 - 320 / 2, // 页面定位X坐标
+		items : commonImageUploadForm, // 嵌入的表单面板
+		buttons : [
+				{
+					text : '提交',
+					iconCls : 'ok',
+					handler : function() {
+						if (commonImageUploadForm.form.isValid()) {
+							var json = "[" + Ext.encode(commonImageUploadForm.form.getValues(false)) + "]";
+							commonImageUploadForm.form.submit({
+								url : saveurl+"&json="+json,
+								waitTitle : '提示',
+								method : 'GET',
+								waitMsg : '正在处理数据,请稍候...',
+								success : function(form, action) {
+									Ext.Msg.alert('提示', '操作成功');
+									commonImageUploadWindow.close();
+								},
+								failure : function(form, action) {
+									Ext.Msg.alert('提示', '网络出现问题，请稍后再试');
+								}
+							});
+						} else {
+					        Ext.Msg.alert('提示', '请正确填写表单!');
+					    }
+					}
+				}, {
+					text : '关闭',
+					iconCls : 'close',
+					handler : function() {
+						commonImageUploadWindow.close();
+					}
+				} ]
+	});
+	commonImageUploadWindow.show(); // 显示窗口
 }

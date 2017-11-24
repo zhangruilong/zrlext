@@ -9,7 +9,7 @@ import com.om.dao.Om_treeviewDao;
 import com.om.pojo.Om_treeview;
 import com.om.poco.Om_treeviewPoco;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
+import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
@@ -20,7 +20,7 @@ import com.system.tools.util.FileUtil;
  * om_treeview 逻辑层
  *@author ZhangRuiLong
  */
-public class Om_treeviewAction extends BaseAction {
+public class Om_treeviewAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
 	public ArrayList<Om_treeview> cuss = null;
 	public Om_treeviewDao DAO = new Om_treeviewDao();

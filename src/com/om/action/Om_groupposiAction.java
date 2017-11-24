@@ -9,7 +9,7 @@ import com.om.dao.Om_groupposiDao;
 import com.om.pojo.Om_groupposi;
 import com.om.poco.Om_groupposiPoco;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
+import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
@@ -20,7 +20,7 @@ import com.system.tools.util.FileUtil;
  * 工作组岗位列表 逻辑层
  *@author ZhangRuiLong
  */
-public class Om_groupposiAction extends BaseAction {
+public class Om_groupposiAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
 	public ArrayList<Om_groupposi> cuss = null;
 	public Om_groupposiDao DAO = new Om_groupposiDao();

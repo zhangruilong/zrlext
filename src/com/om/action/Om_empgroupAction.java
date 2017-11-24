@@ -9,7 +9,7 @@ import com.om.dao.Om_empgroupDao;
 import com.om.pojo.Om_empgroup;
 import com.om.poco.Om_empgroupPoco;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
+import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
@@ -20,7 +20,7 @@ import com.system.tools.util.FileUtil;
  * 人员工作组对应关系 逻辑层
  *@author ZhangRuiLong
  */
-public class Om_empgroupAction extends BaseAction {
+public class Om_empgroupAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
 	public ArrayList<Om_empgroup> cuss = null;
 	public Om_empgroupDao DAO = new Om_empgroupDao();

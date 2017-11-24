@@ -9,7 +9,7 @@ import com.om.dao.Om_organizationDao;
 import com.om.pojo.Om_organization;
 import com.om.poco.Om_organizationPoco;
 import com.system.tools.CommonConst;
-import com.system.tools.base.BaseAction;
+import com.system.tools.base.BaseActionDao;
 import com.system.tools.pojo.Fileinfo;
 import com.system.tools.pojo.Pageinfo;
 import com.system.tools.pojo.Queryinfo;
@@ -20,7 +20,7 @@ import com.system.tools.util.FileUtil;
  * 机构信息表 逻辑层
  *@author ZhangRuiLong
  */
-public class Om_organizationAction extends BaseAction {
+public class Om_organizationAction extends BaseActionDao {
 	public String result = CommonConst.FAILURE;
 	public ArrayList<Om_organization> cuss = null;
 	public Om_organizationDao DAO = new Om_organizationDao();
