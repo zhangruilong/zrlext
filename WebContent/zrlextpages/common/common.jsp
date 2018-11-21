@@ -18,7 +18,9 @@ if(roleusercussSession!=null) roleusercuss = (ArrayList<System_roleuserview>) (r
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="<%=basePath%>zrlextpages/common/buttonstyle.css" />
 <link rel="stylesheet" href="<%=basePath%>zrlextpages/common/sencha/build/classic/theme-crisp/resources/theme-crisp-all.css"/>
-<script type="text/javascript" src="<%=basePath%>zrlextpages/common/sencha/build/ext-all.js"></script>  
+<script type="text/javascript" src="<%=basePath%>zrlextpages/common/sencha/build/ext-all.js"></script>
+<script type="text/javascript" src="<%=basePath%>zrlextpages/common/sencha/build/exporter-all.css"></script>
+<script type="text/javascript" src="<%=basePath%>zrlextpages/common/sencha/build/exporter.js"></script> 
 <script type="text/javascript" src="<%=basePath%>zrlextpages/common/sencha/build/classic/locale/locale-zh_CN.js"></script>  
 <script type="text/javascript" src="<%=basePath%>zrlextpages/common/jsutil.js"></script>
 <script type="text/javascript" src="<%=basePath%>zrlextpages/common/common.js"></script>

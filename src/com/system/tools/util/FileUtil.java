@@ -132,8 +132,8 @@ public class FileUtil {
 	 * 解析ArrayList<?>成excel2003，然后导出
 	 * @param response
 	 * @param temps
-	 * @param heads
-	 * @param discard
+	 * @param heads 中文字段名
+	 * @param discard 英文字段
 	 * @param name
 	 * @throws Exception
 	 */
@@ -167,11 +167,11 @@ public class FileUtil {
 			for (int j = 0; j < fields.length; j++) {
 				Field field = fields[j];
 				field.setAccessible(true);// 忽略访问权限，私有的也可以访问
-				boolean discardflag = true;
+				boolean discardflag = false;
 				if(!CommonUtil.isNull(discard)){
 					for (int p = 0; p < discard.length; p++) {
 						if (field.getName().equals(discard[p])) {
-							discardflag = false;
+							discardflag = true;
 							break;
 						}
 					}

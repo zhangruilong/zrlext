@@ -14,7 +14,7 @@ function dataStore(fields,url) {
 	         reader: {
 	             type: 'json',
 	             rootProperty: 'root',
-	             totalProperty : 'total',
+	             totalProperty : 'total'
 	         }
 	     }
 	 });
@@ -196,7 +196,9 @@ function createTextWindow(url,title,_form,store) {
 	_form.form.isValid();
 	var dataWindow = new Ext.Window({
 		title : title, // 窗口标题
-		layout : 'fit', // 设置窗口布局模式
+		autoScroll:true,
+		height:600,  
+//		layout : 'fit', // 设置窗口布局模式
 		width : Ext.os.deviceType === 'Phone' ? '100%' : 750, // 窗口宽度
 		modal : true,
 		closeAction: 'hide',
